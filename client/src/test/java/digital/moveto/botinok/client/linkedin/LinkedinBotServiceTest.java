@@ -1,10 +1,10 @@
 package digital.moveto.botinok.client.linkedin;
 
-import digital.moveto.botinok.config.GlobalConfig;
+import digital.moveto.botinok.client.config.GlobalConfig;
 import digital.moveto.botinok.model.entities.Account;
-import digital.moveto.botinok.model.service.AccountService;
-import digital.moveto.botinok.ui.MainScene;
-import digital.moveto.botinok.utils.FileUtils;
+import digital.moveto.botinok.client.service.AccountService;
+import digital.moveto.botinok.client.ui.MainScene;
+import digital.moveto.botinok.client.utils.FileUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,7 +15,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static digital.moveto.botinok.config.Const.DEFAULT_FOLDER_FOR_DEFAULT_USER_DATA_DIR;
+import static digital.moveto.botinok.client.config.Const.DEFAULT_FOLDER_FOR_DEFAULT_USER_DATA_DIR;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)

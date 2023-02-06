@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c6251951-17d6-4930-8673-3bc1daab451c" name="Changes" comment="" />
+    <list default="true" id="c6251951-17d6-4930-8673-3bc1daab451c" name="Changes" comment="init v.0.2.5">
+      <change beforePath="$PROJECT_DIR$/client/src/test/java/digital/moveto/botinok/client/linkedin/LinkedinBotServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/test/java/digital/moveto/botinok/client/linkedin/LinkedinBotServiceTest.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -15,6 +17,35 @@
       <ProjectState />
     </projectState>
   </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$/client">
+          <activation />
+        </task>
+        <task path="$PROJECT_DIR$/model">
+          <activation />
+        </task>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="botInOk" type="f1a62948:ProjectNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="JpbToolWindowState">
+    <option name="isToolWindowVisible" value="false" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
   <component name="ProjectId" id="2LNe9c0AcAEjAaNCnHa5mPcDjUM" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -24,9 +55,39 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true"
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "jdk.selected.JAVA_MODULE": "graalvm-ce-19"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\andreit\Projects\botInOk\botInOk\client\src\test\java" />
+      <recent name="C:\Users\andreit\Projects\botInOk\botInOk\client\src\test\resources" />
+      <recent name="C:\Users\andreit\Projects\botInOk\botInOk\client\src\main\resources" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="BotinokApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="digital.moveto.botinok.BotinokApplication" />
+      <module name="botInOk.client.main" />
+      <option name="VM_PARAMETERS" value="--module-path C:\Users\andreit\Soft\javafx-sdk-19.0.2.1\lib --add-modules javafx.controls " />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="digital.moveto.botinok.client.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.BotinokApplication" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -36,6 +97,29 @@
       <option name="presentableId" value="Default" />
       <updated>1675715821958</updated>
     </task>
+    <task id="LOCAL-00001" summary="init v.0.2.5">
+      <created>1675719224965</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1675719224965</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="init v.0.2.5" />
+    <option name="LAST_COMMIT_MESSAGE" value="init v.0.2.5" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/linkedin/LinkedinBotStarter.java</url>
+          <line>149</line>
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

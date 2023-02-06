@@ -7,7 +7,7 @@ plugins {
 }
 
 group 'digital.moveto.botinok'
-version = '0.2.3'
+version = '0.2.5'
 sourceCompatibility = '17'
 
 application {
