@@ -1,4 +1,5 @@
 rootProject.name = 'botInOk'
 include 'client'
 include 'model'
+include 'web'
 
