@@ -65,8 +65,12 @@ public class LinkedinBotStarter {
                         uiElements.saveSettingForUser();
                         startSearchConnectsAndConnect();
                     } catch (Exception e) {
-                        log.error("Error in startSearchConnectsAndConnect", e);
-                        uiElements.addLogToLogArea("Error in Application. Please, restart application");
+                        if (e.getCause().getClass().equals(InterruptedException.class)){
+                            uiElements.addLogToLogArea("Bot stopped");
+                        } else {
+                            log.error("Error in startSearchConnectsAndConnect", e);
+                            uiElements.addLogToLogArea("Error in Application. Please, restart application");
+                        }
                     } finally {
                         uiElements.changeButtonState(true);
                     }
@@ -97,8 +101,12 @@ public class LinkedinBotStarter {
                 try {
                     startSearchConnectsAndConnect();
                 } catch (Exception e) {
-                    log.error("Error in startSearchConnectsAndConnect", e);
-                    uiElements.addLogToLogArea("Error in Application. Please, restart application");
+                    if (e.getCause().getClass().equals(InterruptedException.class)){
+                        uiElements.addLogToLogArea("Bot stopped");
+                    } else {
+                        log.error("Error in startSearchConnectsAndConnect", e);
+                        uiElements.addLogToLogArea("Error in Application. Please, restart application");
+                    }
                 } finally {
                     uiElements.changeButtonState(true);
                 }
@@ -139,11 +147,8 @@ public class LinkedinBotStarter {
             } catch (Exception e) {
                 log.error("Error bot for user " + account.getFullName() + ", UUID = " + account.getId(), e);
 
-                if (e.getCause().getCause().getCause().getCause().getCause().getClass().equals(InterruptedException.class)){
-                    uiElements.changeButtonState(true);
-                    log.info("Stopped startSearchConnectsAndConnect");
-                    uiElements.addLogToLogArea("Bot stopped");
-                    return;
+                if (e.getCause().getClass().equals(InterruptedException.class)){
+                    throw e;
                 }
             }
         }
