@@ -1,0 +1,31 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.0.2'
+    id 'io.spring.dependency-management' version '1.1.0'
+}
+
+group 'digital.moveto.botinok'
+version = '0.2.3'
+sourceCompatibility = '17'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation("org.springframework.boot:spring-boot-starter")
+    implementation('org.springframework.boot:spring-boot-starter-data-jpa')
+
+    implementation project(path: ':model')
+
+    compileOnly('org.projectlombok:lombok:1.18.24')
+    annotationProcessor('org.projectlombok:lombok:1.18.24')
+
+    implementation(group: 'org.slf4j', name: 'slf4j-api', version: '2.0.6')
+
+    runtimeOnly('com.h2database:h2')
+}
+
+test {
+    useJUnitPlatform()
+}
