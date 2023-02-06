@@ -10,21 +10,19 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ConfigurableApplicationContext;
 
-@SpringBootApplication
-public class BotinokApplication extends Application {
+public class BotinokClientApplication extends Application {
 
 	private ConfigurableApplicationContext applicationContext;
 
 	public static String[] args;
 
 	public static void main(String[] args) {
-		BotinokApplication.args = args;
-		Application.launch(BotinokApplication.class, args);
+		BotinokClientApplication.args = args;
+		Application.launch(BotinokClientApplication.class, args);
 	}
 
 	@Override
@@ -37,7 +35,7 @@ public class BotinokApplication extends Application {
 		initLoadingUI();
 
 		new Thread(() -> {
-			applicationContext = new SpringApplicationBuilder(BotinokApplication.class).run(args);
+			applicationContext = new SpringApplicationBuilder(BotinokClientSpringApplication.class).run(args);
 			applicationContext.publishEvent(new StageReadyEvent(stage));
 		}, "Spring Thread").start();
 	}
@@ -64,7 +62,7 @@ public class BotinokApplication extends Application {
 
 	@Override
 	public void stop() {
-		SpringApplication.exit(SpringApplication.run(BotinokApplication.class, args));
+		SpringApplication.exit(SpringApplication.run(BotinokClientApplication.class, args));
 		Platform.exit();
 		System.exit(0);
 	}

@@ -3,7 +3,7 @@ package digital.moveto.botinok.client.ui;
 import digital.moveto.botinok.client.config.GlobalConfig;
 import digital.moveto.botinok.client.config.UIConst;
 import digital.moveto.botinok.model.entities.Account;
-import digital.moveto.botinok.model.entities.Location;
+import digital.moveto.botinok.model.entities.enums.Location;
 import digital.moveto.botinok.model.entities.MadeApply;
 import digital.moveto.botinok.model.entities.MadeContact;
 import digital.moveto.botinok.client.service.AccountService;

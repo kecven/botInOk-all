@@ -1,7 +1,7 @@
 package digital.moveto.botinok.client.service;
 
 import digital.moveto.botinok.model.entities.Account;
-import digital.moveto.botinok.model.entities.Location;
+import digital.moveto.botinok.model.entities.enums.Location;
 import digital.moveto.botinok.model.repositories.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

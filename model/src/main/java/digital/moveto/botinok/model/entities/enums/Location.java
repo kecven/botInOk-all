@@ -1,4 +1,4 @@
-package digital.moveto.botinok.model.entities;
+package digital.moveto.botinok.model.entities.enums;
 
 import java.util.ArrayList;
 import java.util.List;
