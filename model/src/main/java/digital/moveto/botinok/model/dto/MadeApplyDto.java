@@ -1,8 +1,12 @@
 package digital.moveto.botinok.model.dto;
 
 
-import digital.moveto.botinok.model.entities.MadeApply;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import digital.moveto.botinok.model.Const;
+import digital.moveto.botinok.model.entities.MadeApply;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,6 +28,8 @@ public class MadeApplyDto implements Serializable {
 
     private String link;
 
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime date;
 
 

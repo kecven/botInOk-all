@@ -5,10 +5,7 @@ import digital.moveto.botinok.model.repositories.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import static digital.moveto.botinok.WebConst.API_ADDRESS;
 
@@ -22,7 +19,7 @@ public class AccountRestController {
     private final AccountRepository accountRepository;
 
     @PostMapping("/save")
-    AccountDto save(@RequestBody AccountDto accountDto) {
+    public AccountDto save(@RequestBody AccountDto accountDto) {
         return accountRepository.save(accountDto.toEntity()).toDto();
     }
 

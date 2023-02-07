@@ -29,7 +29,7 @@ public class ContactRestController {
     private final ContactRepository contactRepository;
 
     @PostMapping("/save")
-    ContactDto save(@RequestBody ContactDto contactDto) {
+    public ContactDto save(@RequestBody ContactDto contactDto) {
         Optional<Contact> contact = contactRepository.findById(contactDto.getId());
         if (contact.isPresent()){
             return contactRepository.save(contactDto.toEntity()).toDto();

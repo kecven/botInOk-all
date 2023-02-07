@@ -22,7 +22,7 @@ public class MadeApplyRestController {
     private final MadeApplyRepository madeApplyRepository;
 
     @PostMapping("/save")
-    MadeApplyDto save(@RequestBody MadeApplyDto madeApplyDto) {
+    public MadeApplyDto save(@RequestBody MadeApplyDto madeApplyDto) {
         return madeApplyRepository.save(madeApplyDto.toEntity()).toDto();
     }
 

@@ -22,7 +22,7 @@ public class MadeContactRestController {
     private final MadeContactRepository madeContactRepository;
 
     @PostMapping("/save")
-    MadeContactDto save(@RequestBody MadeContactDto madeContactDto) {
+    public MadeContactDto save(@RequestBody MadeContactDto madeContactDto) {
         return madeContactRepository.save(madeContactDto.toEntity()).toDto();
     }
 

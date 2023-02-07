@@ -1,9 +1,13 @@
 package digital.moveto.botinok.model.dto;
 
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+import digital.moveto.botinok.model.Const;
 import digital.moveto.botinok.model.entities.Account;
 import digital.moveto.botinok.model.entities.enums.Location;
-import digital.moveto.botinok.model.Const;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.logging.log4j.util.Strings;
@@ -37,6 +41,8 @@ public class AccountDto implements Serializable {
 
     private Location location;
 
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate endDateLicense;
 
     private List<ContactDto> contactDtos;

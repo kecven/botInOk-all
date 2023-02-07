@@ -3,6 +3,8 @@ package digital.moveto.botinok.client.linkedin;
 import com.microsoft.playwright.Playwright;
 import digital.moveto.botinok.client.config.Const;
 import digital.moveto.botinok.client.config.GlobalConfig;
+import digital.moveto.botinok.client.feign.AccountFeignClient;
+import digital.moveto.botinok.model.dto.AccountDto;
 import digital.moveto.botinok.model.entities.Account;
 import digital.moveto.botinok.client.service.AccountService;
 import digital.moveto.botinok.client.ui.MainScene;
@@ -41,6 +43,9 @@ public class LinkedinBotStarter {
 
     @Autowired
     private MainScene mainScene;
+
+    @Autowired
+    private AccountFeignClient accountFeignClient;
 
     private ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();
 

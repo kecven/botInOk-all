@@ -26,7 +26,7 @@ public class CompanyRestController {
     private final CompanyRepository companyRepository;
 
     @PostMapping("/save")
-    CompanyDto save(@RequestBody CompanyDto companyDto) {
+    public CompanyDto save(@RequestBody CompanyDto companyDto) {
         Optional<Company> findCompanyById = companyRepository.findById(companyDto.getId());
         if (findCompanyById.isPresent()){
             return companyRepository.save(companyDto.toEntity()).toDto();
