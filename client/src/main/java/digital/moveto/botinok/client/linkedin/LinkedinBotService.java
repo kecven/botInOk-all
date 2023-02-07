@@ -191,7 +191,7 @@ public class LinkedinBotService implements AutoCloseable {
 
     private void madeContact(ElementHandle elementHandle, AtomicInteger count) {
 
-        if (count.get() >= globalConfig.countConnectionForOneTime) {
+        if (count.get() >= account.getCountDailyConnect()) {
             log.info("Stop create connects for user " + account.getFullName());
             throw new StopMadeContactException("Stop create connects for user " + account.getFullName());
         }
@@ -615,7 +615,7 @@ public class LinkedinBotService implements AutoCloseable {
             String position = takeString(initPosition + i, account.getPosition()).trim();
 
             for (int j = 0; j < COUNT_PAGE_FOR_SEARCH_POSITIONS; j++) {
-                if (countApply.get() > globalConfig.countApplyForOneTime) {
+                if (countApply.get() > account.getCountDailyApply()) {
                     return;
                 }
                 int start = j * COUNT_POSITION_ON_ONE_PAGE;
@@ -642,7 +642,7 @@ public class LinkedinBotService implements AutoCloseable {
         List<ElementHandle> easyApply = playwrightService.getElementsByLocator("div.job-card-container");
         log.debug("Find a " + easyApply.size() + " positions for user " + account.getFullName());
 
-        for (int i = 0; i < easyApply.size() && countApply.get() < globalConfig.countApplyForOneTime; i++) {
+        for (int i = 0; i < easyApply.size() && countApply.get() < account.getCountDailyApply(); i++) {
             easyApply.get(i).click();
             playwrightService.sleepRandom(3000);
 

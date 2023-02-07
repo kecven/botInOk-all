@@ -78,23 +78,28 @@ public class MainScene {
         position.setTextAlignment(TextAlignment.CENTER);
         position.setPadding(new Insets(10, 10, 0, 10));
 
+        Label countDailyApply = new Label("Count apply per day:");
+        countDailyApply.setTextAlignment(TextAlignment.CENTER);
+        countDailyApply.setPadding(new Insets(10, 10, 0, 10));
 
-        uiElements.getAccountVBox().setStyle(UIConst.STYLE_OF_BACKGROUND);
-        uiElements.getAccountVBox().setPadding(new Insets(10, 10, 10, 10));
-        uiElements.getAccountVBox().setBorder(UIConst.BORDER_EMPTY);
-        uiElements.getAccountVBox().setPrefSize(UIConst.WIDTH_OF_SETTING - 17, UIConst.HEIGHT_OF_ACCOUNTS);
+        Label countDailyConnect = new Label("Count connect per day:");
+        countDailyConnect.setTextAlignment(TextAlignment.CENTER);
+        countDailyConnect.setPadding(new Insets(10, 10, 0, 10));
 
-        uiElements.getScrollAccountPane().setPadding(new Insets(0, 0, 0, 0));
-        uiElements.getScrollAccountPane().setStyle(UIConst.STYLE_OF_BACKGROUND);
-        uiElements.getScrollAccountPane().setPrefSize(UIConst.WIDTH_OF_SETTING, UIConst.HEIGHT_OF_ACCOUNTS);
-        uiElements.getScrollAccountPane().setBorder(UIConst.BORDER_EMPTY);
-        uiElements.getScrollAccountPane().setStyle(UIConst.STYLE_OF_BACKGROUND);
-        uiElements.getScrollAccountPane().setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
-        uiElements.getScrollAccountPane().setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
-        uiElements.getScrollAccountPane().setContent(uiElements.getAccountVBox());
-
-
-        setting.getChildren().addAll(settingLabelPane, userNameLabelPane, uiElements.getWorkInShabatCheckBox(), uiElements.getActiveSearch(), uiElements.getLocation(), position, uiElements.getPositionsField(), uiElements.getStartButton(), uiElements.getScrollAccountPane());
+        setting.getChildren().addAll(
+                settingLabelPane,
+                userNameLabelPane,
+                uiElements.getWorkInShabatCheckBox(),
+                uiElements.getActiveSearch(),
+                uiElements.getLocation(),
+                position,
+                uiElements.getPositionsField(),
+                countDailyApply,
+                uiElements.getCountDailyApplySlider(),
+                countDailyConnect,
+                uiElements.getCountDailyConnectSlider(),
+                uiElements.getStartButton(),
+                uiElements.getScrollAccountPane());
 
 
         Label versionLabel = new Label("Version: " + ClientConst.VERSION);
@@ -124,18 +129,6 @@ public class MainScene {
         main.setPrefSize(UIConst.WIDTH_OF_MAIN_PANE, UIConst.HEIGHT_OF_LOGGING_PANE);
         main.setBorder(UIConst.BORDER_DEFAULT_SMALL);
         main.setStyle(UIConst.STYLE_OF_BACKGROUND);
-
-        uiElements.getLogArea().setPrefSize(UIConst.WIDTH_OF_MAIN_PANE - 10, UIConst.HEIGHT_OF_LOGGING_PANE - 10);
-        uiElements.getLogArea().setBorder(UIConst.BORDER_EMPTY);
-        uiElements.getLogArea().setStyle(UIConst.STYLE_OF_BACKGROUND);
-        uiElements.getLogArea().setPadding(new Insets(10, 10, 10, 10));
-
-        uiElements.getScrollLogPane().setPrefSize(UIConst.WIDTH_OF_MAIN_PANE, UIConst.HEIGHT_OF_LOGGING_PANE);
-        uiElements.getScrollLogPane().setBorder(UIConst.BORDER_DEFAULT_SMALL);
-        uiElements.getScrollLogPane().setStyle(UIConst.STYLE_OF_BACKGROUND);
-        uiElements.getScrollLogPane().setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
-        uiElements.getScrollLogPane().setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        uiElements.getScrollLogPane().setContent(uiElements.getLogArea());
 
         main.getChildren().add(uiElements.getScrollLogPane());
         return main;

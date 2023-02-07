@@ -8,7 +8,7 @@ plugins {
 
 group 'digital.moveto.botinok'
 version = '0.2.5'
-sourceCompatibility = '17'
+sourceCompatibility = '19'
 
 application {
     mainClass = 'digital.moveto.botinok.client.BotinokApplication'
@@ -34,6 +34,9 @@ dependencies {
 
     runtimeOnly('com.h2database:h2')
 
+    implementation('org.openjfx:javafx-base:19.0.2.1')
+    implementation('org.openjfx:javafx-graphics:19.0.2.1')
+    implementation('org.openjfx:javafx-controls:19.0.2.1')
 
     testImplementation('junit:junit:4.13.1')
     testImplementation('org.springframework.boot:spring-boot-starter-test')
@@ -50,8 +53,8 @@ test {
 }
 
 javafx {
-    version = "17"
-    modules = ['javafx.controls', 'javafx.fxml']
+    version = "19"
+    modules = ['javafx.controls']
     configuration = "compileOnly"
 }
 

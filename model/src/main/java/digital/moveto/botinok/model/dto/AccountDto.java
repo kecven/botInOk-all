@@ -39,6 +39,10 @@ public class AccountDto implements Serializable {
 
     private String position;
 
+    private Integer countDailyApply;
+
+    private Integer countDailyConnect;
+
     private Location location;
 
     @JsonDeserialize(using = LocalDateDeserializer.class)

@@ -51,6 +51,13 @@ public class Account {
     @Column(name = "position")
     private String position;
 
+    @Column(name = "count_daily_apply", columnDefinition = "int default 15", nullable = false)
+    private Integer countDailyApply;
+
+
+    @Column(name = "count_daily_connect", columnDefinition = "int default 15", nullable = false)
+    private Integer countDailyConnect;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "location", length = 30)
     private Location location;
@@ -67,6 +74,21 @@ public class Account {
     public String getFullName() {
         if (Strings.isNotBlank(firstName) && Strings.isNotBlank(lastName)) {
             return firstName + " " + lastName;
+        }
+
+        if (Strings.isNotBlank(firstName)) {
+            return lastName;
+        }
+
+        if (Strings.isNotBlank(lastName)) {
+            return firstName;
+        }
+
+        return "Default";
+    }
+    public String getShortName() {
+        if (Strings.isNotBlank(firstName) && Strings.isNotBlank(lastName)) {
+            return firstName.substring(0,1) + lastName.substring(0,1);
         }
 
         if (Strings.isNotBlank(firstName)) {
