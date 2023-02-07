@@ -1,7 +1,9 @@
 package digital.moveto.botinok.model.dto;
 
 
+import digital.moveto.botinok.model.entities.Account;
 import digital.moveto.botinok.model.entities.enums.Location;
+import digital.moveto.botinok.model.Const;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.logging.log4j.util.Strings;
@@ -57,4 +59,7 @@ public class AccountDto implements Serializable {
         return "Default";
     }
 
+    public Account toEntity(){
+        return Const.modelMapper.map(this, Account.class);
+    }
 }

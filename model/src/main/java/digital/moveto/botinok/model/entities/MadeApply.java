@@ -1,6 +1,8 @@
 package digital.moveto.botinok.model.entities;
 
 
+import digital.moveto.botinok.model.dto.MadeApplyDto;
+import digital.moveto.botinok.model.Const;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -39,4 +41,8 @@ public class MadeApply {
 
     @Column(name = "date")
     private LocalDateTime date;
+
+    public MadeApplyDto toDto(){
+        return Const.modelMapper.map(this,MadeApplyDto.class);
+    }
 }

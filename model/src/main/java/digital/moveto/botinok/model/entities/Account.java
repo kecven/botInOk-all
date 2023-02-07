@@ -1,7 +1,9 @@
 package digital.moveto.botinok.model.entities;
 
 
+import digital.moveto.botinok.model.dto.AccountDto;
 import digital.moveto.botinok.model.entities.enums.Location;
+import digital.moveto.botinok.model.Const;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -78,4 +80,7 @@ public class Account {
         return "Default";
     }
 
+    public AccountDto toDto(){
+        return Const.modelMapper.map(this, AccountDto.class);
+    }
 }

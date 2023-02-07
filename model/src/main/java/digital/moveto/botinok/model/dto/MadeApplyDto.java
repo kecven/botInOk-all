@@ -1,6 +1,8 @@
 package digital.moveto.botinok.model.dto;
 
 
+import digital.moveto.botinok.model.entities.MadeApply;
+import digital.moveto.botinok.model.Const;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,4 +25,9 @@ public class MadeApplyDto implements Serializable {
     private String link;
 
     private LocalDateTime date;
+
+
+    public MadeApply toEntity(){
+        return Const.modelMapper.map(this, MadeApply.class);
+    }
 }

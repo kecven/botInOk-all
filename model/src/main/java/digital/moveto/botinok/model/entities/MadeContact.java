@@ -1,5 +1,7 @@
 package digital.moveto.botinok.model.entities;
 
+import digital.moveto.botinok.model.dto.MadeContactDto;
+import digital.moveto.botinok.model.Const;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,4 +33,8 @@ public class MadeContact {
 
     @Column(name = "date")
     private LocalDateTime date;
+
+    public MadeContactDto toDto(){
+        return Const.modelMapper.map(this, MadeContactDto.class);
+    }
 }

@@ -1,5 +1,7 @@
 package digital.moveto.botinok.model.dto;
 
+import digital.moveto.botinok.model.entities.Company;
+import digital.moveto.botinok.model.Const;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,4 +17,8 @@ public class CompanyDto implements Serializable {
     private String name;
 
     private String link;
+
+    public Company toEntity(){
+        return Const.modelMapper.map(this, Company.class);
+    }
 }

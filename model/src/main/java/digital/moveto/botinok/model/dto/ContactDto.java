@@ -1,5 +1,7 @@
 package digital.moveto.botinok.model.dto;
 
+import digital.moveto.botinok.model.entities.Contact;
+import digital.moveto.botinok.model.Const;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -40,5 +42,9 @@ public class ContactDto implements Serializable {
     @Override
     public String toString(){
         return "ContactDto(id=" +id +", name=" + firstName + " " + lastName + ", email=" + email + ", phone=" + phone + ", location=" + location + ", position=" + position + ", linkedinUrl=" + linkedinUrl + ")";
+    }
+
+    public Contact toEntity(){
+        return Const.modelMapper.map(this, Contact.class);
     }
 }

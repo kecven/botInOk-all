@@ -1,5 +1,7 @@
 package digital.moveto.botinok.model.entities;
 
+import digital.moveto.botinok.model.dto.ContactDto;
+import digital.moveto.botinok.model.Const;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -66,5 +68,10 @@ public class Contact {
     @Override
     public String toString(){
         return "Contact(id=" +id +", name=" + firstName + " " + lastName + ", email=" + email + ", phone=" + phone + ", location=" + location + ", position=" + position + ", linkedinUrl=" + linkedinUrl + ")";
+    }
+
+
+    public ContactDto toDto(){
+        return Const.modelMapper.map(this,ContactDto.class);
     }
 }
