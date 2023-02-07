@@ -5,24 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c6251951-17d6-4930-8673-3bc1daab451c" name="Changes" comment="add Dto">
-      <change afterPath="$PROJECT_DIR$/model/src/main/java/digital/moveto/botinok/model/Const.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/src/main/java/digital/moveto/botinok/BotinokWebSpringApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/src/main/java/digital/moveto/botinok/WebConst.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/src/main/java/digital/moveto/botinok/web/CompanyRestController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/src/main/java/digital/moveto/botinok/web/ContactRestController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/src/main/java/digital/moveto/botinok/web/MadeApplyRestController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/src/main/java/digital/moveto/botinok/web/MadeContactRestController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/model/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/src/main/java/digital/moveto/botinok/model/dto/AccountDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/src/main/java/digital/moveto/botinok/model/dto/AccountDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/src/main/java/digital/moveto/botinok/model/dto/CompanyDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/src/main/java/digital/moveto/botinok/model/dto/CompanyDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/src/main/java/digital/moveto/botinok/model/dto/ContactDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/src/main/java/digital/moveto/botinok/model/dto/ContactDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/src/main/java/digital/moveto/botinok/model/dto/MadeApplyDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/src/main/java/digital/moveto/botinok/model/dto/MadeApplyDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/src/main/java/digital/moveto/botinok/model/dto/MadeContactDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/src/main/java/digital/moveto/botinok/model/dto/MadeContactDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/src/main/java/digital/moveto/botinok/model/entities/Account.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/src/main/java/digital/moveto/botinok/model/entities/Account.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/src/main/java/digital/moveto/botinok/model/entities/Company.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/src/main/java/digital/moveto/botinok/model/entities/Company.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/src/main/java/digital/moveto/botinok/model/entities/Contact.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/src/main/java/digital/moveto/botinok/model/entities/Contact.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/src/main/java/digital/moveto/botinok/model/entities/MadeApply.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/src/main/java/digital/moveto/botinok/model/entities/MadeApply.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/src/main/java/digital/moveto/botinok/model/entities/MadeContact.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/src/main/java/digital/moveto/botinok/model/entities/MadeContact.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/model/src/main/java/digital/moveto/botinok/model/repositories/AccountRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/src/main/java/digital/moveto/botinok/model/repositories/AccountRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/src/main/java/digital/moveto/botinok/model/repositories/ContactRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/src/main/java/digital/moveto/botinok/model/repositories/ContactRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/src/main/java/digital/moveto/botinok/model/repositories/MadeContactRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/src/main/java/digital/moveto/botinok/model/repositories/MadeContactRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/web/src/main/java/digital/moveto/botinok/web/AccountRestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/main/java/digital/moveto/botinok/web/AccountRestController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

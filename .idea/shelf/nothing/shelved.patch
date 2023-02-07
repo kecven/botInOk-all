@@ -1,0 +1,973 @@
+Index: client/src/test/java/digital/moveto/botinok/client/BotinokApplicationTest.java
+===================================================================
+diff --git a/client/src/test/java/digital/moveto/botinok/client/BotinokApplicationTest.java b/client/src/test/java/digital/moveto/botinok/client/BotinokApplicationTest.java
+deleted file mode 100644
+--- a/client/src/test/java/digital/moveto/botinok/client/BotinokApplicationTest.java	(revision d4a2d9fb5a7bea15098cbdcf34ee5e089488a424)
++++ /dev/null	(revision d4a2d9fb5a7bea15098cbdcf34ee5e089488a424)
+@@ -1,19 +0,0 @@
+-package digital.moveto.botinok.client;
+-
+-
+-import org.junit.jupiter.api.Test;
+-import org.junit.runner.RunWith;
+-import org.springframework.boot.test.context.SpringBootTest;
+-import org.springframework.test.context.TestPropertySource;
+-import org.springframework.test.context.junit4.SpringRunner;
+-
+-
+-@RunWith(SpringRunner.class)
+-@SpringBootTest
+-@TestPropertySource("classpath:test.properties")
+-class BotinokApplicationTest {
+-
+-	@Test
+-	void contextLoads() {
+-	}
+-}
+\ No newline at end of file
+Index: model/src/main/java/digital/moveto/botinok/model/entities/Location.java
+===================================================================
+diff --git a/model/src/main/java/digital/moveto/botinok/model/entities/Location.java b/model/src/main/java/digital/moveto/botinok/model/entities/Location.java
+deleted file mode 100644
+--- a/model/src/main/java/digital/moveto/botinok/model/entities/Location.java	(revision d4a2d9fb5a7bea15098cbdcf34ee5e089488a424)
++++ /dev/null	(revision d4a2d9fb5a7bea15098cbdcf34ee5e089488a424)
+@@ -1,46 +0,0 @@
+-package digital.moveto.botinok.model.entities;
+-
+-import java.util.ArrayList;
+-import java.util.List;
+-
+-public enum Location {
+-    ISRAEL("Israel", "101620260");
+-
+-    private final String linkedinId;
+-    private final String name;
+-
+-    Location(String name, String linkedinId) {
+-        this.name = name;
+-        this.linkedinId = linkedinId;
+-    }
+-
+-    public String getLinkedinId() {
+-        return linkedinId;
+-    }
+-
+-    public String getName(){
+-        return name;
+-    }
+-
+-    public static List<String> getAllNames() {
+-        List<String> result = new ArrayList<>(values().length);
+-        for (Location location : values()) {
+-            result.add(location.name);
+-        }
+-        return result;
+-    }
+-
+-
+-    public static Location getByName(String name) {
+-        for (Location location : values()) {
+-            if (location.name.equalsIgnoreCase(name)) {
+-                return location;
+-            }
+-        }
+-        return null;
+-    }
+-
+-    public String toString() {
+-        return name;
+-    }
+-}
+Index: client/src/main/java/digital/moveto/botinok/client/service/AccountService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package digital.moveto.botinok.client.service;\r\n\r\nimport digital.moveto.botinok.model.entities.Account;\r\nimport digital.moveto.botinok.model.entities.Location;\r\nimport digital.moveto.botinok.model.repositories.AccountRepository;\r\nimport org.springframework.beans.factory.annotation.Autowired;\r\nimport org.springframework.stereotype.Service;\r\nimport org.springframework.transaction.annotation.Transactional;\r\n\r\nimport java.time.LocalDate;\r\nimport java.util.ArrayList;\r\nimport java.util.List;\r\nimport java.util.UUID;\r\n\r\n@Service\r\npublic class AccountService {\r\n\r\n    @Autowired\r\n    private AccountRepository accountRepository;\r\n\r\n    @Transactional\r\n    public Account saveAndFlush(Account account) {\r\n        return accountRepository.saveAndFlush(account);\r\n    }\r\n\r\n    @Transactional\r\n    public Account findOrCreateAccountWithContacts(String folder) {\r\n        Account account = accountRepository.findByFolder(folder).orElse(null);\r\n        if (account == null) {\r\n            account = new Account();\r\n            account.setFolder(folder);\r\n            account = saveAndFlush(account);\r\n        }\r\n        if (account.getContacts() == null) {\r\n            account.setContacts(new ArrayList<>());\r\n        }\r\n        account.getContacts().size();\r\n        return account;\r\n    }\r\n\r\n    @Transactional\r\n    public Account findById(UUID id) {\r\n        Account account = accountRepository.findById(id).orElse(null);\r\n        account.getContacts().size();\r\n        return account;\r\n    }\r\n\r\n    @Transactional\r\n    public Account addNewAccount() {\r\n        Account account = new Account();\r\n        account.setWorkInShabat(true);\r\n        account.setActive(true);\r\n        account.setActiveSearch(true);\r\n        account.setEndDateLicense(LocalDate.now().plusYears(20));\r\n        account.setLocation(Location.ISRAEL);\r\n\r\n        account = saveAndFlush(account);\r\n        account.setFolder(account.getId().toString());\r\n        account = saveAndFlush(account);\r\n\r\n        return account;\r\n    }\r\n\r\n\r\n\r\n    @Transactional\r\n    public void deleteByFolder(String folder) {\r\n        accountRepository.deleteByFolder(folder);\r\n    }\r\n\r\n    @Transactional\r\n    public List<Account> findAll() {\r\n        return accountRepository.findAll();\r\n    }\r\n    @Transactional\r\n    public List<Account> findAllActive() {\r\n        List<Account> all = accountRepository.findAllByActive(true);\r\n        List<Account> result = new ArrayList<>(all.size());\r\n\r\n        for (Account account : all) {\r\n            if (account.getEndDateLicense() == null\r\n                    || !account.getEndDateLicense().isBefore(LocalDate.now())) {\r\n                result.add(account);\r\n            }\r\n        }\r\n        return result;\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/client/src/main/java/digital/moveto/botinok/client/service/AccountService.java b/client/src/main/java/digital/moveto/botinok/client/service/AccountService.java
+--- a/client/src/main/java/digital/moveto/botinok/client/service/AccountService.java	(revision d4a2d9fb5a7bea15098cbdcf34ee5e089488a424)
++++ b/client/src/main/java/digital/moveto/botinok/client/service/AccountService.java	(date 1675726064753)
+@@ -1,7 +1,7 @@
+ package digital.moveto.botinok.client.service;
+ 
+ import digital.moveto.botinok.model.entities.Account;
+-import digital.moveto.botinok.model.entities.Location;
++import digital.moveto.botinok.model.entities.enums.Location;
+ import digital.moveto.botinok.model.repositories.AccountRepository;
+ import org.springframework.beans.factory.annotation.Autowired;
+ import org.springframework.stereotype.Service;
+Index: client/src/main/java/digital/moveto/botinok/client/ui/UiElements.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package digital.moveto.botinok.client.ui;\r\n\r\nimport digital.moveto.botinok.client.config.GlobalConfig;\r\nimport digital.moveto.botinok.client.config.UIConst;\r\nimport digital.moveto.botinok.model.entities.Account;\r\nimport digital.moveto.botinok.model.entities.Location;\r\nimport digital.moveto.botinok.model.entities.MadeApply;\r\nimport digital.moveto.botinok.model.entities.MadeContact;\r\nimport digital.moveto.botinok.client.service.AccountService;\r\nimport digital.moveto.botinok.client.service.MadeApplyService;\r\nimport digital.moveto.botinok.client.service.MadeContactService;\r\nimport digital.moveto.botinok.client.playwright.PlaywrightService;\r\nimport digital.moveto.botinok.client.utils.BotinokUtils;\r\nimport jakarta.annotation.PostConstruct;\r\nimport javafx.application.Platform;\r\nimport javafx.collections.FXCollections;\r\nimport javafx.geometry.Insets;\r\nimport javafx.scene.Cursor;\r\nimport javafx.scene.Node;\r\nimport javafx.scene.control.Button;\r\nimport javafx.scene.control.Label;\r\nimport javafx.scene.control.ScrollPane;\r\nimport javafx.scene.control.TextField;\r\nimport javafx.scene.control.*;\r\nimport javafx.scene.layout.*;\r\nimport javafx.scene.paint.Color;\r\nimport javafx.scene.text.Font;\r\nimport javafx.scene.text.FontWeight;\r\nimport javafx.scene.text.Text;\r\nimport javafx.scene.text.TextFlow;\r\nimport javafx.stage.Stage;\r\nimport lombok.Getter;\r\nimport org.springframework.beans.factory.annotation.Autowired;\r\nimport org.springframework.context.ApplicationContext;\r\nimport org.springframework.stereotype.Component;\r\n\r\nimport java.nio.file.Paths;\r\nimport java.time.LocalDate;\r\nimport java.time.LocalDateTime;\r\nimport java.time.format.DateTimeFormatter;\r\nimport java.util.ArrayList;\r\nimport java.util.List;\r\nimport java.util.UUID;\r\n\r\n@Getter\r\n@Component\r\npublic class UiElements {\r\n\r\n    @Autowired\r\n    private ApplicationContext context;\r\n\r\n    @Autowired\r\n    private GlobalConfig globalConfig;\r\n\r\n    @Autowired\r\n    private AccountService accountService;\r\n\r\n    @Autowired\r\n    private MadeApplyService madeApplyService;\r\n\r\n    @Autowired\r\n    private MadeContactService madeContactService;\r\n\r\n    public static Stage stage;\r\n\r\n    private final Label userNameLabel = new Label(\"\");\r\n    private final CheckBox workInShabatCheckBox = new CheckBox(\"Work in Shabat\");\r\n    private final CheckBox activeSearch = new CheckBox(\"Active search\");\r\n    private final ComboBox<Location> location = new ComboBox<>(FXCollections.observableArrayList(Location.values()));\r\n    private final TextField positionsField = new TextField();\r\n    private final Button startButton = new Button(\"Loading...\");    //after finish loading text will change to start\r\n    private final ScrollPane scrollLogPane = new ScrollPane();\r\n    private final ScrollPane scrollAccountPane = new ScrollPane();\r\n    private final VBox accountVBox = new VBox();\r\n    private final TextFlow logArea = new TextFlow();\r\n    private final Label statisticConnectTodayLabel = new Label(\"0\");\r\n    private final Label statisticApplyTodayLabel = new Label(\"0\");\r\n    private final Label statisticConnectTotalLabel = new Label(\"0\");\r\n    private final Label statisticApplyTotalLabel = new Label(\"0\");\r\n\r\n    private Account selectAccount;\r\n\r\n    private final Button saveButton = new Button(\"Save\");\r\n\r\n    @PostConstruct\r\n    private void initElements() {\r\n\r\n        getUserNameLabel().setPadding(new Insets(10, 10, 10, 10));\r\n        getUserNameLabel().setFont(Font.font(\"Dialog\", FontWeight.BOLD, 22));\r\n\r\n        getWorkInShabatCheckBox().setPadding(new Insets(5, 10, 5, 10));\r\n        getWorkInShabatCheckBox().setSelected(true);\r\n        getWorkInShabatCheckBox().setFont(new Font(16));\r\n        getWorkInShabatCheckBox().setTooltip(new Tooltip(\"If you want to work in Shabat, check this box.\"));\r\n        getWorkInShabatCheckBox().setCursor(Cursor.HAND);\r\n        getWorkInShabatCheckBox().setOnMouseClicked(e-> saveSettingForUser());\r\n\r\n\r\n        getActiveSearch().setPadding(new Insets(5, 10, 5, 10));\r\n        getActiveSearch().setSelected(true);\r\n        getActiveSearch().setFont(new Font(16));\r\n        getActiveSearch().setTooltip(new Tooltip(\"If you want to search for new jobs, check this box.\"));\r\n        getActiveSearch().setCursor(Cursor.HAND);\r\n        getActiveSearch().setOnMouseClicked(e-> saveSettingForUser());\r\n\r\n        getPositionsField().setPromptText(\"Manager, Developer, etc...\");\r\n        getPositionsField().setPadding(new Insets(0, 10, 10, 10));\r\n        getPositionsField().setPrefSize(UIConst.WIDTH_OF_SETTING, 20);\r\n        getPositionsField().setFont(new Font(16));\r\n        getPositionsField().setTooltip(new Tooltip(\"Enter positions you want to search. Separate by comma.\"));\r\n        getPositionsField().setOnInputMethodTextChanged(e->saveSettingForUser());\r\n\r\n        getLocation().setPrefSize(UIConst.WIDTH_OF_SETTING, UIConst.HEIGHT_OF_LABEL);\r\n        getLocation().setPadding(new Insets(5, 10, 5, 10));\r\n        getLocation().setPromptText(\"Location\");\r\n        getLocation().setTooltip(new Tooltip(\"Choose you location where you want to work.\"));\r\n        getLocation().setOnInputMethodTextChanged(e->saveSettingForUser());\r\n\r\n        getStartButton().setCursor(Cursor.WAIT);\r\n        getStartButton().setBackground(new Background(new BackgroundFill(Color.ORANGE, CornerRadii.EMPTY, Insets.EMPTY)));\r\n        getStartButton().setPrefSize(UIConst.WIDTH_OF_SETTING, 40);\r\n        getStartButton().setFont(new Font(18));\r\n        getStartButton().setTextFill(Color.WHITE);\r\n\r\n        addLogToLogArea(\"Loading... This may take a few minutes. Please wait.\");\r\n    }\r\n\r\n    public void addLogToLogAreaWithLinks(String text, List<String> links) {\r\n        Text timeText = new Text(currentBeautyTime());\r\n        timeText.setFill(Color.BLUE);\r\n        timeText.setFont(Font.font(\"Helvetica\", FontWeight.BOLD, 16));\r\n\r\n        List<Node> result = new ArrayList<>();\r\n\r\n        Text logText = new Text(\" - \");\r\n        logText.setFill(Color.BLACK);\r\n        logText.setFont(Font.font(\"Helvetica\", FontWeight.NORMAL, 16));\r\n        result.add(logText);\r\n\r\n        List<Hyperlink> hyperlinks = FXCollections.observableArrayList();\r\n        String[] textParts = text.split(\"\\\\$\");\r\n        for (int i = 0; i < links.size(); i++) {\r\n            logText = new Text(textParts[i]);\r\n            logText.setFill(Color.BLACK);\r\n            logText.setFont(Font.font(\"Helvetica\", FontWeight.NORMAL, 16));\r\n\r\n            Hyperlink hyperlink = new Hyperlink(links.get(i));\r\n            hyperlink.setOnAction(event -> {\r\n                PlaywrightService linkForBrowser = context.getBean(PlaywrightService.class);\r\n                linkForBrowser.start(Paths.get(globalConfig.pathToStateFolder + getSelectAccount().getFolder()), false);\r\n                linkForBrowser.open(hyperlink.getText());\r\n            });\r\n            hyperlink.setTextFill(Color.BLUE);\r\n            hyperlink.setFont(Font.font(\"Helvetica\", FontWeight.NORMAL, 16));\r\n\r\n            result.add(logText);\r\n            result.add(hyperlink);\r\n        }\r\n\r\n        logText = new Text(textParts[textParts.length - 1]);\r\n        logText.setFill(Color.BLACK);\r\n        logText.setFont(Font.font(\"Helvetica\", FontWeight.NORMAL, 16));\r\n        result.add(logText);\r\n\r\n        Text separateLine = new Text(\"\\n\");\r\n        separateLine.setFont(Font.font(\"Helvetica\", FontWeight.NORMAL, 10));\r\n\r\n        Platform.runLater(\r\n                () -> {\r\n                    logArea.getChildren().add(timeText);\r\n                    logArea.getChildren().addAll(result);\r\n                    logArea.getChildren().add(separateLine);\r\n                    getScrollLogPane().setVvalue(1.0);\r\n                }\r\n        );\r\n    }\r\n\r\n    public void addLogToLogArea(String text) {\r\n        Text timeText = new Text(currentBeautyTime());\r\n        timeText.setFill(Color.BLUE);\r\n        timeText.setFont(Font.font(\"Helvetica\", FontWeight.BOLD, 16));\r\n\r\n        Text logText = new Text(\" - \" + text + \"\\n\");\r\n        logText.setFill(Color.BLACK);\r\n        logText.setFont(Font.font(\"Helvetica\", FontWeight.NORMAL, 16));\r\n\r\n        Text separateLine = new Text(\"\\n\");\r\n        separateLine.setFont(Font.font(\"Helvetica\", FontWeight.NORMAL, 10));\r\n\r\n        Platform.runLater(\r\n                () -> {\r\n                    logArea.getChildren().addAll(timeText, logText, separateLine);\r\n                    getScrollLogPane().setVvalue(1.0);\r\n                }\r\n        );\r\n    }\r\n\r\n    public void clearLogArea() {\r\n        Platform.runLater(\r\n                () -> {\r\n                    logArea.getChildren().clear();\r\n                }\r\n        );\r\n    }\r\n\r\n    public void setUserNameLabel(String text) {\r\n        Platform.runLater(\r\n                () -> {\r\n                    getUserNameLabel().setText(text);\r\n                }\r\n        );\r\n    }\r\n\r\n    private String currentBeautyTime() {\r\n        return \"[\" + LocalDateTime.now().format(DateTimeFormatter.ofPattern(\"HH:mm:ss\")) + \"]\";\r\n    }\r\n\r\n    public void changeButtonState(boolean toStart) {\r\n        Platform.runLater(\r\n                () -> {\r\n                    if (toStart) {\r\n                        getStartButton().setText(\"Start\");\r\n                        getStartButton().setBackground(new Background(new BackgroundFill(Color.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));\r\n                    } else {\r\n                        getStartButton().setText(\"Stop\");\r\n                        getStartButton().setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));\r\n                    }\r\n                }\r\n        );\r\n    }\r\n\r\n    public void updateAccounts(List<Account> accounts) {\r\n        updateAccounts(accounts, accounts.get(0).getId());\r\n    }\r\n\r\n    public void updateAccounts(List<Account> accounts, UUID selectAccount) {\r\n\r\n        List<BorderPane> borderPaneList = new ArrayList<>(accounts.size());\r\n\r\n        for (int i = 0; i < accounts.size(); i++) {\r\n            Account account = accounts.get(i);\r\n            Label accountLabel = new Label(account.getFullName());\r\n\r\n\r\n            accountLabel.setPadding(new Insets(5, 0, 5, 0));\r\n            if (selectAccount.equals(account.getId())) {\r\n                updateSettingAndStatisticForAccount(account);\r\n                accountLabel.setFont(Font.font(\"Dialog\", FontWeight.BOLD, 18));\r\n            } else {\r\n                accountLabel.setFont(Font.font(\"Dialog\", FontWeight.NORMAL, 16));\r\n            }\r\n            BorderPane accountLabelPane = new BorderPane();\r\n            accountLabelPane.setCenter(accountLabel);\r\n            accountLabelPane.setPrefSize(UIConst.WIDTH_OF_SETTING - 37, UIConst.HEIGHT_OF_LABEL);\r\n            accountLabelPane.setId(\"accountId-\" + account.getId());\r\n            accountLabelPane.setStyle(UIConst.STYLE_OF_BACKGROUND);\r\n\r\n            accountLabelPane.setOnMouseClicked((event)->{\r\n                updateAccounts(accounts, account.getId());\r\n            });\r\n            accountLabelPane.setCursor(Cursor.HAND);\r\n\r\n\r\n            borderPaneList.add(accountLabelPane);\r\n        }\r\n\r\n        Platform.runLater(\r\n                () -> {\r\n                    accountVBox.getChildren().clear();\r\n                    accountVBox.getChildren().addAll(borderPaneList);\r\n                }\r\n        );\r\n    }\r\n\r\n    public void updateSettingAndStatisticForAccount(Account account){\r\n        saveSettingForUser();\r\n\r\n        selectAccount = account;\r\n        Platform.runLater(\r\n                () -> {\r\n                    workInShabatCheckBox.setSelected(account.getWorkInShabat());\r\n                    activeSearch.setSelected(account.getActiveSearch());\r\n                    positionsField.setText(account.getPosition());\r\n                    userNameLabel.setText(account.getFullName());\r\n                    location.setValue(account.getLocation());\r\n                    updateStatistic();\r\n                }\r\n        );\r\n    }\r\n\r\n    public void saveSettingForUser(){\r\n        if (getSelectAccount() != null) {\r\n            selectAccount.setWorkInShabat(workInShabatCheckBox.isSelected());\r\n            selectAccount.setActiveSearch(activeSearch.isSelected());\r\n            selectAccount.setPosition(positionsField.getText());\r\n            selectAccount.setLocation(location.getValue());\r\n\r\n            accountService.saveAndFlush(selectAccount);\r\n        }\r\n    }\r\n\r\n    public void updateStatistic(){\r\n        if (getSelectAccount() != null) {\r\n            LocalDate todayLocalDate = LocalDate.now();\r\n\r\n            List<MadeApply> allApplyForAccount = madeApplyService.findAllByAccount(getSelectAccount());\r\n            final long finalTotalApply = allApplyForAccount.size();\r\n            final long finalTodayApply = allApplyForAccount.parallelStream()\r\n                    .filter(madeApply -> BotinokUtils.equalsDateAndDateTime(todayLocalDate, madeApply.getDate())).count();\r\n\r\n            List<MadeContact> allConnectForAccount = madeContactService.findAllByAccount(getSelectAccount());\r\n            final long finalTotalConnect = allConnectForAccount.size();\r\n            final long finalTodayConnect  = allConnectForAccount.parallelStream()\r\n                    .filter(madeContact -> BotinokUtils.equalsDateAndDateTime(todayLocalDate, madeContact.getDate())).count();\r\n\r\n            Platform.runLater(\r\n                    () -> {\r\n                        getStatisticApplyTotalLabel().setText(String.valueOf(finalTotalApply));\r\n                        getStatisticApplyTodayLabel().setText(String.valueOf(finalTodayApply));\r\n                        getStatisticConnectTotalLabel().setText(String.valueOf(finalTotalConnect));\r\n                        getStatisticConnectTodayLabel().setText(String.valueOf(finalTodayConnect));\r\n                    }\r\n            );\r\n        }\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/client/src/main/java/digital/moveto/botinok/client/ui/UiElements.java b/client/src/main/java/digital/moveto/botinok/client/ui/UiElements.java
+--- a/client/src/main/java/digital/moveto/botinok/client/ui/UiElements.java	(revision d4a2d9fb5a7bea15098cbdcf34ee5e089488a424)
++++ b/client/src/main/java/digital/moveto/botinok/client/ui/UiElements.java	(date 1675726064887)
+@@ -3,7 +3,7 @@
+ import digital.moveto.botinok.client.config.GlobalConfig;
+ import digital.moveto.botinok.client.config.UIConst;
+ import digital.moveto.botinok.model.entities.Account;
+-import digital.moveto.botinok.model.entities.Location;
++import digital.moveto.botinok.model.entities.enums.Location;
+ import digital.moveto.botinok.model.entities.MadeApply;
+ import digital.moveto.botinok.model.entities.MadeContact;
+ import digital.moveto.botinok.client.service.AccountService;
+Index: model/src/main/java/digital/moveto/botinok/model/entities/Company.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package digital.moveto.botinok.model.entities;\r\n\r\nimport jakarta.persistence.*;\r\nimport lombok.Getter;\r\nimport lombok.NoArgsConstructor;\r\nimport lombok.Setter;\r\nimport lombok.experimental.SuperBuilder;\r\n\r\nimport java.util.UUID;\r\n\r\n@Getter\r\n@Setter\r\n@Entity\r\n@NoArgsConstructor\r\n@SuperBuilder\r\n@Table(name = \"company\")\r\npublic class Company {\r\n\r\n    @Id\r\n    @GeneratedValue(strategy = GenerationType.UUID)\r\n    @Column(name = \"id\", updatable = false, nullable = false)\r\n    private UUID id;\r\n\r\n    @Column(name = \"name\")\r\n    private String name;\r\n\r\n    @Column(name = \"link\")\r\n    private String link;\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/model/src/main/java/digital/moveto/botinok/model/entities/Company.java b/model/src/main/java/digital/moveto/botinok/model/entities/Company.java
+--- a/model/src/main/java/digital/moveto/botinok/model/entities/Company.java	(revision d4a2d9fb5a7bea15098cbdcf34ee5e089488a424)
++++ b/model/src/main/java/digital/moveto/botinok/model/entities/Company.java	(date 1675727397824)
+@@ -1,5 +1,7 @@
+ package digital.moveto.botinok.model.entities;
+ 
++import digital.moveto.botinok.model.dto.CompanyDto;
++import digital.moveto.botinok.model.Const;
+ import jakarta.persistence.*;
+ import lombok.Getter;
+ import lombok.NoArgsConstructor;
+@@ -26,4 +28,8 @@
+ 
+     @Column(name = "link")
+     private String link;
++
++    public CompanyDto toDto(){
++        return Const.modelMapper.map(this,CompanyDto.class);
++    }
+ }
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"c6251951-17d6-4930-8673-3bc1daab451c\" name=\"Changes\" comment=\"Merge remote-tracking branch 'origin/main'&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml\">\r\n      <change afterPath=\"$PROJECT_DIR$/web/build.gradle\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/web/src/main/java/digital/moveto/botinok/web/AccountRestController.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/gradle.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/gradle.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/settings.gradle\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/settings.gradle\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"ExternalProjectsData\">\r\n    <projectState path=\"$PROJECT_DIR$\">\r\n      <ProjectState />\r\n    </projectState>\r\n  </component>\r\n  <component name=\"ExternalProjectsManager\">\r\n    <system id=\"GRADLE\">\r\n      <state>\r\n        <task path=\"$PROJECT_DIR$/client\">\r\n          <activation />\r\n        </task>\r\n        <task path=\"$PROJECT_DIR$/model\">\r\n          <activation />\r\n        </task>\r\n        <projects_view>\r\n          <tree_state>\r\n            <expand>\r\n              <path>\r\n                <item name=\"\" type=\"6a2764b6:ExternalProjectsStructure$RootNode\" />\r\n                <item name=\"botInOk\" type=\"f1a62948:ProjectNode\" />\r\n              </path>\r\n            </expand>\r\n            <select />\r\n          </tree_state>\r\n        </projects_view>\r\n      </state>\r\n    </system>\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"Class\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"JpbToolWindowState\">\r\n    <option name=\"isToolWindowVisible\" value=\"false\" />\r\n  </component>\r\n  <component name=\"MarkdownSettingsMigration\">\r\n    <option name=\"stateVersion\" value=\"1\" />\r\n  </component>\r\n  <component name=\"ProjectId\" id=\"2LNe9c0AcAEjAaNCnHa5mPcDjUM\" />\r\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\" />\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\">{\r\n  &quot;keyToString&quot;: {\r\n    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,\r\n    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,\r\n    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,\r\n    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;graalvm-ce-19&quot;\r\n  }\r\n}</component>\r\n  <component name=\"RecentsManager\">\r\n    <key name=\"MoveFile.RECENT_KEYS\">\r\n      <recent name=\"C:\\Users\\andreit\\Projects\\botInOk\\botInOk\\client\\src\\test\\java\" />\r\n      <recent name=\"C:\\Users\\andreit\\Projects\\botInOk\\botInOk\\client\\src\\test\\resources\" />\r\n      <recent name=\"C:\\Users\\andreit\\Projects\\botInOk\\botInOk\\client\\src\\main\\resources\" />\r\n    </key>\r\n  </component>\r\n  <component name=\"RunManager\">\r\n    <configuration name=\"BotinokApplication\" type=\"Application\" factoryName=\"Application\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"digital.moveto.botinok.BotinokApplication\" />\r\n      <module name=\"botInOk.client.main\" />\r\n      <option name=\"VM_PARAMETERS\" value=\"--module-path C:\\Users\\andreit\\Soft\\javafx-sdk-19.0.2.1\\lib --add-modules javafx.controls \" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"digital.moveto.botinok.client.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <recent_temporary>\r\n      <list>\r\n        <item itemvalue=\"Application.BotinokApplication\" />\r\n      </list>\r\n    </recent_temporary>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"c6251951-17d6-4930-8673-3bc1daab451c\" name=\"Changes\" comment=\"\" />\r\n      <created>1675715821958</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1675715821958</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00001\" summary=\"init v.0.2.5\">\r\n      <created>1675719224965</created>\r\n      <option name=\"number\" value=\"00001\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1675719224965</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00002\" summary=\"init v.0.2.5\">\r\n      <created>1675719317006</created>\r\n      <option name=\"number\" value=\"00002\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1675719317006</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00003\" summary=\"Merge remote-tracking branch 'origin/main'&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml\">\r\n      <created>1675719351929</created>\r\n      <option name=\"number\" value=\"00003\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1675719351929</updated>\r\n    </task>\r\n    <option name=\"localTasksCounter\" value=\"4\" />\r\n    <servers />\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <MESSAGE value=\"fix te\" />\r\n    <MESSAGE value=\"init v.0.2.5\" />\r\n    <MESSAGE value=\"Merge remote-tracking branch 'origin/main'&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml\" />\r\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"Merge remote-tracking branch 'origin/main'&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml\" />\r\n  </component>\r\n  <component name=\"XDebuggerManager\">\r\n    <breakpoint-manager>\r\n      <breakpoints>\r\n        <line-breakpoint enabled=\"true\" type=\"java-line\">\r\n          <url>file://$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/linkedin/LinkedinBotStarter.java</url>\r\n          <line>149</line>\r\n          <option name=\"timeStamp\" value=\"8\" />\r\n        </line-breakpoint>\r\n      </breakpoints>\r\n    </breakpoint-manager>\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision d4a2d9fb5a7bea15098cbdcf34ee5e089488a424)
++++ b/.idea/workspace.xml	(date 1675728852289)
+@@ -5,11 +5,19 @@
+   </component>
+   <component name="ChangeListManager">
+     <list default="true" id="c6251951-17d6-4930-8673-3bc1daab451c" name="Changes" comment="Merge remote-tracking branch 'origin/main'&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml">
+-      <change afterPath="$PROJECT_DIR$/web/build.gradle" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/web/src/main/java/digital/moveto/botinok/web/AccountRestController.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/service/AccountService.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/service/AccountService.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/ui/UiElements.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/ui/UiElements.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/client/src/test/java/digital/moveto/botinok/client/BotinokApplicationTest.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/model/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/model/build.gradle" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/model/src/main/java/digital/moveto/botinok/model/entities/Account.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/src/main/java/digital/moveto/botinok/model/entities/Account.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/model/src/main/java/digital/moveto/botinok/model/entities/Company.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/src/main/java/digital/moveto/botinok/model/entities/Company.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/model/src/main/java/digital/moveto/botinok/model/entities/Contact.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/src/main/java/digital/moveto/botinok/model/entities/Contact.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/model/src/main/java/digital/moveto/botinok/model/entities/Location.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/model/src/main/java/digital/moveto/botinok/model/entities/MadeApply.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/src/main/java/digital/moveto/botinok/model/entities/MadeApply.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/model/src/main/java/digital/moveto/botinok/model/entities/MadeContact.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/src/main/java/digital/moveto/botinok/model/entities/MadeContact.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/web/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/web/build.gradle" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/web/src/main/java/digital/moveto/botinok/web/AccountRestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/main/java/digital/moveto/botinok/web/AccountRestController.java" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -36,6 +44,24 @@
+               <path>
+                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                 <item name="botInOk" type="f1a62948:ProjectNode" />
++              </path>
++              <path>
++                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
++                <item name="botInOk" type="f1a62948:ProjectNode" />
++                <item name="model" type="2d1252cf:ModuleNode" />
++              </path>
++              <path>
++                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
++                <item name="botInOk" type="f1a62948:ProjectNode" />
++                <item name="model" type="2d1252cf:ModuleNode" />
++                <item name="Tasks" type="e4a08cd1:TasksNode" />
++              </path>
++              <path>
++                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
++                <item name="botInOk" type="f1a62948:ProjectNode" />
++                <item name="model" type="2d1252cf:ModuleNode" />
++                <item name="Tasks" type="e4a08cd1:TasksNode" />
++                <item name="build" type="c8890929:TasksNode$1" />
+               </path>
+             </expand>
+             <select />
+@@ -49,6 +75,13 @@
+       <list>
+         <option value="Class" />
+       </list>
++    </option>
++  </component>
++  <component name="Git.Settings">
++    <option name="RECENT_BRANCH_BY_REPOSITORY">
++      <map>
++        <entry key="$PROJECT_DIR$" value="main" />
++      </map>
+     </option>
+   </component>
+   <component name="JpbToolWindowState">
+@@ -131,6 +164,17 @@
+     </task>
+     <option name="localTasksCounter" value="4" />
+     <servers />
++  </component>
++  <component name="Vcs.Log.Tabs.Properties">
++    <option name="TAB_STATES">
++      <map>
++        <entry key="MAIN">
++          <value>
++            <State />
++          </value>
++        </entry>
++      </map>
++    </option>
+   </component>
+   <component name="VcsManagerConfiguration">
+     <MESSAGE value="fix te" />
+Index: model/src/main/java/digital/moveto/botinok/model/entities/MadeApply.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package digital.moveto.botinok.model.entities;\r\n\r\n\r\nimport jakarta.persistence.*;\r\nimport lombok.Getter;\r\nimport lombok.NoArgsConstructor;\r\nimport lombok.Setter;\r\nimport lombok.experimental.SuperBuilder;\r\n\r\nimport java.time.LocalDateTime;\r\nimport java.util.UUID;\r\n\r\n@Getter\r\n@Setter\r\n@Entity\r\n@NoArgsConstructor\r\n@SuperBuilder\r\n@Table(name = \"made_apply\", indexes = {@Index(name = \"made_apply_index_linkedin_account_id\", columnList = \"account_id\")})\r\npublic class MadeApply {\r\n\r\n    @Id\r\n    @GeneratedValue(strategy = GenerationType.UUID)\r\n    @Column(name = \"id\", updatable = false, nullable = false)\r\n    private UUID id;\r\n\r\n    @ManyToOne\r\n    @JoinColumn(name = \"account_id\")\r\n    private Account account;\r\n\r\n    @ManyToOne\r\n    @JoinColumn(name = \"company_id\")\r\n    private Company company;\r\n\r\n    @Column(name = \"position\")\r\n    private String position;\r\n\r\n    @Column(name = \"link\")\r\n    private String link;\r\n\r\n    @Column(name = \"date\")\r\n    private LocalDateTime date;\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/model/src/main/java/digital/moveto/botinok/model/entities/MadeApply.java b/model/src/main/java/digital/moveto/botinok/model/entities/MadeApply.java
+--- a/model/src/main/java/digital/moveto/botinok/model/entities/MadeApply.java	(revision d4a2d9fb5a7bea15098cbdcf34ee5e089488a424)
++++ b/model/src/main/java/digital/moveto/botinok/model/entities/MadeApply.java	(date 1675727397896)
+@@ -1,6 +1,8 @@
+ package digital.moveto.botinok.model.entities;
+ 
+ 
++import digital.moveto.botinok.model.dto.MadeApplyDto;
++import digital.moveto.botinok.model.Const;
+ import jakarta.persistence.*;
+ import lombok.Getter;
+ import lombok.NoArgsConstructor;
+@@ -39,4 +41,8 @@
+ 
+     @Column(name = "date")
+     private LocalDateTime date;
++
++    public MadeApplyDto toDto(){
++        return Const.modelMapper.map(this,MadeApplyDto.class);
++    }
+ }
+Index: model/src/main/java/digital/moveto/botinok/model/entities/Contact.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package digital.moveto.botinok.model.entities;\r\n\r\nimport jakarta.persistence.*;\r\nimport lombok.Getter;\r\nimport lombok.NoArgsConstructor;\r\nimport lombok.Setter;\r\nimport lombok.experimental.SuperBuilder;\r\nimport org.hibernate.annotations.CreationTimestamp;\r\nimport org.hibernate.annotations.UpdateTimestamp;\r\n\r\nimport java.time.LocalDate;\r\nimport java.util.UUID;\r\n\r\n@Getter\r\n@Setter\r\n@Entity\r\n@NoArgsConstructor\r\n@SuperBuilder\r\n@Table(name = \"contact\", indexes = {@Index(name = \"contact_index_linkedin_url\", columnList = \"linkedin_url\")})\r\npublic class Contact {\r\n\r\n    @Id\r\n    @GeneratedValue(strategy = GenerationType.UUID)\r\n    @Column(name = \"id\", updatable = false, nullable = false)\r\n    private UUID id;\r\n\r\n    @ManyToOne\r\n    @JoinColumn(name = \"account_id\", nullable = false)\r\n    private Account account;\r\n\r\n    @Column(name = \"first_name\")\r\n    private String firstName;\r\n\r\n    @Column(name = \"last_name\")\r\n    private String lastName;\r\n\r\n    @Column(name = \"email\")\r\n    private String email;\r\n\r\n    @Column(name = \"phone\")\r\n    private String phone;\r\n\r\n    @Column(name = \"location\")\r\n    private String location;\r\n\r\n    @Column(name = \"position\")\r\n    private String position;\r\n\r\n    @Column(name = \"linkedin_url\", nullable = false, unique = true)\r\n    private String linkedinUrl;\r\n\r\n    @CreationTimestamp\r\n    @Column(name = \"created_date\")\r\n    private LocalDate createdDate;\r\n\r\n    @UpdateTimestamp\r\n    @Column(name = \"updated_date\")\r\n    private LocalDate updatedDate;\r\n\r\n    @Column(name = \"parse_date\")\r\n    private LocalDate parseDate;\r\n\r\n    @Column(name = \"html\", length = 10_000_000)\r\n    private String html;\r\n\r\n    @Override\r\n    public String toString(){\r\n        return \"Contact(id=\" +id +\", name=\" + firstName + \" \" + lastName + \", email=\" + email + \", phone=\" + phone + \", location=\" + location + \", position=\" + position + \", linkedinUrl=\" + linkedinUrl + \")\";\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/model/src/main/java/digital/moveto/botinok/model/entities/Contact.java b/model/src/main/java/digital/moveto/botinok/model/entities/Contact.java
+--- a/model/src/main/java/digital/moveto/botinok/model/entities/Contact.java	(revision d4a2d9fb5a7bea15098cbdcf34ee5e089488a424)
++++ b/model/src/main/java/digital/moveto/botinok/model/entities/Contact.java	(date 1675727397788)
+@@ -1,5 +1,7 @@
+ package digital.moveto.botinok.model.entities;
+ 
++import digital.moveto.botinok.model.dto.ContactDto;
++import digital.moveto.botinok.model.Const;
+ import jakarta.persistence.*;
+ import lombok.Getter;
+ import lombok.NoArgsConstructor;
+@@ -67,4 +69,9 @@
+     public String toString(){
+         return "Contact(id=" +id +", name=" + firstName + " " + lastName + ", email=" + email + ", phone=" + phone + ", location=" + location + ", position=" + position + ", linkedinUrl=" + linkedinUrl + ")";
+     }
++
++
++    public ContactDto toDto(){
++        return Const.modelMapper.map(this,ContactDto.class);
++    }
+ }
+Index: model/src/main/java/digital/moveto/botinok/model/entities/Account.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package digital.moveto.botinok.model.entities;\r\n\r\n\r\nimport jakarta.persistence.*;\r\nimport lombok.Getter;\r\nimport lombok.NoArgsConstructor;\r\nimport lombok.Setter;\r\nimport org.apache.logging.log4j.util.Strings;\r\n\r\nimport java.time.LocalDate;\r\nimport java.util.List;\r\nimport java.util.UUID;\r\n\r\n\r\n@Getter\r\n@Setter\r\n@Entity\r\n@NoArgsConstructor\r\n@Table(name = \"account\")\r\npublic class Account {\r\n\r\n    @Id\r\n    @GeneratedValue(strategy = GenerationType.UUID)\r\n    @Column(name = \"id\", updatable = false, nullable = false)\r\n    private UUID id;\r\n\r\n    @Column(name = \"folder\")\r\n    private String folder;\r\n\r\n    @Column(name = \"first_name\")\r\n    private String firstName;\r\n\r\n    @Column(name = \"last_name\")\r\n    private String lastName;\r\n\r\n    @Column(name = \"login\")\r\n    private String login;\r\n\r\n    @Column(name = \"password\")\r\n    private String password;\r\n\r\n    @Column(name = \"active\")\r\n    private Boolean active;\r\n\r\n    @Column(name = \"active_search\")\r\n    private Boolean activeSearch;\r\n\r\n    @Column(name = \"position\")\r\n    private String position;\r\n\r\n    @Enumerated(EnumType.STRING)\r\n    @Column(name = \"location\", length = 30)\r\n    private Location location;\r\n\r\n    @Column(name = \"end_date_license\")\r\n    private LocalDate endDateLicense;\r\n\r\n    @OneToMany(mappedBy = \"account\", fetch = FetchType.LAZY)\r\n    private List<Contact> contacts;\r\n\r\n    @Column(name = \"work_in_shabat\")\r\n    private Boolean workInShabat;\r\n\r\n    public String getFullName() {\r\n        if (Strings.isNotBlank(firstName) && Strings.isNotBlank(lastName)) {\r\n            return firstName + \" \" + lastName;\r\n        }\r\n\r\n        if (Strings.isNotBlank(firstName)) {\r\n            return lastName;\r\n        }\r\n\r\n        if (Strings.isNotBlank(lastName)) {\r\n            return firstName;\r\n        }\r\n\r\n        return \"Default\";\r\n    }\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/model/src/main/java/digital/moveto/botinok/model/entities/Account.java b/model/src/main/java/digital/moveto/botinok/model/entities/Account.java
+--- a/model/src/main/java/digital/moveto/botinok/model/entities/Account.java	(revision d4a2d9fb5a7bea15098cbdcf34ee5e089488a424)
++++ b/model/src/main/java/digital/moveto/botinok/model/entities/Account.java	(date 1675727397692)
+@@ -1,6 +1,9 @@
+ package digital.moveto.botinok.model.entities;
+ 
+ 
++import digital.moveto.botinok.model.dto.AccountDto;
++import digital.moveto.botinok.model.entities.enums.Location;
++import digital.moveto.botinok.model.Const;
+ import jakarta.persistence.*;
+ import lombok.Getter;
+ import lombok.NoArgsConstructor;
+@@ -77,4 +80,7 @@
+         return "Default";
+     }
+ 
++    public AccountDto toDto(){
++        return Const.modelMapper.map(this, AccountDto.class);
++    }
+ }
+Index: model/src/main/java/digital/moveto/botinok/model/entities/MadeContact.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package digital.moveto.botinok.model.entities;\r\n\r\nimport jakarta.persistence.*;\r\nimport lombok.Getter;\r\nimport lombok.NoArgsConstructor;\r\nimport lombok.Setter;\r\nimport lombok.experimental.SuperBuilder;\r\n\r\nimport java.time.LocalDateTime;\r\nimport java.util.UUID;\r\n\r\n@Getter\r\n@Setter\r\n@Entity\r\n@NoArgsConstructor\r\n@SuperBuilder\r\n@Table(name = \"made_contact\", indexes = {@Index(name = \"made_contact_index_linkedin_account_id\", columnList = \"account_id\")})\r\npublic class MadeContact {\r\n\r\n    @Id\r\n    @GeneratedValue(strategy = GenerationType.UUID)\r\n    @Column(name = \"id\", updatable = false, nullable = false)\r\n    private UUID id;\r\n\r\n    @ManyToOne\r\n    @JoinColumn(name = \"account_id\")\r\n    private Account account;\r\n\r\n    @Column(name = \"name\")\r\n    private String name;\r\n\r\n    @Column(name = \"date\")\r\n    private LocalDateTime date;\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/model/src/main/java/digital/moveto/botinok/model/entities/MadeContact.java b/model/src/main/java/digital/moveto/botinok/model/entities/MadeContact.java
+--- a/model/src/main/java/digital/moveto/botinok/model/entities/MadeContact.java	(revision d4a2d9fb5a7bea15098cbdcf34ee5e089488a424)
++++ b/model/src/main/java/digital/moveto/botinok/model/entities/MadeContact.java	(date 1675727397582)
+@@ -1,5 +1,7 @@
+ package digital.moveto.botinok.model.entities;
+ 
++import digital.moveto.botinok.model.dto.MadeContactDto;
++import digital.moveto.botinok.model.Const;
+ import jakarta.persistence.*;
+ import lombok.Getter;
+ import lombok.NoArgsConstructor;
+@@ -31,4 +33,8 @@
+ 
+     @Column(name = "date")
+     private LocalDateTime date;
++
++    public MadeContactDto toDto(){
++        return Const.modelMapper.map(this, MadeContactDto.class);
++    }
+ }
+Index: client/src/main/java/digital/moveto/botinok/BotinokClientSpringApplication.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/client/src/main/java/digital/moveto/botinok/BotinokClientSpringApplication.java b/client/src/main/java/digital/moveto/botinok/BotinokClientSpringApplication.java
+new file mode 100644
+--- /dev/null	(date 1675725453785)
++++ b/client/src/main/java/digital/moveto/botinok/BotinokClientSpringApplication.java	(date 1675725453785)
+@@ -0,0 +1,7 @@
++package digital.moveto.botinok;
++
++import org.springframework.boot.autoconfigure.SpringBootApplication;
++
++@SpringBootApplication
++public class BotinokClientSpringApplication {
++}
+Index: client/src/main/java/digital/moveto/botinok/BotinokClientApplication.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/client/src/main/java/digital/moveto/botinok/BotinokClientApplication.java b/client/src/main/java/digital/moveto/botinok/BotinokClientApplication.java
+new file mode 100644
+--- /dev/null	(date 1675725474128)
++++ b/client/src/main/java/digital/moveto/botinok/BotinokClientApplication.java	(date 1675725474128)
+@@ -0,0 +1,75 @@
++package digital.moveto.botinok;
++
++import digital.moveto.botinok.client.config.UIConst;
++import digital.moveto.botinok.client.ui.UiElements;
++import javafx.application.Application;
++import javafx.application.Platform;
++import javafx.scene.Group;
++import javafx.scene.Scene;
++import javafx.scene.image.Image;
++import javafx.scene.image.ImageView;
++import javafx.stage.Stage;
++import org.springframework.boot.SpringApplication;
++import org.springframework.boot.builder.SpringApplicationBuilder;
++import org.springframework.context.ApplicationEvent;
++import org.springframework.context.ConfigurableApplicationContext;
++
++public class BotinokClientApplication extends Application {
++
++	private ConfigurableApplicationContext applicationContext;
++
++	public static String[] args;
++
++	public static void main(String[] args) {
++		BotinokClientApplication.args = args;
++		Application.launch(BotinokClientApplication.class, args);
++	}
++
++	@Override
++	public void init() {}
++
++	@Override
++	public void start(Stage stage) {
++		UiElements.stage = stage;
++
++		initLoadingUI();
++
++		new Thread(() -> {
++			applicationContext = new SpringApplicationBuilder(BotinokClientSpringApplication.class).run(args);
++			applicationContext.publishEvent(new StageReadyEvent(stage));
++		}, "Spring Thread").start();
++	}
++
++	private void initLoadingUI() {
++		Image loadingAnimation = new Image(getClass().getResourceAsStream("/ui/images/loading.gif"));
++		Image applicationIcon = new Image(getClass().getResourceAsStream("/ui/images/application-icon.png"));
++
++		ImageView imageView = new ImageView();
++		imageView.setImage(loadingAnimation);
++		imageView.setX(0);
++		imageView.setY(0);
++		imageView.setFitWidth(UIConst.WIDTH_OF_SCENE);
++		imageView.setPreserveRatio(true);
++		Group root = new Group(imageView);
++		Scene scene = new Scene(root, UIConst.WIDTH_OF_SCENE, UIConst.HEIGHT_OF_SCENE);
++		UiElements.stage.setScene(scene);
++		UiElements.stage.setTitle("BotInOk");
++		UiElements.stage.getIcons().add(applicationIcon);
++		UiElements.stage.setScene(scene);
++		UiElements.stage.setResizable(false);
++		UiElements.stage.show();
++	}
++
++	@Override
++	public void stop() {
++		SpringApplication.exit(SpringApplication.run(BotinokClientApplication.class, args));
++		Platform.exit();
++		System.exit(0);
++	}
++
++	private class StageReadyEvent extends ApplicationEvent {
++		public StageReadyEvent(Stage stage) {
++			super(stage);
++		}
++	}
++}
+Index: web/src/main/java/digital/moveto/botinok/web/AccountRestController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package digital.moveto.botinok.web;\r\n\r\nimport org.springframework.web.bind.annotation.RestController;\r\n\r\n@RestController\r\npublic class AccountRestController {\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/web/src/main/java/digital/moveto/botinok/web/AccountRestController.java b/web/src/main/java/digital/moveto/botinok/web/AccountRestController.java
+--- a/web/src/main/java/digital/moveto/botinok/web/AccountRestController.java	(revision d4a2d9fb5a7bea15098cbdcf34ee5e089488a424)
++++ b/web/src/main/java/digital/moveto/botinok/web/AccountRestController.java	(date 1675729011128)
+@@ -1,7 +1,28 @@
+ package digital.moveto.botinok.web;
+ 
++import digital.moveto.botinok.model.dto.AccountDto;
++import digital.moveto.botinok.model.repositories.AccountRepository;
++import lombok.RequiredArgsConstructor;
++import org.slf4j.Logger;
++import org.slf4j.LoggerFactory;
++import org.springframework.web.bind.annotation.PostMapping;
++import org.springframework.web.bind.annotation.RequestBody;
++import org.springframework.web.bind.annotation.RequestMapping;
+ import org.springframework.web.bind.annotation.RestController;
+ 
+ @RestController
++@RequestMapping("/account")
++@RequiredArgsConstructor
+ public class AccountRestController {
++
++    private final Logger log = LoggerFactory.getLogger(AccountRestController.class);
++
++    private final AccountRepository accountRepository;
++
++    @PostMapping("/save")
++    AccountDto save(@RequestBody AccountDto accountDto) {
++        return accountRepository.save(accountDto.toEntity());
++    }
++
++
+ }
+Index: model/src/main/java/digital/moveto/botinok/model/dto/AccountDto.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/model/src/main/java/digital/moveto/botinok/model/dto/AccountDto.java b/model/src/main/java/digital/moveto/botinok/model/dto/AccountDto.java
+new file mode 100644
+--- /dev/null	(date 1675727397518)
++++ b/model/src/main/java/digital/moveto/botinok/model/dto/AccountDto.java	(date 1675727397518)
+@@ -0,0 +1,65 @@
++package digital.moveto.botinok.model.dto;
++
++
++import digital.moveto.botinok.model.entities.Account;
++import digital.moveto.botinok.model.entities.enums.Location;
++import digital.moveto.botinok.model.Const;
++import lombok.Getter;
++import lombok.Setter;
++import org.apache.logging.log4j.util.Strings;
++
++import java.io.Serializable;
++import java.time.LocalDate;
++import java.util.List;
++import java.util.UUID;
++
++
++@Getter
++@Setter
++public class AccountDto implements Serializable {
++    private UUID id;
++
++    private String folder;
++
++    private String firstName;
++
++    private String lastName;
++
++    private String login;
++
++    private String password;
++
++    private Boolean active;
++
++    private Boolean activeSearch;
++
++    private String position;
++
++    private Location location;
++
++    private LocalDate endDateLicense;
++
++    private List<ContactDto> contactDtos;
++
++    private Boolean workInShabat;
++
++    public String getFullName() {
++        if (Strings.isNotBlank(firstName) && Strings.isNotBlank(lastName)) {
++            return firstName + " " + lastName;
++        }
++
++        if (Strings.isNotBlank(firstName)) {
++            return lastName;
++        }
++
++        if (Strings.isNotBlank(lastName)) {
++            return firstName;
++        }
++
++        return "Default";
++    }
++
++    public Account toEntity(){
++        return Const.modelMapper.map(this, Account.class);
++    }
++}
+Index: web/src/main/java/digital/moveto/botinok/web/CompanyRestController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/web/src/main/java/digital/moveto/botinok/web/CompanyRestController.java b/web/src/main/java/digital/moveto/botinok/web/CompanyRestController.java
+new file mode 100644
+--- /dev/null	(date 1675729036464)
++++ b/web/src/main/java/digital/moveto/botinok/web/CompanyRestController.java	(date 1675729036464)
+@@ -0,0 +1,28 @@
++package digital.moveto.botinok.web;
++
++import digital.moveto.botinok.model.dto.AccountDto;
++import digital.moveto.botinok.model.repositories.AccountRepository;
++import lombok.RequiredArgsConstructor;
++import org.slf4j.Logger;
++import org.slf4j.LoggerFactory;
++import org.springframework.web.bind.annotation.PostMapping;
++import org.springframework.web.bind.annotation.RequestBody;
++import org.springframework.web.bind.annotation.RequestMapping;
++import org.springframework.web.bind.annotation.RestController;
++
++@RestController
++@RequestMapping("/company")
++@RequiredArgsConstructor
++public class CompanyRestController {
++
++    private final Logger log = LoggerFactory.getLogger(CompanyRestController.class);
++
++    private final AccountRepository accountRepository;
++
++    @PostMapping("/save")
++    AccountDto save(@RequestBody AccountDto accountDto) {
++        return accountRepository.save(accountDto.toEntity());
++    }
++
++
++}
+Index: client/src/test/java/digital/moveto/botinok/client/BotinokClientApplicationTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/client/src/test/java/digital/moveto/botinok/client/BotinokClientApplicationTest.java b/client/src/test/java/digital/moveto/botinok/client/BotinokClientApplicationTest.java
+new file mode 100644
+--- /dev/null	(date 1675725438072)
++++ b/client/src/test/java/digital/moveto/botinok/client/BotinokClientApplicationTest.java	(date 1675725438072)
+@@ -0,0 +1,19 @@
++package digital.moveto.botinok.client;
++
++
++import org.junit.jupiter.api.Test;
++import org.junit.runner.RunWith;
++import org.springframework.boot.test.context.SpringBootTest;
++import org.springframework.test.context.TestPropertySource;
++import org.springframework.test.context.junit4.SpringRunner;
++
++
++@RunWith(SpringRunner.class)
++@SpringBootTest
++@TestPropertySource("classpath:test.properties")
++class BotinokClientApplicationTest {
++
++	@Test
++	void contextLoads() {
++	}
++}
+\ No newline at end of file
+Index: model/src/main/java/digital/moveto/botinok/model/Const.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/model/src/main/java/digital/moveto/botinok/model/Const.java b/model/src/main/java/digital/moveto/botinok/model/Const.java
+new file mode 100644
+--- /dev/null	(date 1675727397656)
++++ b/model/src/main/java/digital/moveto/botinok/model/Const.java	(date 1675727397656)
+@@ -0,0 +1,7 @@
++package digital.moveto.botinok.model;
++
++import org.modelmapper.ModelMapper;
++
++public class Const {
++    public static final ModelMapper modelMapper = new ModelMapper();
++}
+Index: model/src/main/java/digital/moveto/botinok/model/dto/MadeApplyDto.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/model/src/main/java/digital/moveto/botinok/model/dto/MadeApplyDto.java b/model/src/main/java/digital/moveto/botinok/model/dto/MadeApplyDto.java
+new file mode 100644
+--- /dev/null	(date 1675727397963)
++++ b/model/src/main/java/digital/moveto/botinok/model/dto/MadeApplyDto.java	(date 1675727397963)
+@@ -0,0 +1,33 @@
++package digital.moveto.botinok.model.dto;
++
++
++import digital.moveto.botinok.model.entities.MadeApply;
++import digital.moveto.botinok.model.Const;
++import lombok.Getter;
++import lombok.Setter;
++
++import java.io.Serializable;
++import java.time.LocalDateTime;
++import java.util.UUID;
++
++@Getter
++@Setter
++public class MadeApplyDto implements Serializable {
++
++    private UUID id;
++
++    private AccountDto accountDto;
++
++    private CompanyDto companyDto;
++
++    private String position;
++
++    private String link;
++
++    private LocalDateTime date;
++
++
++    public MadeApply toEntity(){
++        return Const.modelMapper.map(this, MadeApply.class);
++    }
++}
+Index: model/src/main/java/digital/moveto/botinok/model/dto/MadeContactDto.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/model/src/main/java/digital/moveto/botinok/model/dto/MadeContactDto.java b/model/src/main/java/digital/moveto/botinok/model/dto/MadeContactDto.java
+new file mode 100644
+--- /dev/null	(date 1675727397432)
++++ b/model/src/main/java/digital/moveto/botinok/model/dto/MadeContactDto.java	(date 1675727397432)
+@@ -0,0 +1,27 @@
++package digital.moveto.botinok.model.dto;
++
++import digital.moveto.botinok.model.entities.MadeContact;
++import digital.moveto.botinok.model.Const;
++import lombok.Getter;
++import lombok.Setter;
++
++import java.io.Serializable;
++import java.time.LocalDateTime;
++import java.util.UUID;
++
++@Getter
++@Setter
++public class MadeContactDto implements Serializable {
++
++    private UUID id;
++
++    private AccountDto accountDto;
++
++    private String name;
++
++    private LocalDateTime date;
++
++    public MadeContact toEntity(){
++        return Const.modelMapper.map(this, MadeContact.class);
++    }
++}
+Index: web/build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>plugins {\r\n    id 'java'\r\n    id 'org.springframework.boot' version '3.0.2'\r\n    id 'io.spring.dependency-management' version '1.1.0'\r\n}\r\n\r\ngroup 'digital.moveto.botinok'\r\nversion '0.2.5'\r\nsourceCompatibility = '17'\r\n\r\nrepositories {\r\n    mavenCentral()\r\n}\r\n\r\ndependencies {\r\n    implementation 'org.springframework.boot:spring-boot-starter-web'\r\n}\r\n\r\ntest {\r\n    useJUnitPlatform()\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/web/build.gradle b/web/build.gradle
+--- a/web/build.gradle	(revision d4a2d9fb5a7bea15098cbdcf34ee5e089488a424)
++++ b/web/build.gradle	(date 1675726323143)
+@@ -13,7 +13,12 @@
+ }
+ 
+ dependencies {
++    implementation('org.springframework.boot:spring-boot-starter-data-jpa')
+     implementation 'org.springframework.boot:spring-boot-starter-web'
++    implementation project(path: ':model')
++
++    compileOnly('org.projectlombok:lombok:1.18.24')
++    annotationProcessor('org.projectlombok:lombok:1.18.24')
+ }
+ 
+ test {
+Index: model/src/main/java/digital/moveto/botinok/model/dto/CompanyDto.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/model/src/main/java/digital/moveto/botinok/model/dto/CompanyDto.java b/model/src/main/java/digital/moveto/botinok/model/dto/CompanyDto.java
+new file mode 100644
+--- /dev/null	(date 1675727397626)
++++ b/model/src/main/java/digital/moveto/botinok/model/dto/CompanyDto.java	(date 1675727397626)
+@@ -0,0 +1,24 @@
++package digital.moveto.botinok.model.dto;
++
++import digital.moveto.botinok.model.entities.Company;
++import digital.moveto.botinok.model.Const;
++import lombok.Getter;
++import lombok.Setter;
++
++import java.io.Serializable;
++import java.util.UUID;
++
++@Getter
++@Setter
++public class CompanyDto implements Serializable {
++
++    private UUID id;
++
++    private String name;
++
++    private String link;
++
++    public Company toEntity(){
++        return Const.modelMapper.map(this, Company.class);
++    }
++}
+Index: model/src/main/java/digital/moveto/botinok/model/dto/ContactDto.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/model/src/main/java/digital/moveto/botinok/model/dto/ContactDto.java b/model/src/main/java/digital/moveto/botinok/model/dto/ContactDto.java
+new file mode 100644
+--- /dev/null	(date 1675727397729)
++++ b/model/src/main/java/digital/moveto/botinok/model/dto/ContactDto.java	(date 1675727397729)
+@@ -0,0 +1,50 @@
++package digital.moveto.botinok.model.dto;
++
++import digital.moveto.botinok.model.entities.Contact;
++import digital.moveto.botinok.model.Const;
++import lombok.Getter;
++import lombok.Setter;
++
++import java.io.Serializable;
++import java.time.LocalDate;
++import java.util.UUID;
++
++@Getter
++@Setter
++public class ContactDto implements Serializable {
++
++    private UUID id;
++
++    private AccountDto accountDto;
++
++    private String firstName;
++
++    private String lastName;
++
++    private String email;
++
++    private String phone;
++
++    private String location;
++
++    private String position;
++
++    private String linkedinUrl;
++
++    private LocalDate createdDate;
++
++    private LocalDate updatedDate;
++
++    private LocalDate parseDate;
++
++    private String html;
++
++    @Override
++    public String toString(){
++        return "ContactDto(id=" +id +", name=" + firstName + " " + lastName + ", email=" + email + ", phone=" + phone + ", location=" + location + ", position=" + position + ", linkedinUrl=" + linkedinUrl + ")";
++    }
++
++    public Contact toEntity(){
++        return Const.modelMapper.map(this, Contact.class);
++    }
++}
+Index: model/build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>plugins {\r\n    id 'java'\r\n    id 'org.springframework.boot' version '3.0.2'\r\n    id 'io.spring.dependency-management' version '1.1.0'\r\n}\r\n\r\ngroup 'digital.moveto.botinok'\r\nversion = '0.2.5'\r\nsourceCompatibility = '17'\r\n\r\nrepositories {\r\n    mavenCentral()\r\n}\r\n\r\ndependencies {\r\n    implementation(\"org.springframework.boot:spring-boot-starter\")\r\n    implementation('org.springframework.boot:spring-boot-starter-data-jpa')\r\n\r\n    compileOnly('org.projectlombok:lombok:1.18.24')\r\n    annotationProcessor('org.projectlombok:lombok:1.18.24')\r\n}\r\n\r\ntest {\r\n    useJUnitPlatform()\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/model/build.gradle b/model/build.gradle
+--- a/model/build.gradle	(revision d4a2d9fb5a7bea15098cbdcf34ee5e089488a424)
++++ b/model/build.gradle	(date 1675726759149)
+@@ -15,6 +15,8 @@
+ dependencies {
+     implementation("org.springframework.boot:spring-boot-starter")
+     implementation('org.springframework.boot:spring-boot-starter-data-jpa')
++    implementation 'org.modelmapper:modelmapper:3.1.1'
++
+ 
+     compileOnly('org.projectlombok:lombok:1.18.24')
+     annotationProcessor('org.projectlombok:lombok:1.18.24')
+Index: web/src/main/java/digital/moveto/botinok/BotinokWebSpringApplication.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/web/src/main/java/digital/moveto/botinok/BotinokWebSpringApplication.java b/web/src/main/java/digital/moveto/botinok/BotinokWebSpringApplication.java
+new file mode 100644
+--- /dev/null	(date 1675727665018)
++++ b/web/src/main/java/digital/moveto/botinok/BotinokWebSpringApplication.java	(date 1675727665018)
+@@ -0,0 +1,11 @@
++package digital.moveto.botinok;
++
++import org.springframework.boot.SpringApplication;
++import org.springframework.boot.autoconfigure.SpringBootApplication;
++
++@SpringBootApplication
++public class BotinokWebSpringApplication {
++    public static void main(String[] args) {
++        SpringApplication.run(BotinokWebSpringApplication.class, args);
++    }
++}
+Index: model/src/main/java/digital/moveto/botinok/model/entities/enums/Location.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/model/src/main/java/digital/moveto/botinok/model/entities/enums/Location.java b/model/src/main/java/digital/moveto/botinok/model/entities/enums/Location.java
+new file mode 100644
+--- /dev/null	(date 1675726065158)
++++ b/model/src/main/java/digital/moveto/botinok/model/entities/enums/Location.java	(date 1675726065158)
+@@ -0,0 +1,46 @@
++package digital.moveto.botinok.model.entities.enums;
++
++import java.util.ArrayList;
++import java.util.List;
++
++public enum Location {
++    ISRAEL("Israel", "101620260");
++
++    private final String linkedinId;
++    private final String name;
++
++    Location(String name, String linkedinId) {
++        this.name = name;
++        this.linkedinId = linkedinId;
++    }
++
++    public String getLinkedinId() {
++        return linkedinId;
++    }
++
++    public String getName(){
++        return name;
++    }
++
++    public static List<String> getAllNames() {
++        List<String> result = new ArrayList<>(values().length);
++        for (Location location : values()) {
++            result.add(location.name);
++        }
++        return result;
++    }
++
++
++    public static Location getByName(String name) {
++        for (Location location : values()) {
++            if (location.name.equalsIgnoreCase(name)) {
++                return location;
++            }
++        }
++        return null;
++    }
++
++    public String toString() {
++        return name;
++    }
++}
+Index: web/src/main/resources/application.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>ISO-8859-1
+===================================================================
+diff --git a/web/src/main/resources/application.properties b/web/src/main/resources/application.properties
+new file mode 100644
+--- /dev/null	(date 1675727624377)
++++ b/web/src/main/resources/application.properties	(date 1675727624377)
+@@ -0,0 +1,22 @@
++app.scheduling.enable=true
++
++logging.level.root=INFO
++logging.level.digital.moveto=DEBUG
++logging.file.name=${user.home}/.botinok/files/logs/botinok.log
++logging.file.maxSize=100MB
++# Logging pattern for the console
++logging.pattern.console=%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level - %msg%n
++# Logging pattern for file
++logging.pattern.file=%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{20} - %msg%n
++
++
++spring.jpa.show-sql=false
++spring.jpa.properties.hibernate.format_sql=false
++spring.jpa.hibernate.ddl-auto=update
++#spring.jpa.hibernate.ddl-auto=create-drop
++spring.datasource.sql-script-encoding=UTF-8
++spring.jpa.database=H2
++spring.datasource.driver-class-name=org.h2.Driver
++spring.datasource.url=jdbc:h2:${user.home}/.botinok/files/db/db;DB_CLOSE_ON_EXIT=FALSE
++spring.datasource.username=botinok
++spring.datasource.password=xjcM3ZlRVJtrBOl3TEPZSPh3XT5Q2Uw8

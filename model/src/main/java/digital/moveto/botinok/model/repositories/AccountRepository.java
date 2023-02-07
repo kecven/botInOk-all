@@ -9,7 +9,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface AccountRepository extends JpaRepository<Account, Long> {
+public interface AccountRepository extends JpaRepository<Account, UUID> {
     Optional<Account> findByFolder(String folder);
     void deleteByFolder(String folder);
     Optional<Account> findById(UUID id);

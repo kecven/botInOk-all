@@ -1,7 +1,7 @@
 package digital.moveto.botinok.web;
 
-import digital.moveto.botinok.model.dto.AccountDto;
-import digital.moveto.botinok.model.repositories.AccountRepository;
+import digital.moveto.botinok.model.dto.MadeContactDto;
+import digital.moveto.botinok.model.repositories.MadeContactRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,17 +13,17 @@ import org.springframework.web.bind.annotation.RestController;
 import static digital.moveto.botinok.WebConst.API_ADDRESS;
 
 @RestController
-@RequestMapping(API_ADDRESS + "account")
+@RequestMapping(API_ADDRESS + "madeContact")
 @RequiredArgsConstructor
-public class AccountRestController {
+public class MadeContactRestController {
 
-    private final Logger log = LoggerFactory.getLogger(AccountRestController.class);
+    private final Logger log = LoggerFactory.getLogger(MadeContactRestController.class);
 
-    private final AccountRepository accountRepository;
+    private final MadeContactRepository madeContactRepository;
 
     @PostMapping("/save")
-    AccountDto save(@RequestBody AccountDto accountDto) {
-        return accountRepository.save(accountDto.toEntity()).toDto();
+    MadeContactDto save(@RequestBody MadeContactDto madeContactDto) {
+        return madeContactRepository.save(madeContactDto.toEntity()).toDto();
     }
 
 }
