@@ -4,25 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c6251951-17d6-4930-8673-3bc1daab451c" name="Changes" comment="finish work with web module">
-      <change afterPath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/feign/FeignClientService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/src/main/java/digital/moveto/botinok/web/BotinokRestController.java" afterDir="false" />
+    <list default="true" id="c6251951-17d6-4930-8673-3bc1daab451c" name="Changes" comment="save data on server">
+      <change afterPath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/feign/BotinokFeignClient.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/config/Const.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/config/ClientConst.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/linkedin/LinkedinBotService.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/linkedin/LinkedinBotService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/linkedin/LinkedinBotStarter.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/linkedin/LinkedinBotStarter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/playwright/PlaywrightService.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/playwright/PlaywrightService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/service/AccountService.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/service/AccountService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/service/CompanyService.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/service/CompanyService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/service/ContactService.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/service/ContactService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/service/MadeApplyService.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/service/MadeApplyService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/service/MadeContactService.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/service/MadeContactService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/ui/MainScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/ui/MainScene.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/ui/UiElements.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/ui/UiElements.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/utils/BotinokUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/utils/BotinokUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/test/java/digital/moveto/botinok/client/linkedin/LinkedinBotServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/test/java/digital/moveto/botinok/client/linkedin/LinkedinBotServiceTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/src/main/java/digital/moveto/botinok/model/Const.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/src/main/java/digital/moveto/botinok/model/Const.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/main/java/digital/moveto/botinok/WebConst.java" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/main/java/digital/moveto/botinok/WebConst.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/config/ClientConst.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/config/ClientConst.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/feign/AccountFeignClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/feign/AccountFeignClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/feign/CompanyFeignClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/feign/CompanyFeignClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/feign/ContactFeignClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/feign/ContactFeignClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/feign/MadeApplyFeignClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/feign/MadeApplyFeignClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/feign/MadeContactFeignClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/feign/MadeContactFeignClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/main/java/digital/moveto/botinok/BotinokWebSpringApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/main/java/digital/moveto/botinok/BotinokWebSpringApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/main/java/digital/moveto/botinok/web/BotinokRestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/main/java/digital/moveto/botinok/web/BotinokRestController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,6 +48,24 @@
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
                 <item name="botInOk" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="botInOk" type="f1a62948:ProjectNode" />
+                <item name="web" type="2d1252cf:ModuleNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="botInOk" type="f1a62948:ProjectNode" />
+                <item name="web" type="2d1252cf:ModuleNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="botInOk" type="f1a62948:ProjectNode" />
+                <item name="web" type="2d1252cf:ModuleNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="build" type="c8890929:TasksNode$1" />
               </path>
             </expand>
             <select />
@@ -108,25 +119,11 @@
       <recent name="digital.moveto.botinok" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="digital.moveto.botinok.web" />
       <recent name="digital.moveto.botinok.client.feign" />
+      <recent name="digital.moveto.botinok.web" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.BotinokClientApplication">
-    <configuration name="BotinokClientApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="digital.moveto.botinok.BotinokClientApplication" />
-      <module name="botInOk.client.main" />
-      <option name="VM_PARAMETERS" value="--module-path C:\Users\andreit\Soft\javafx-sdk-19.0.2.1\lib --add-modules javafx.controls --add-opens java.base/java.time=ALL-UNNAMED" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="digital.moveto.botinok.client.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+  <component name="RunManager" selected="Application.BotinokWebSpringApplication">
     <configuration name="BotinokWebSpringApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="digital.moveto.botinok.BotinokWebSpringApplication" />
       <module name="botInOk.web.main" />
@@ -139,6 +136,27 @@
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
+    </configuration>
+    <configuration name="botInOk-all:web [bootJar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/web" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="bootJar" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
     </configuration>
     <configuration name="botInOk:client [bootJar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
@@ -205,11 +223,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.botInOk-all:web [bootJar]" />
         <item itemvalue="Gradle.botInOk:client [bootJar]" />
         <item itemvalue="Gradle.botInOk:model [clean]" />
         <item itemvalue="Application.BotinokWebSpringApplication" />
         <item itemvalue="Gradle.botInOk:client [build]" />
-        <item itemvalue="Application.BotinokClientApplication" />
       </list>
     </recent_temporary>
   </component>
@@ -264,7 +282,14 @@
       <option name="project" value="LOCAL" />
       <updated>1675730780168</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="save data on server">
+      <created>1675800508053</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1675800508053</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -285,7 +310,8 @@
     <MESSAGE value="add web module" />
     <MESSAGE value="add Dto" />
     <MESSAGE value="finish work with web module" />
-    <option name="LAST_COMMIT_MESSAGE" value="finish work with web module" />
+    <MESSAGE value="save data on server" />
+    <option name="LAST_COMMIT_MESSAGE" value="save data on server" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

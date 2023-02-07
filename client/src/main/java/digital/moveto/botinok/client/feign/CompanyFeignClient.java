@@ -6,7 +6,9 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@FeignClient(value = "company", url = "http://localhost:8080/api/company")
+import static digital.moveto.botinok.client.config.ClientConst.MOVE_TO_DIGITAL;
+
+@FeignClient(value = "company", url = MOVE_TO_DIGITAL + "/api/company")
 public interface CompanyFeignClient {
     @PostMapping("/save")
     CompanyDto save(@RequestBody CompanyDto companyDto);
