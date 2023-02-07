@@ -1,6 +1,6 @@
 package digital.moveto.botinok.client.ui;
 
-import digital.moveto.botinok.client.config.Const;
+import digital.moveto.botinok.client.config.ClientConst;
 import digital.moveto.botinok.client.config.UIConst;
 import jakarta.annotation.PostConstruct;
 import javafx.application.Platform;
@@ -97,7 +97,7 @@ public class MainScene {
         setting.getChildren().addAll(settingLabelPane, userNameLabelPane, uiElements.getWorkInShabatCheckBox(), uiElements.getActiveSearch(), uiElements.getLocation(), position, uiElements.getPositionsField(), uiElements.getStartButton(), uiElements.getScrollAccountPane());
 
 
-        Label versionLabel = new Label("Version: " + Const.VERSION);
+        Label versionLabel = new Label("Version: " + ClientConst.VERSION);
         versionLabel.setTextAlignment(TextAlignment.CENTER);
         versionLabel.setPrefSize(UIConst.WIDTH_OF_SETTING, UIConst.HEIGHT_OF_VERSION);
         versionLabel.setPadding(new Insets(10, 10, 10, 10));

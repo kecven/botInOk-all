@@ -1,5 +1,6 @@
 package digital.moveto.botinok.client.service;
 
+import digital.moveto.botinok.client.feign.FeignClientService;
 import digital.moveto.botinok.model.entities.Account;
 import digital.moveto.botinok.model.entities.enums.Location;
 import digital.moveto.botinok.model.repositories.AccountRepository;
@@ -18,9 +19,14 @@ public class AccountService {
     @Autowired
     private AccountRepository accountRepository;
 
+    @Autowired
+    private FeignClientService feignClientService;
+
     @Transactional
-    public Account saveAndFlush(Account account) {
-        return accountRepository.saveAndFlush(account);
+    public Account save(Account account) {
+        account = accountRepository.save(account);
+        feignClientService.saveAccount(account);
+        return account;
     }
 
     @Transactional
@@ -29,7 +35,7 @@ public class AccountService {
         if (account == null) {
             account = new Account();
             account.setFolder(folder);
-            account = saveAndFlush(account);
+            account = save(account);
         }
         if (account.getContacts() == null) {
             account.setContacts(new ArrayList<>());
@@ -54,9 +60,9 @@ public class AccountService {
         account.setEndDateLicense(LocalDate.now().plusYears(20));
         account.setLocation(Location.ISRAEL);
 
-        account = saveAndFlush(account);
+        account = save(account);
         account.setFolder(account.getId().toString());
-        account = saveAndFlush(account);
+        account = save(account);
 
         return account;
     }

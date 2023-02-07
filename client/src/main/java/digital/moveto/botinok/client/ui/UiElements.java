@@ -295,7 +295,7 @@ public class UiElements {
             selectAccount.setPosition(positionsField.getText());
             selectAccount.setLocation(location.getValue());
 
-            accountService.saveAndFlush(selectAccount);
+            accountService.save(selectAccount);
         }
     }
 

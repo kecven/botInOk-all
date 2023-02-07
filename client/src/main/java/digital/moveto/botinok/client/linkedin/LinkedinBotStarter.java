@@ -1,10 +1,9 @@
 package digital.moveto.botinok.client.linkedin;
 
 import com.microsoft.playwright.Playwright;
-import digital.moveto.botinok.client.config.Const;
+import digital.moveto.botinok.client.config.ClientConst;
 import digital.moveto.botinok.client.config.GlobalConfig;
 import digital.moveto.botinok.client.feign.AccountFeignClient;
-import digital.moveto.botinok.model.dto.AccountDto;
 import digital.moveto.botinok.model.entities.Account;
 import digital.moveto.botinok.client.service.AccountService;
 import digital.moveto.botinok.client.ui.MainScene;
@@ -146,8 +145,8 @@ public class LinkedinBotStarter {
                 botWork(linkedinBotService, account);
 
                 if (i != allActiveAccounts.size() - 1) {
-                    log.info("Timeout between users " + Const.SLEEP_BETWEEN_START_BOT_FOR_DIFFERENT_USERS);
-                    linkedinBotService.sleepRandom(Const.SLEEP_BETWEEN_START_BOT_FOR_DIFFERENT_USERS);
+                    log.info("Timeout between users " + ClientConst.SLEEP_BETWEEN_START_BOT_FOR_DIFFERENT_USERS);
+                    linkedinBotService.sleepRandom(ClientConst.SLEEP_BETWEEN_START_BOT_FOR_DIFFERENT_USERS);
                 }
             } catch (Exception e) {
                 log.error("Error bot for user " + account.getFullName() + ", UUID = " + account.getId(), e);

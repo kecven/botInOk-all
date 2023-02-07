@@ -1,5 +1,6 @@
 package digital.moveto.botinok.client.service;
 
+import digital.moveto.botinok.client.feign.FeignClientService;
 import digital.moveto.botinok.model.entities.Account;
 import digital.moveto.botinok.model.entities.MadeApply;
 import digital.moveto.botinok.model.repositories.MadeApplyRepository;
@@ -17,15 +18,22 @@ public class MadeApplyService {
     @Autowired
     private MadeApplyRepository madeApplyRepository;
 
+    @Autowired
+    private FeignClientService feignClientService;
+
 
     @Transactional
     public MadeApply save(MadeApply madeApply) {
-        return madeApplyRepository.save(madeApply);
+        madeApply = madeApplyRepository.save(madeApply);
+        feignClientService.saveMadeApply(madeApply);
+        return madeApply;
     }
 
     @Transactional
     public MadeApply saveAndFlush(MadeApply madeApply) {
-        return madeApplyRepository.saveAndFlush(madeApply);
+        madeApply = madeApplyRepository.saveAndFlush(madeApply);
+        feignClientService.saveMadeApply(madeApply);
+        return madeApply;
     }
 
     @Transactional

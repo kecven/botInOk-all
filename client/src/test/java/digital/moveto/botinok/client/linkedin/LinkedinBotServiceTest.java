@@ -15,7 +15,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static digital.moveto.botinok.client.config.Const.DEFAULT_FOLDER_FOR_DEFAULT_USER_DATA_DIR;
+import static digital.moveto.botinok.client.config.ClientConst.DEFAULT_FOLDER_FOR_DEFAULT_USER_DATA_DIR;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)

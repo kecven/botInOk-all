@@ -1,7 +1,7 @@
 package digital.moveto.botinok.client.playwright;
 
 import com.microsoft.playwright.*;
-import digital.moveto.botinok.client.config.Const;
+import digital.moveto.botinok.client.config.ClientConst;
 import digital.moveto.botinok.client.config.GlobalConfig;
 import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
@@ -46,8 +46,8 @@ public class PlaywrightService implements AutoCloseable {
         this.userDataDir = userDateDir;
 
         this.page = context.pages().get(0);
-        this.page.setDefaultTimeout(Const.DEFAULT_TIMEOUT_FOR_BROWSER);
-        this.page.setDefaultNavigationTimeout(Const.DEFAULT_TIMEOUT_FOR_BROWSER);
+        this.page.setDefaultTimeout(ClientConst.DEFAULT_TIMEOUT_FOR_BROWSER);
+        this.page.setDefaultNavigationTimeout(ClientConst.DEFAULT_TIMEOUT_FOR_BROWSER);
     }
 
     public void open(String url) {

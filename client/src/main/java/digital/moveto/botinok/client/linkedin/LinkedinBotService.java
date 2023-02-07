@@ -2,7 +2,7 @@ package digital.moveto.botinok.client.linkedin;
 
 import com.microsoft.playwright.ElementHandle;
 import com.microsoft.playwright.PlaywrightException;
-import digital.moveto.botinok.client.config.Const;
+import digital.moveto.botinok.client.config.ClientConst;
 import digital.moveto.botinok.client.config.GlobalConfig;
 import digital.moveto.botinok.client.exeptions.StopMadeContactException;
 import digital.moveto.botinok.model.entities.*;
@@ -28,7 +28,7 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
-import static digital.moveto.botinok.client.config.Const.*;
+import static digital.moveto.botinok.client.config.ClientConst.*;
 
 @Service
 @RequiredArgsConstructor
@@ -145,7 +145,7 @@ public class LinkedinBotService implements AutoCloseable {
         try {
             Map<String, String> stringListMap = UrlUtils.splitQuery(playwrightService.getCurrentUrl());
             int nextPage = (Integer.parseInt(stringListMap.get("page")) + 1);
-            if (nextPage > Const.MAX_PAGE_ON_LINKEDIN) {
+            if (nextPage > ClientConst.MAX_PAGE_ON_LINKEDIN) {
                 nextPage = 1;
             }
             stringListMap.put("page", String.valueOf(nextPage));
@@ -170,7 +170,7 @@ public class LinkedinBotService implements AutoCloseable {
 
     private void goSearchRandomKeywordsAndPageAndSid() {
         try {
-            Map<String, String> stringListMap = UrlUtils.splitQuery(Const.DEFAULT_URL_FOR_SEARCH);
+            Map<String, String> stringListMap = UrlUtils.splitQuery(ClientConst.DEFAULT_URL_FOR_SEARCH);
 
             int nextPage = (int) (Math.random() * 100) + 1;
             stringListMap.put("page", String.valueOf(nextPage));
@@ -180,7 +180,7 @@ public class LinkedinBotService implements AutoCloseable {
                 stringListMap.put("geoUrn", "%5B%22" + account.getLocation().getLinkedinId() + "%22%5D");
             }
 
-            String nextPageUrl = Const.DEFAULT_URL_FOR_SEARCH_WITHOUT_PARAMS + UrlUtils.createQueryString(stringListMap);
+            String nextPageUrl = ClientConst.DEFAULT_URL_FOR_SEARCH_WITHOUT_PARAMS + UrlUtils.createQueryString(stringListMap);
 
             log.debug("Go to random page and random keywords " + nextPageUrl);
             playwrightService.open(nextPageUrl);
@@ -302,7 +302,7 @@ public class LinkedinBotService implements AutoCloseable {
     private List<String> takeListString(String... strings) {
         List<String> collectionSuggest = new ArrayList<>(strings.length);
         for (String string : strings) {
-            String[] split = string.split(Const.SPLIT_FOR_RANDOM_KEYWORDS);
+            String[] split = string.split(ClientConst.SPLIT_FOR_RANDOM_KEYWORDS);
             collectionSuggest.addAll(split.length > 1 ? Arrays.asList(split) : Collections.singletonList(string));
         }
         return collectionSuggest;
@@ -337,7 +337,7 @@ public class LinkedinBotService implements AutoCloseable {
 
     private void openLinkedInPageIfNeed() {
         if (playwrightService.getCurrentUrl() != null && !playwrightService.getCurrentUrl().contains("linkedin.com")) {
-            playwrightService.open(Const.LINKEDIN_URL);
+            playwrightService.open(ClientConst.LINKEDIN_URL);
             playwrightService.sleep(5000, false);
         }
     }
@@ -383,7 +383,7 @@ public class LinkedinBotService implements AutoCloseable {
         } catch (PlaywrightException e) {
             // nothing to do.
         } finally {
-            account = accountService.saveAndFlush(account);
+            account = accountService.save(account);
             closeHeadlessBrowserIfNeed();
         }
     }
@@ -442,7 +442,7 @@ public class LinkedinBotService implements AutoCloseable {
                     text = text.trim();
                     account.setFirstName(text.substring(0, text.indexOf(" ")));
                     account.setLastName(text.substring(text.indexOf(" ") + 1));
-                    accountService.saveAndFlush(account);
+                    accountService.save(account);
                     return true;
                 }
             } else {
@@ -455,7 +455,7 @@ public class LinkedinBotService implements AutoCloseable {
 
     public void parseLinkedinUrlOfConnections() {
         log.info("Start parseLinkedinUrlOfConnections for user " + account.getFullName());
-        playwrightService.open(Const.DEFAULT_URL_FOR_MY_CONNECTIONS);
+        playwrightService.open(ClientConst.DEFAULT_URL_FOR_MY_CONNECTIONS);
         playwrightService.sleepRandom(3000);
 
         for (int i = 0; i < 500; i++) {
@@ -660,7 +660,7 @@ public class LinkedinBotService implements AutoCloseable {
             String linkToPosition = playwrightService.getElementByLocator("div.jobs-details > div div.jobs-unified-top-card > div div > a").get().getAttribute("href");
             linkToPosition = linkToPosition.substring(0, linkToPosition.indexOf("?"));
             if (linkToPosition.startsWith("/")) {
-                linkToPosition = Const.LINKEDIN_URL + linkToPosition;
+                linkToPosition = ClientConst.LINKEDIN_URL + linkToPosition;
             }
             madeApply.setLink(linkToPosition);
         }
@@ -674,7 +674,7 @@ public class LinkedinBotService implements AutoCloseable {
                 linkToCompany = linkToCompany.substring(0, endIndex);
             }
             if (linkToCompany.startsWith("/")) {
-                linkToCompany = Const.LINKEDIN_URL + linkToCompany;
+                linkToCompany = ClientConst.LINKEDIN_URL + linkToCompany;
             }
             Optional<Company> companyInDb = companyService.findByLink(linkToCompany);
             if (companyInDb.isPresent()){

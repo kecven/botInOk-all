@@ -1,6 +1,6 @@
 package digital.moveto.botinok.client.utils;
 
-import digital.moveto.botinok.client.config.Const;
+import digital.moveto.botinok.client.config.ClientConst;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -10,8 +10,8 @@ import static java.lang.Character.MAX_RADIX;
 
 public class BotinokUtils {
     public static String getRandomSearchKeyword() {
-        int id = (int) (Math.random() * Const.SEARCH_KEYWORDS.size());
-        return Const.SEARCH_KEYWORDS.get(id);
+        int id = (int) (Math.random() * ClientConst.SEARCH_KEYWORDS.size());
+        return ClientConst.SEARCH_KEYWORDS.get(id);
     }
 
     public static String generateRandomSid() {

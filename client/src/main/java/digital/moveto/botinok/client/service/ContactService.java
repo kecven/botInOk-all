@@ -1,5 +1,6 @@
 package digital.moveto.botinok.client.service;
 
+import digital.moveto.botinok.client.feign.FeignClientService;
 import digital.moveto.botinok.model.repositories.ContactRepository;
 import digital.moveto.botinok.model.entities.Contact;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,14 +15,21 @@ public class ContactService {
     @Autowired
     private ContactRepository contactRepository;
 
+    @Autowired
+    private FeignClientService feignClientService;
+
     @Transactional
-    public void save(Contact contact) {
-        contactRepository.save(contact);
+    public Contact save(Contact contact) {
+        contact = contactRepository.save(contact);
+        feignClientService.saveContact(contact);
+        return contact;
     }
 
     @Transactional
-    public void saveAndFlush(Contact contact) {
-        contactRepository.saveAndFlush(contact);
+    public Contact saveAndFlush(Contact contact) {
+        contact = contactRepository.saveAndFlush(contact);
+        feignClientService.saveContact(contact);
+        return contact;
     }
 
     @Transactional
