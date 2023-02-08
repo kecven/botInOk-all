@@ -87,20 +87,20 @@ public class UiElements {
     @PostConstruct
     private void initElements() {
 
-        getUserNameLabel().setPadding(new Insets(10, 10, 10, 10));
+        getUserNameLabel().setPadding(new Insets(0, 10, 10, 10));
         getUserNameLabel().setFont(Font.font("Dialog", FontWeight.BOLD, 22));
 
         getWorkInShabatCheckBox().setPadding(new Insets(5, 10, 5, 10));
         getWorkInShabatCheckBox().setSelected(true);
-        getWorkInShabatCheckBox().setFont(new Font(16));
+        getWorkInShabatCheckBox().setFont(new Font(14));
         getWorkInShabatCheckBox().setTooltip(new Tooltip("If you want to work in Shabat, check this box."));
         getWorkInShabatCheckBox().setCursor(Cursor.HAND);
         getWorkInShabatCheckBox().setOnMouseClicked(e-> saveSettingForUser());
 
 
-        getActiveSearch().setPadding(new Insets(5, 10, 5, 10));
+        getActiveSearch().setPadding(new Insets(5, 10, 10, 10));
         getActiveSearch().setSelected(true);
-        getActiveSearch().setFont(new Font(16));
+        getActiveSearch().setFont(new Font(14));
         getActiveSearch().setTooltip(new Tooltip("If you want to search for new jobs, check this box."));
         getActiveSearch().setCursor(Cursor.HAND);
         getActiveSearch().setOnMouseClicked(e-> saveSettingForUser());
