@@ -42,7 +42,7 @@ public class BotinokClientApplication extends Application {
 
 	private void initLoadingUI() {
 		Image loadingAnimation = new Image(getClass().getResourceAsStream("/ui/images/loading.gif"));
-		Image applicationIcon = new Image(getClass().getResourceAsStream("/ui/images/application-icon.png"));
+		Image applicationIcon = new Image(getClass().getResourceAsStream("/ui/images/application-icon-256x256.png"));
 
 		ImageView imageView = new ImageView();
 		imageView.setImage(loadingAnimation);
