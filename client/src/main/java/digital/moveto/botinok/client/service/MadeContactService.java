@@ -29,6 +29,10 @@ public class MadeContactService {
         return madeContact;
     }
 
+    public List<MadeContact> findAll(){
+        return madeContactRepository.findAll();
+    }
+
     @Transactional
     public List<MadeContact> findAllByAccount(Account account){
         return madeContactRepository.findAllByAccount(account);
