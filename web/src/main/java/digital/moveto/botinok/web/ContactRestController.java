@@ -61,6 +61,8 @@ public class ContactRestController {
         Account account = accountService.findById(contactDto.getAccount().getId()).get();
         contactFromDto.setAccount(account);
         return contactService.save(contactFromDto).toDto();
+
+
     }
 
 }
