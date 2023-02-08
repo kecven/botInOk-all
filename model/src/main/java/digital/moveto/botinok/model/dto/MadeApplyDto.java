@@ -20,9 +20,9 @@ public class MadeApplyDto implements Serializable {
 
     private UUID id;
 
-    private AccountDto accountDto;
+    private AccountDto account;
 
-    private CompanyDto companyDto;
+    private CompanyDto company;
 
     private String position;
 

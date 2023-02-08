@@ -1,26 +1,11 @@
-package digital.moveto.botinok.client.utils;
+package digital.moveto.botinok.model.utils;
 
-import digital.moveto.botinok.client.config.ClientConst;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import static java.lang.Character.MAX_RADIX;
-
 public class BotinokUtils {
-    public static String getRandomSearchKeyword() {
-        int id = (int) (Math.random() * ClientConst.SEARCH_KEYWORDS.size());
-        return ClientConst.SEARCH_KEYWORDS.get(id);
-    }
-
-    public static String generateRandomSid() {
-        StringBuilder result = new StringBuilder();
-        for (int i = 0; i < 3; i++) {
-            result.append(Integer.toString((int) (Math.random() * MAX_RADIX), MAX_RADIX));
-        }
-        return result.toString();
-    }
 
     public static boolean checkShabatDay() {
         LocalDateTime localDateTimeNow = LocalDateTime.now();

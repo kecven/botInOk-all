@@ -1,15 +1,16 @@
 package digital.moveto.botinok.model.entities;
 
 
+import digital.moveto.botinok.model.Const;
 import digital.moveto.botinok.model.dto.AccountDto;
 import digital.moveto.botinok.model.entities.enums.Location;
-import digital.moveto.botinok.model.Const;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.apache.logging.log4j.util.Strings;
 
+import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
@@ -23,7 +24,6 @@ import java.util.UUID;
 public class Account {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
@@ -104,5 +104,41 @@ public class Account {
 
     public AccountDto toDto(){
         return Const.modelMapper.map(this, AccountDto.class);
+    }
+
+    public Account updateFrom(Account entity) {
+        Class<?> clazz = entity.getClass();
+        for (Field field : clazz.getDeclaredFields()) {
+            field.setAccessible(true);
+            try {
+                Object value = field.get(entity);
+                if ( ! field.getName().equalsIgnoreCase("id")) {
+                    field.set(this, value);
+                }
+            } catch (IllegalAccessException e) {
+                // handle the exception
+            }
+        }
+        return this;
+    }
+
+    @Override
+    public String toString() {
+        return "Account{" +
+                "id=" + id +
+                ", folder='" + folder + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                ", active=" + active +
+                ", activeSearch=" + activeSearch +
+                ", position='" + position + '\'' +
+                ", countDailyApply=" + countDailyApply +
+                ", countDailyConnect=" + countDailyConnect +
+                ", location=" + location +
+                ", endDateLicense=" + endDateLicense +
+                ", workInShabat=" + workInShabat +
+                '}';
     }
 }

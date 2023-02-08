@@ -5,12 +5,11 @@ import com.microsoft.playwright.PlaywrightException;
 import digital.moveto.botinok.client.config.ClientConst;
 import digital.moveto.botinok.client.config.GlobalConfig;
 import digital.moveto.botinok.client.exeptions.StopMadeContactException;
+import digital.moveto.botinok.client.utils.UrlUtils;
 import digital.moveto.botinok.model.entities.*;
 import digital.moveto.botinok.client.service.*;
 import digital.moveto.botinok.client.playwright.PlaywrightService;
 import digital.moveto.botinok.client.ui.UiElements;
-import digital.moveto.botinok.client.utils.BotinokUtils;
-import digital.moveto.botinok.client.utils.UrlUtils;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.util.Strings;
 import org.slf4j.Logger;
@@ -29,6 +28,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static digital.moveto.botinok.client.config.ClientConst.*;
+import static java.lang.Character.MAX_RADIX;
 
 @Service
 @RequiredArgsConstructor
@@ -40,19 +40,19 @@ public class LinkedinBotService implements AutoCloseable {
     private PlaywrightService playwrightService;
 
     @Autowired
-    private AccountService accountService;
+    private ClientAccountService clientAccountService;
 
     @Autowired
-    private MadeContactService madeContactService;
+    private ClientMadeContactService clientMadeContactService;
 
     @Autowired
-    private MadeApplyService madeApplyService;
+    private ClientMadeApplyService clientMadeApplyService;
 
     @Autowired
-    private ContactService contactService;
+    private ClientContactService clientContactService;
 
     @Autowired
-    private CompanyService companyService;
+    private ClientCompanyService clientCompanyService;
 
     @Autowired
     private GlobalConfig globalConfig;
@@ -101,7 +101,7 @@ public class LinkedinBotService implements AutoCloseable {
 
         goSearchRandomKeywordsAndPageAndSid();
 
-        AtomicInteger count = new AtomicInteger(madeContactService.getCountOfTodayForAccount(account));
+        AtomicInteger count = new AtomicInteger(clientMadeContactService.getCountOfTodayForAccount(account));
 
         CREATE_CONNECTS:
         for (int page = 0; page < MAX_COUNT_PAGE_FOR_ONE_TIME; page++) {
@@ -174,8 +174,8 @@ public class LinkedinBotService implements AutoCloseable {
 
             int nextPage = (int) (Math.random() * 100) + 1;
             stringListMap.put("page", String.valueOf(nextPage));
-            stringListMap.put("keywords", BotinokUtils.getRandomSearchKeyword());
-            stringListMap.put("sid", BotinokUtils.generateRandomSid());
+            stringListMap.put("keywords", getRandomSearchKeyword());
+            stringListMap.put("sid", generateRandomSid());
             if (account.getLocation() != null){
                 stringListMap.put("geoUrn", "%5B%22" + account.getLocation().getLinkedinId() + "%22%5D");
             }
@@ -187,6 +187,19 @@ public class LinkedinBotService implements AutoCloseable {
         } catch (Exception e) {
             clickButtonNext();
         }
+    }
+
+    private String generateRandomSid() {
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < 3; i++) {
+            result.append(Integer.toString((int) (Math.random() * MAX_RADIX), MAX_RADIX));
+        }
+        return result.toString();
+    }
+
+    private String getRandomSearchKeyword() {
+        int id = (int) (Math.random() * ClientConst.SEARCH_KEYWORDS.size());
+        return ClientConst.SEARCH_KEYWORDS.get(id);
     }
 
     private void madeContact(ElementHandle elementHandle, AtomicInteger count) {
@@ -239,7 +252,7 @@ public class LinkedinBotService implements AutoCloseable {
                 .date(LocalDateTime.now())
                 .name(contactName)
                 .account(account).build();
-        madeContactService.save(madeContact);
+        clientMadeContactService.save(madeContact);
         uiElements.updateStatistic();
 
         log.info("Connect #" + count.incrementAndGet() + ", with '" + contactName + "' for user " + account.getFullName());
@@ -383,7 +396,7 @@ public class LinkedinBotService implements AutoCloseable {
         } catch (PlaywrightException e) {
             // nothing to do.
         } finally {
-            account = accountService.save(account);
+            account = clientAccountService.save(account);
             closeHeadlessBrowserIfNeed();
         }
     }
@@ -442,7 +455,7 @@ public class LinkedinBotService implements AutoCloseable {
                     text = text.trim();
                     account.setFirstName(text.substring(0, text.indexOf(" ")));
                     account.setLastName(text.substring(text.indexOf(" ") + 1));
-                    accountService.save(account);
+                    clientAccountService.save(account);
                     return true;
                 }
             } else {
@@ -501,7 +514,7 @@ public class LinkedinBotService implements AutoCloseable {
                 linkedinUrl = "https://www.linkedin.com" + linkedinUrl;
             }
 
-            Optional<Contact> userInDbByLinkedinUrl = contactService.findByLinkedinUrl(linkedinUrl);
+            Optional<Contact> userInDbByLinkedinUrl = clientContactService.findByLinkedinUrl(linkedinUrl);
             if (userInDbByLinkedinUrl.isPresent()) {
                 log.debug("User " + linkedinUrl + " already in db");
                 continue;
@@ -526,7 +539,7 @@ public class LinkedinBotService implements AutoCloseable {
                 contact.setPosition(LinkedinUserPosition.textContent().trim());
             }
 
-            contactService.save(contact);
+            clientContactService.save(contact);
             log.debug("User " + linkedinUrl + " saved.");
 
         }
@@ -534,7 +547,7 @@ public class LinkedinBotService implements AutoCloseable {
 
     public void parseLinkedinUser() {
         log.info("Start parseLinkedinUser for user " + account.getFullName());
-        this.account = accountService.findById(account.getId());
+        this.account = clientAccountService.findById(account.getId()).get();
         List<Contact> contacts = account.getContacts();
         if (contacts == null || contacts.isEmpty()) {
             log.info("No users for parse");
@@ -596,7 +609,7 @@ public class LinkedinBotService implements AutoCloseable {
 
             contact.setUpdatedDate(LocalDate.now());
             contact.setParseDate(LocalDate.now());
-            contactService.saveAndFlush(contact);
+            clientContactService.saveAndFlush(contact);
             log.debug("User " + ++count + "/" + contacts.size() + ". Parsed and save.");
             log.debug(contact.toString());
 
@@ -604,7 +617,7 @@ public class LinkedinBotService implements AutoCloseable {
     }
 
     public void applyToPositions(){
-        AtomicInteger countApply = new AtomicInteger(madeApplyService.getCountOfTodayForAccount(getAccount()));
+        AtomicInteger countApply = new AtomicInteger(clientMadeApplyService.getCountOfTodayForAccount(getAccount()));
         uiElements.addLogToLogArea("Start apply to positions");
         log.info("Start apply to positions for user: " + account.getFullName());
 //        https://www.linkedin.com/jobs/search/?currentJobId=3450022774&f_AL=true&f_TPR=r86400&geoId=101620260&keywords=java%20developer&location=Israel&refresh=true
@@ -676,25 +689,25 @@ public class LinkedinBotService implements AutoCloseable {
             if (linkToCompany.startsWith("/")) {
                 linkToCompany = ClientConst.LINKEDIN_URL + linkToCompany;
             }
-            Optional<Company> companyInDb = companyService.findByLink(linkToCompany);
+            Optional<Company> companyInDb = clientCompanyService.findByLink(linkToCompany);
             if (companyInDb.isPresent()){
                 madeApply.setCompany(companyInDb.get());
             } else {
                 Company company = new Company();
                 company.setName(name);
                 company.setLink(linkToCompany);
-                company = companyService.saveAndFlush(company);
+                company = clientCompanyService.saveAndFlush(company);
                 madeApply.setCompany(company);
             }
         } else {
-            Optional<Company> companyInDb = companyService.findByLink(null);
+            Optional<Company> companyInDb = clientCompanyService.findByLink(null);
             if (companyInDb.isPresent()){
                 madeApply.setCompany(companyInDb.get());
             } else {
                 Company company = new Company();
                 company.setName(null);
                 company.setLink(null);
-                company = companyService.saveAndFlush(company);
+                company = clientCompanyService.saveAndFlush(company);
                 madeApply.setCompany(company);
             }
         }
@@ -734,7 +747,7 @@ public class LinkedinBotService implements AutoCloseable {
 
                         log.info("Submit application #" + countApply.incrementAndGet() + " for position " + madeApply.getPosition() + " in company " + madeApply.getCompany().getName());
                         madeApply.setDate(LocalDateTime.now());
-                        madeApply = madeApplyService.saveAndFlush(madeApply);
+                        madeApply = clientMadeApplyService.saveAndFlush(madeApply);
                         uiElements.updateStatistic();
                         uiElements.addLogToLogAreaWithLinks("Submit application for position " + madeApply.getPosition() + " ($) in company " + madeApply.getCompany().getName() + " ($)", Arrays.asList(madeApply.getLink(), madeApply.getCompany().getLink()));
 

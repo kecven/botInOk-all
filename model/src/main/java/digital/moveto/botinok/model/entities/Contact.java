@@ -10,6 +10,7 @@ import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -22,7 +23,6 @@ import java.util.UUID;
 public class Contact {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
@@ -66,10 +66,39 @@ public class Contact {
     private String html;
 
     @Override
-    public String toString(){
-        return "Contact(id=" +id +", name=" + firstName + " " + lastName + ", email=" + email + ", phone=" + phone + ", location=" + location + ", position=" + position + ", linkedinUrl=" + linkedinUrl + ")";
+    public String toString() {
+        return "Contact{" +
+                "id=" + id +
+                ", account_id=" + account.getId() +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                ", location='" + location + '\'' +
+                ", position='" + position + '\'' +
+                ", linkedinUrl='" + linkedinUrl + '\'' +
+                ", createdDate=" + createdDate +
+                ", updatedDate=" + updatedDate +
+                ", parseDate=" + parseDate +
+                ", html='" + html + '\'' +
+                '}';
     }
 
+    public Contact updateFrom(Contact entity) {
+        Class<?> clazz = entity.getClass();
+        for (Field field : clazz.getDeclaredFields()) {
+            field.setAccessible(true);
+            try {
+                Object value = field.get(entity);
+                if ( ! field.getName().equalsIgnoreCase("id")) {
+                    field.set(this, value);
+                }
+            } catch (IllegalAccessException e) {
+                // handle the exception
+            }
+        }
+        return this;
+    }
 
     public ContactDto toDto(){
         return Const.modelMapper.map(this,ContactDto.class);

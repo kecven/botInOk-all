@@ -2,7 +2,7 @@ package digital.moveto.botinok.client.linkedin;
 
 import digital.moveto.botinok.client.config.GlobalConfig;
 import digital.moveto.botinok.model.entities.Account;
-import digital.moveto.botinok.client.service.AccountService;
+import digital.moveto.botinok.client.service.ClientAccountService;
 import digital.moveto.botinok.client.ui.MainScene;
 import digital.moveto.botinok.client.utils.FileUtils;
 import org.junit.jupiter.api.AfterEach;
@@ -33,7 +33,7 @@ public class LinkedinBotServiceTest {
     private GlobalConfig globalConfig;
 
     @Autowired
-    private AccountService accountService;
+    private ClientAccountService clientAccountService;
 
     @Autowired
     private MainScene mainScene;
@@ -48,13 +48,13 @@ public class LinkedinBotServiceTest {
     @AfterEach
     public void close() {
         linkedinBotService.close();
-        accountService.deleteByFolder("temp");
+        clientAccountService.deleteByFolder("temp");
         FileUtils.deleteFolder(globalConfig.pathToStateFolder + "temp");
     }
 
     @Test
     public void checkAuthorizationNotAuthorize() {
-        Account account = accountService.findOrCreateAccountWithContacts("not_authorize");
+        Account account = clientAccountService.findOrCreateAccountWithContacts("not_authorize");
         linkedinBotService.start(account);
         boolean checkAuthorization = linkedinBotService.checkAuthorization();
         assertThat(checkAuthorization).isEqualTo(false);
@@ -62,7 +62,7 @@ public class LinkedinBotServiceTest {
 
     @Test
     public void checkAuthorizationIsAuthorize() {
-        Account account = accountService.findOrCreateAccountWithContacts(DEFAULT_FOLDER_FOR_DEFAULT_USER_DATA_DIR);
+        Account account = clientAccountService.findOrCreateAccountWithContacts(DEFAULT_FOLDER_FOR_DEFAULT_USER_DATA_DIR);
         linkedinBotService.start(account);
         boolean checkAuthorization = linkedinBotService.checkAuthorization();
         assertThat(checkAuthorization).isEqualTo(true);
@@ -70,7 +70,7 @@ public class LinkedinBotServiceTest {
 
     @Test
     public void checkAuthorizationAndSaveLoginAndPass() {
-        Account account = accountService.findOrCreateAccountWithContacts("default");
+        Account account = clientAccountService.findOrCreateAccountWithContacts("default");
         linkedinBotService.start(account);
 
         boolean checkAuthorization = linkedinBotService.checkAuthorization();
@@ -90,7 +90,7 @@ public class LinkedinBotServiceTest {
         linkedinBotService.login();
         linkedinBotService.sleep(2000, false);
 
-        account = accountService.findOrCreateAccountWithContacts("temp");
+        account = clientAccountService.findOrCreateAccountWithContacts("temp");
 
         assertThat(account.getLogin()).isEqualTo(loginTestUser);
         assertThat(account.getPassword()).isEqualTo(loginTestPassword);
@@ -101,7 +101,7 @@ public class LinkedinBotServiceTest {
 
     @Test
     public void checkAuthorizationWithLoginAndPassInDb() {
-        Account account = accountService.findOrCreateAccountWithContacts("temp");
+        Account account = clientAccountService.findOrCreateAccountWithContacts("temp");
         account.setLogin(loginTestUser);
         account.setPassword(loginTestPassword);
         linkedinBotService.start(account);

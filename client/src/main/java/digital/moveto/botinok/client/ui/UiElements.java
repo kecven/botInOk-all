@@ -6,11 +6,11 @@ import digital.moveto.botinok.model.entities.Account;
 import digital.moveto.botinok.model.entities.enums.Location;
 import digital.moveto.botinok.model.entities.MadeApply;
 import digital.moveto.botinok.model.entities.MadeContact;
-import digital.moveto.botinok.client.service.AccountService;
-import digital.moveto.botinok.client.service.MadeApplyService;
-import digital.moveto.botinok.client.service.MadeContactService;
+import digital.moveto.botinok.client.service.ClientAccountService;
+import digital.moveto.botinok.client.service.ClientMadeApplyService;
+import digital.moveto.botinok.client.service.ClientMadeContactService;
 import digital.moveto.botinok.client.playwright.PlaywrightService;
-import digital.moveto.botinok.client.utils.BotinokUtils;
+import digital.moveto.botinok.model.utils.BotinokUtils;
 import jakarta.annotation.PostConstruct;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -53,13 +53,13 @@ public class UiElements {
     private GlobalConfig globalConfig;
 
     @Autowired
-    private AccountService accountService;
+    private ClientAccountService clientAccountService;
 
     @Autowired
-    private MadeApplyService madeApplyService;
+    private ClientMadeApplyService clientMadeApplyService;
 
     @Autowired
-    private MadeContactService madeContactService;
+    private ClientMadeContactService clientMadeContactService;
 
     public static Stage stage;
 
@@ -126,10 +126,15 @@ public class UiElements {
 
         getCountDailyConnectSlider().setShowTickLabels(true);
         getCountDailyConnectSlider().setMajorTickUnit(5);
+        getCountDailyConnectSlider().setOnMouseClicked(e->saveSettingForUser());
+//        getCountDailyConnectSlider().setOnMouseReleased(e->saveSettingForUser());
 
 
         getCountDailyApplySlider().setShowTickLabels(true);
         getCountDailyApplySlider().setMajorTickUnit(5);
+        getCountDailyApplySlider().setOnMouseClicked(e->saveSettingForUser());
+//        getCountDailyApplySlider().setOnMouseReleased(e->saveSettingForUser());
+
 
         getAccountVBox().setStyle(UIConst.STYLE_OF_BACKGROUND);
         getAccountVBox().setPadding(new Insets(10, 10, 10, 10));
@@ -342,7 +347,7 @@ public class UiElements {
             selectAccount.setCountDailyApply((int) countDailyApplySlider.getValue());
             selectAccount.setCountDailyConnect((int) countDailyConnectSlider.getValue());
 
-            accountService.save(selectAccount);
+            clientAccountService.save(selectAccount);
         }
     }
 
@@ -350,12 +355,12 @@ public class UiElements {
         if (getSelectAccount() != null) {
             LocalDate todayLocalDate = LocalDate.now();
 
-            List<MadeApply> allApplyForAccount = madeApplyService.findAllByAccount(getSelectAccount());
+            List<MadeApply> allApplyForAccount = clientMadeApplyService.findAllByAccount(getSelectAccount());
             final long finalTotalApply = allApplyForAccount.size();
             final long finalTodayApply = allApplyForAccount.parallelStream()
                     .filter(madeApply -> BotinokUtils.equalsDateAndDateTime(todayLocalDate, madeApply.getDate())).count();
 
-            List<MadeContact> allConnectForAccount = madeContactService.findAllByAccount(getSelectAccount());
+            List<MadeContact> allConnectForAccount = clientMadeContactService.findAllByAccount(getSelectAccount());
             final long finalTotalConnect = allConnectForAccount.size();
             final long finalTodayConnect  = allConnectForAccount.parallelStream()
                     .filter(madeContact -> BotinokUtils.equalsDateAndDateTime(todayLocalDate, madeContact.getDate())).count();

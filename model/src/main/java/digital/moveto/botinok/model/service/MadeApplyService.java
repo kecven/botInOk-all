@@ -1,17 +1,16 @@
-package digital.moveto.botinok.client.service;
+package digital.moveto.botinok.model.service;
 
-import digital.moveto.botinok.client.feign.FeignClientService;
 import digital.moveto.botinok.model.entities.Account;
 import digital.moveto.botinok.model.entities.MadeApply;
 import digital.moveto.botinok.model.repositories.MadeApplyRepository;
-import digital.moveto.botinok.client.utils.BotinokUtils;
-import digital.moveto.botinok.model.repositories.MadeContactRepository;
+import digital.moveto.botinok.model.utils.BotinokUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class MadeApplyService {
@@ -19,14 +18,13 @@ public class MadeApplyService {
     @Autowired
     private MadeApplyRepository madeApplyRepository;
 
-    @Autowired
-    private FeignClientService feignClientService;
-
 
     @Transactional
     public MadeApply save(MadeApply madeApply) {
+        if (madeApply.getId() == null) {
+            madeApply.setId(UUID.randomUUID());
+        }
         madeApply = madeApplyRepository.save(madeApply);
-        feignClientService.saveMadeApply(madeApply);
         return madeApply;
     }
 
@@ -36,8 +34,8 @@ public class MadeApplyService {
 
     @Transactional
     public MadeApply saveAndFlush(MadeApply madeApply) {
-        madeApply = madeApplyRepository.saveAndFlush(madeApply);
-        feignClientService.saveMadeApply(madeApply);
+        madeApply = save(madeApply);
+        madeApplyRepository.flush();
         return madeApply;
     }
 

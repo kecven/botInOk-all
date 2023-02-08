@@ -19,7 +19,7 @@ public class ContactDto implements Serializable {
 
     private UUID id;
 
-    private AccountDto accountDto;
+    private AccountDto account;
 
     private String firstName;
 
@@ -50,8 +50,22 @@ public class ContactDto implements Serializable {
     private String html;
 
     @Override
-    public String toString(){
-        return "ContactDto(id=" +id +", name=" + firstName + " " + lastName + ", email=" + email + ", phone=" + phone + ", location=" + location + ", position=" + position + ", linkedinUrl=" + linkedinUrl + ")";
+    public String toString() {
+        return "ContactDto{" +
+                "id=" + id +
+                ", accountDto=" + account +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                ", location='" + location + '\'' +
+                ", position='" + position + '\'' +
+                ", linkedinUrl='" + linkedinUrl + '\'' +
+                ", createdDate=" + createdDate +
+                ", updatedDate=" + updatedDate +
+                ", parseDate=" + parseDate +
+                ", html='" + html + '\'' +
+                '}';
     }
 
     public Contact toEntity(){

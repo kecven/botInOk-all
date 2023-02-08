@@ -4,16 +4,41 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c6251951-17d6-4930-8673-3bc1daab451c" name="Changes" comment="add new Icon">
-      <change afterPath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/MigrationDataToServerService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/nothing.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/nothing.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+    <list default="true" id="c6251951-17d6-4930-8673-3bc1daab451c" name="Changes" comment="a little bit upgrade design">
+      <change afterPath="$PROJECT_DIR$/model/src/main/java/digital/moveto/botinok/model/service/AccountService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/model/src/main/java/digital/moveto/botinok/model/service/CompanyService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/model/src/main/java/digital/moveto/botinok/model/service/ContactService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/model/src/main/java/digital/moveto/botinok/model/service/MadeApplyService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/model/src/main/java/digital/moveto/botinok/model/service/MadeContactService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/start.sh" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/service/CompanyService.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/service/CompanyService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/service/ContactService.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/service/ContactService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/service/MadeApplyService.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/service/MadeApplyService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/service/MadeContactService.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/service/MadeContactService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/MigrationDataToServerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/MigrationDataToServerService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/feign/FeignClientService.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/feign/FeignClientService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/linkedin/LinkedinBotService.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/linkedin/LinkedinBotService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/linkedin/LinkedinBotStarter.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/linkedin/LinkedinBotStarter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/service/AccountService.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/service/ClientAccountService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/service/CompanyService.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/service/ClientCompanyService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/service/ContactService.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/service/ClientContactService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/service/MadeApplyService.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/service/ClientMadeApplyService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/service/MadeContactService.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/service/ClientMadeContactService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/ui/UiElements.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/ui/UiElements.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/utils/BotinokUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/src/main/java/digital/moveto/botinok/model/utils/BotinokUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/test/java/digital/moveto/botinok/client/linkedin/LinkedinBotServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/test/java/digital/moveto/botinok/client/linkedin/LinkedinBotServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/src/main/java/digital/moveto/botinok/model/Const.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/src/main/java/digital/moveto/botinok/model/Const.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/src/main/java/digital/moveto/botinok/model/dto/ContactDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/src/main/java/digital/moveto/botinok/model/dto/ContactDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/src/main/java/digital/moveto/botinok/model/dto/MadeApplyDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/src/main/java/digital/moveto/botinok/model/dto/MadeApplyDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/src/main/java/digital/moveto/botinok/model/dto/MadeContactDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/src/main/java/digital/moveto/botinok/model/dto/MadeContactDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/src/main/java/digital/moveto/botinok/model/entities/Account.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/src/main/java/digital/moveto/botinok/model/entities/Account.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/src/main/java/digital/moveto/botinok/model/entities/Company.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/src/main/java/digital/moveto/botinok/model/entities/Company.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/src/main/java/digital/moveto/botinok/model/entities/Contact.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/src/main/java/digital/moveto/botinok/model/entities/Contact.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/src/main/java/digital/moveto/botinok/model/entities/MadeApply.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/src/main/java/digital/moveto/botinok/model/entities/MadeApply.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/src/main/java/digital/moveto/botinok/model/entities/MadeContact.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/src/main/java/digital/moveto/botinok/model/entities/MadeContact.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/web/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/main/java/digital/moveto/botinok/web/AccountRestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/main/java/digital/moveto/botinok/web/AccountRestController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/main/java/digital/moveto/botinok/web/CompanyRestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/main/java/digital/moveto/botinok/web/CompanyRestController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/main/java/digital/moveto/botinok/web/ContactRestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/main/java/digital/moveto/botinok/web/ContactRestController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/main/java/digital/moveto/botinok/web/MadeApplyRestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/main/java/digital/moveto/botinok/web/MadeApplyRestController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/main/java/digital/moveto/botinok/web/MadeContactRestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/main/java/digital/moveto/botinok/web/MadeContactRestController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,6 +72,42 @@
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
                 <item name="botInOk" type="f1a62948:ProjectNode" />
               </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="botInOk" type="f1a62948:ProjectNode" />
+                <item name="client" type="2d1252cf:ModuleNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="botInOk" type="f1a62948:ProjectNode" />
+                <item name="client" type="2d1252cf:ModuleNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="botInOk" type="f1a62948:ProjectNode" />
+                <item name="client" type="2d1252cf:ModuleNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="build" type="c8890929:TasksNode$1" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="botInOk" type="f1a62948:ProjectNode" />
+                <item name="web" type="2d1252cf:ModuleNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="botInOk" type="f1a62948:ProjectNode" />
+                <item name="web" type="2d1252cf:ModuleNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="botInOk" type="f1a62948:ProjectNode" />
+                <item name="web" type="2d1252cf:ModuleNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="build" type="c8890929:TasksNode$1" />
+              </path>
             </expand>
             <select />
           </tree_state>
@@ -68,7 +129,9 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="2LNe9c0AcAEjAaNCnHa5mPcDjUM" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <OptionsSetting value="false" id="Update" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -80,19 +143,21 @@
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "dart.analysis.tool.window.visible": "false",
     "jdk.selected.JAVA_MODULE": "graalvm-ce-19",
-    "last_opened_file_path": "C:/Users/andte/Projects/botinok/botInOk-all",
+    "last_opened_file_path": "/Users/atetka/Projects/botinok/botInOk-all/client/src/main/java/digital/moveto/botinok/client/utils",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.41034484",
-    "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
     "show.migrate.to.gradle.popup": "false"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/utils" />
+      <recent name="$PROJECT_DIR$/model/src/main/java/digital/moveto/botinok/model" />
+      <recent name="$PROJECT_DIR$/web" />
       <recent name="C:\Users\andreit\Projects\botInOk\botInOk\client\src\main\java\digital\moveto\botinok\client\feign" />
       <recent name="C:\Users\andreit\Projects\botInOk\botInOk\model\src\main\java\digital\moveto\botinok\model\dto" />
-      <recent name="C:\Users\andreit\Projects\botInOk\botInOk\web\src\main\resources" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/client/src/main/resources/ui/images" />
@@ -108,11 +173,11 @@
       <recent name="digital.moveto.botinok.web" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.BotinokClientApplication">
+  <component name="RunManager" selected="Gradle.botInOk-all:web [bootJar]">
     <configuration name="BotinokClientApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="digital.moveto.botinok.BotinokClientApplication" />
       <module name="botInOk.client.main" />
-      <option name="VM_PARAMETERS" value="--module-path C:\Users\andte\Soft\javafx-sdk-19.0.2.1\lib --add-modules javafx.controls" />
+      <option name="VM_PARAMETERS" value="--module-path $USER_HOME$/Programs/javafx-sdk-19.0.2.1/lib --add-modules javafx.controls" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="digital.moveto.botinok.*" />
@@ -202,8 +267,8 @@
     <recent_temporary>
       <list>
         <item itemvalue="Gradle.botInOk-all:web [bootJar]" />
-        <item itemvalue="Application.BotinokClientApplication" />
         <item itemvalue="Gradle.botInOk:client [bootJar]" />
+        <item itemvalue="Application.BotinokClientApplication" />
         <item itemvalue="Gradle.botInOk:model [clean]" />
         <item itemvalue="Application.BotinokWebSpringApplication" />
       </list>
@@ -295,7 +360,14 @@
       <option name="project" value="LOCAL" />
       <updated>1675815883840</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="a little bit upgrade design">
+      <created>1675816928986</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1675816928986</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -320,7 +392,8 @@
     <MESSAGE value="save data on server. micro fixes" />
     <MESSAGE value="add sliders for count connect and count apply" />
     <MESSAGE value="add new Icon" />
-    <option name="LAST_COMMIT_MESSAGE" value="add new Icon" />
+    <MESSAGE value="a little bit upgrade design" />
+    <option name="LAST_COMMIT_MESSAGE" value="a little bit upgrade design" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -331,9 +404,14 @@
           <option name="timeStamp" value="8" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/web/src/main/java/digital/moveto/botinok/web/AccountRestController.java</url>
+          <url>file://$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/MigrationDataToServerService.java</url>
           <line>22</line>
-          <option name="timeStamp" value="10" />
+          <option name="timeStamp" value="11" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/web/src/main/java/digital/moveto/botinok/web/ContactRestController.java</url>
+          <line>32</line>
+          <option name="timeStamp" value="14" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

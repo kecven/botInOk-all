@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
+import java.lang.reflect.Field;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -21,7 +22,6 @@ import java.util.UUID;
 public class MadeApply {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
@@ -42,6 +42,33 @@ public class MadeApply {
     @Column(name = "date")
     private LocalDateTime date;
 
+    @Override
+    public String toString() {
+        return "MadeApply{" +
+                "id=" + id +
+                ", account_id=" + account.getId() +
+                ", company_id=" + company.getId() +
+                ", position='" + position + '\'' +
+                ", link='" + link + '\'' +
+                ", date=" + date +
+                '}';
+    }
+
+    public MadeApply updateFrom(MadeApply entity) {
+        Class<?> clazz = entity.getClass();
+        for (Field field : clazz.getDeclaredFields()) {
+            field.setAccessible(true);
+            try {
+                Object value = field.get(entity);
+                if ( ! field.getName().equalsIgnoreCase("id")) {
+                    field.set(this, value);
+                }
+            } catch (IllegalAccessException e) {
+                // handle the exception
+            }
+        }
+        return this;
+    }
     public MadeApplyDto toDto(){
         return Const.modelMapper.map(this,MadeApplyDto.class);
     }

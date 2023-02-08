@@ -1,17 +1,16 @@
-package digital.moveto.botinok.client.service;
+package digital.moveto.botinok.model.service;
 
-import digital.moveto.botinok.client.feign.FeignClientService;
 import digital.moveto.botinok.model.entities.Account;
-import digital.moveto.botinok.model.entities.MadeApply;
 import digital.moveto.botinok.model.entities.MadeContact;
 import digital.moveto.botinok.model.repositories.MadeContactRepository;
-import digital.moveto.botinok.client.utils.BotinokUtils;
+import digital.moveto.botinok.model.utils.BotinokUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class MadeContactService {
@@ -19,13 +18,13 @@ public class MadeContactService {
     @Autowired
     private MadeContactRepository madeContactRepository;
 
-    @Autowired
-    private FeignClientService feignClientService;
 
     @Transactional
     public MadeContact save(MadeContact madeContact) {
+        if (madeContact.getId() == null) {
+            madeContact.setId(UUID.randomUUID());
+        }
         madeContact = madeContactRepository.save(madeContact);
-        feignClientService.saveMadeContact(madeContact);
         return madeContact;
     }
 

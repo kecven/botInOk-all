@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
+import java.lang.reflect.Field;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -20,7 +21,6 @@ import java.util.UUID;
 public class MadeContact {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
@@ -33,6 +33,32 @@ public class MadeContact {
 
     @Column(name = "date")
     private LocalDateTime date;
+
+    @Override
+    public String toString() {
+        return "MadeContact{" +
+                "id=" + id +
+                ", account_id=" + account.getId() +
+                ", name='" + name + '\'' +
+                ", date=" + date +
+                '}';
+    }
+
+    public MadeContact updateFrom(MadeContact entity) {
+        Class<?> clazz = entity.getClass();
+        for (Field field : clazz.getDeclaredFields()) {
+            field.setAccessible(true);
+            try {
+                Object value = field.get(entity);
+                if ( ! field.getName().equalsIgnoreCase("id")) {
+                    field.set(this, value);
+                }
+            } catch (IllegalAccessException e) {
+                // handle the exception
+            }
+        }
+        return this;
+    }
 
     public MadeContactDto toDto(){
         return Const.modelMapper.map(this, MadeContactDto.class);

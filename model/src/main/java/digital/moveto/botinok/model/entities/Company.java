@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
+import java.lang.reflect.Field;
 import java.util.UUID;
 
 @Getter
@@ -19,7 +20,6 @@ import java.util.UUID;
 public class Company {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
@@ -31,5 +31,29 @@ public class Company {
 
     public CompanyDto toDto(){
         return Const.modelMapper.map(this,CompanyDto.class);
+    }
+
+    @Override
+    public String toString() {
+        return "Company{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", link='" + link + '\'' +
+                '}';
+    }
+    public Company updateFrom(Company entity) {
+        Class<?> clazz = entity.getClass();
+        for (Field field : clazz.getDeclaredFields()) {
+            field.setAccessible(true);
+            try {
+                Object value = field.get(entity);
+                if ( ! field.getName().equalsIgnoreCase("id")) {
+                    field.set(this, value);
+                }
+            } catch (IllegalAccessException e) {
+                // handle the exception
+            }
+        }
+        return this;
     }
 }

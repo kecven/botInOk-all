@@ -5,11 +5,11 @@ import digital.moveto.botinok.client.config.ClientConst;
 import digital.moveto.botinok.client.config.GlobalConfig;
 import digital.moveto.botinok.client.feign.AccountFeignClient;
 import digital.moveto.botinok.model.entities.Account;
-import digital.moveto.botinok.client.service.AccountService;
+import digital.moveto.botinok.client.service.ClientAccountService;
 import digital.moveto.botinok.client.ui.MainScene;
 import digital.moveto.botinok.client.ui.UiElements;
-import digital.moveto.botinok.client.utils.BotinokUtils;
 import digital.moveto.botinok.client.utils.FileUtils;
+import digital.moveto.botinok.model.utils.BotinokUtils;
 import jakarta.annotation.PostConstruct;
 import javafx.scene.Cursor;
 import org.slf4j.Logger;
@@ -35,7 +35,7 @@ public class LinkedinBotStarter {
     private GlobalConfig globalConfig;
 
     @Autowired
-    private AccountService accountService;
+    private ClientAccountService clientAccountService;
 
     @Autowired
     private UiElements uiElements;
@@ -119,9 +119,9 @@ public class LinkedinBotStarter {
     }
 
     private void addAllAccountToUi(){
-        List<Account> accounts = accountService.findAll();
+        List<Account> accounts = clientAccountService.findAll();
         if (accounts == null || accounts.isEmpty()) {
-            accounts.add(accountService.addNewAccount());
+            accounts.add(clientAccountService.addNewAccount());
         }
         uiElements.updateAccounts(accounts);
     }
@@ -133,10 +133,10 @@ public class LinkedinBotStarter {
 
         FileUtils.mkdirs(globalConfig.pathToStateFolder);   //if we don't have a folder, we create it
 
-        List<Account> allActiveAccounts = accountService.findAll();
+        List<Account> allActiveAccounts = clientAccountService.findAll();
 
         for (int i = 0; i < allActiveAccounts.size(); i++) {
-            Account account = accountService.findById(allActiveAccounts.get(i).getId());
+            Account account = clientAccountService.findById(allActiveAccounts.get(i).getId()).get();
 
             log.info("Start bot for user " + account.getFirstName());
 
@@ -164,7 +164,7 @@ public class LinkedinBotStarter {
 
     private void botWork(LinkedinBotService linkedinBotService, Account account) {
 
-        List<Account> accountList = accountService.findAll();
+        List<Account> accountList = clientAccountService.findAll();
         uiElements.updateAccounts(accountList, account.getId());
 
         if ( ! account.getActive()){
@@ -183,7 +183,7 @@ public class LinkedinBotStarter {
 
         linkedinBotService.checkAuthorizationAndLogin();
         if (linkedinBotService.parseUserName()) {
-            accountList = accountService.findAllActive();
+            accountList = clientAccountService.findAllActive();
             uiElements.updateAccounts(accountList, account.getId());
         }
 

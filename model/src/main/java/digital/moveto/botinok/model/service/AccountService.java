@@ -1,6 +1,5 @@
-package digital.moveto.botinok.client.service;
+package digital.moveto.botinok.model.service;
 
-import digital.moveto.botinok.client.feign.FeignClientService;
 import digital.moveto.botinok.model.entities.Account;
 import digital.moveto.botinok.model.entities.enums.Location;
 import digital.moveto.botinok.model.repositories.AccountRepository;
@@ -11,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -19,13 +19,10 @@ public class AccountService {
     @Autowired
     private AccountRepository accountRepository;
 
-    @Autowired
-    private FeignClientService feignClientService;
 
     @Transactional
     public Account save(Account account) {
         account = accountRepository.save(account);
-        feignClientService.saveAccount(account);
         return account;
     }
 
@@ -45,10 +42,13 @@ public class AccountService {
     }
 
     @Transactional
-    public Account findById(UUID id) {
+    public Optional<Account> findById(UUID id) {
         Account account = accountRepository.findById(id).orElse(null);
+        if (account == null) {
+            return Optional.empty();
+        }
         account.getContacts().size();
-        return account;
+        return Optional.of(account);
     }
 
     @Transactional

@@ -19,7 +19,7 @@ public class MadeContactDto implements Serializable {
 
     private UUID id;
 
-    private AccountDto accountDto;
+    private AccountDto account;
 
     private String name;
 

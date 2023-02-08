@@ -1,11 +1,10 @@
 package digital.moveto.botinok.web;
 
-import digital.moveto.botinok.model.dto.CompanyDto;
 import digital.moveto.botinok.model.dto.ContactDto;
-import digital.moveto.botinok.model.entities.Company;
+import digital.moveto.botinok.model.entities.Account;
 import digital.moveto.botinok.model.entities.Contact;
-import digital.moveto.botinok.model.repositories.CompanyRepository;
-import digital.moveto.botinok.model.repositories.ContactRepository;
+import digital.moveto.botinok.model.service.AccountService;
+import digital.moveto.botinok.model.service.ContactService;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.util.Strings;
 import org.slf4j.Logger;
@@ -20,21 +19,25 @@ import java.util.Optional;
 import static digital.moveto.botinok.WebConst.API_ADDRESS;
 
 @RestController
-@RequestMapping(API_ADDRESS + "/contact")
+@RequestMapping(API_ADDRESS + "contact")
 @RequiredArgsConstructor
 public class ContactRestController {
 
     private final Logger log = LoggerFactory.getLogger(ContactRestController.class);
 
-    private final ContactRepository contactRepository;
+    private final ContactService contactService;
+    private final AccountService accountService;
 
     @PostMapping("/save")
     public ContactDto save(@RequestBody ContactDto contactDto) {
-        Optional<Contact> contact = contactRepository.findById(contactDto.getId());
+        Optional<Contact> contact = contactService.findById(contactDto.getId());
         if (contact.isPresent()){
-            return contactRepository.save(contactDto.toEntity()).toDto();
+            Contact contactFromDto = contactDto.toEntity();
+            Account account = accountService.findById(contactDto.getAccount().getId()).get();
+            contactFromDto.setAccount(account);
+            return contactService.save(contactFromDto).toDto();
         }
-        contact = contactRepository.findByLinkedinUrl(contactDto.getLinkedinUrl());
+        contact = contactService.findByLinkedinUrl(contactDto.getLinkedinUrl());
         if (contact.isPresent()){
             if (contactDto.getParseDate() != null
                     && contactDto.getParseDate().isAfter(contact.get().getParseDate())) {
@@ -48,13 +51,16 @@ public class ContactRestController {
                 if (Strings.isNotBlank(contactDto.getPhone())){
                     contact.get().setPhone(contactDto.getPhone());
                 }
-                return contactRepository.save(contact.get()).toDto();
+                return contactService.save(contact.get()).toDto();
             } else {
                 return contact.get().toDto();
             }
         }
 
-        return contactRepository.save(contactDto.toEntity()).toDto();
+        Contact contactFromDto = contactDto.toEntity();
+        Account account = accountService.findById(contactDto.getAccount().getId()).get();
+        contactFromDto.setAccount(account);
+        return contactService.save(contactFromDto).toDto();
     }
 
 }
