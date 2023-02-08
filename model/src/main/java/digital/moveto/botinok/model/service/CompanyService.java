@@ -19,6 +19,9 @@ public class CompanyService {
 
     @Transactional
     public Company save(Company company) {
+        if (company.getId() == null) {
+            company.setId(UUID.randomUUID());
+        }
         company = companyRepository.save(company);
         return company;
     }
@@ -29,7 +32,8 @@ public class CompanyService {
 
     @Transactional
     public Company saveAndFlush(Company company) {
-        company = companyRepository.saveAndFlush(company);
+        company = save(company);
+        companyRepository.flush();
         return company;
     }
 

@@ -22,6 +22,9 @@ public class AccountService {
 
     @Transactional
     public Account save(Account account) {
+        if (account.getId() == null) {
+            account.setId(UUID.randomUUID());
+        }
         account = accountRepository.save(account);
         return account;
     }
