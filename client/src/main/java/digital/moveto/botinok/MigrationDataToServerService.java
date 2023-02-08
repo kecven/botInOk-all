@@ -18,7 +18,7 @@ public class MigrationDataToServerService {
     private final ClientMadeApplyService clientMadeApplyService;
     private final ClientMadeContactService clientMadeContactService;
 
-    @PostConstruct
+//    @PostConstruct
     public void init(){
         List<Account> all = clientAccountService.findAll();
         all.forEach(account -> clientAccountService.save(account));

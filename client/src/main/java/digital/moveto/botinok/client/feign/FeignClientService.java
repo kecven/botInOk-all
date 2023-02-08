@@ -24,41 +24,60 @@ public class FeignClientService {
 
     private final ContactService contactService;
 
-    private final ExecutorService executorService = Executors.newSingleThreadExecutor();
-
+    private final ExecutorService executorService = Executors.newFixedThreadPool(5);
 
     public void saveAccount(Account account) {
         executorService.submit(() -> {
-            log.trace("saveAccount: {}", account);
-            accountFeignClient.save(account.toDto());
+            try {
+                log.trace("saveAccount: {}", account);
+                accountFeignClient.save(account.toDto());
+            }catch (Exception e){
+                log.error("saveAccount: {}", account, e);
+            }
         });
     }
 
     public void saveMadeContact(MadeContact madeContact) {
         executorService.submit(() -> {
-            log.trace("saveMadeContact: {}", madeContact);
-            madeContactFeignClient.save(madeContact.toDto());
+            try {
+                log.trace("saveMadeContact: {}", madeContact);
+                madeContactFeignClient.save(madeContact.toDto());
+            } catch (Exception e) {
+                log.error("saveMadeContact: {}", madeContact, e);
+            }
         });
     }
 
     public void saveMadeApply(MadeApply madeApply) {
         executorService.submit(() -> {
-            log.trace("saveMadeApply: {}", madeApply);
-            madeApplyFeignClient.save(madeApply.toDto());
+            try {
+                log.trace("saveMadeApply: {}", madeApply);
+                madeApplyFeignClient.save(madeApply.toDto());
+            } catch (Exception e) {
+                log.error("saveMadeApply: {}", madeApply, e);
+            }
         });
     }
 
     public void saveContact(Contact contact) {
         executorService.submit(() -> {
-            log.trace("saveContact: {}", contact);
-            contactFeignClient.save(contact.toDto());
+            try {
+                log.trace("saveContact: {}", contact);
+                contactFeignClient.save(contact.toDto());
+            } catch (Exception e) {
+                log.error("saveContact: {}", contact, e);
+            }
         });
     }
 
     public void saveCompany(Company company) {
         executorService.submit(() -> {
-            log.trace("saveCompany: {}", company);
-            companyFeignClient.save(company.toDto());
+            try {
+                log.trace("saveCompany: {}", company);
+                companyFeignClient.save(company.toDto());
+            } catch (Exception e) {
+                log.error("saveCompany: {}", company, e);
+            }
         });
     }
 }
