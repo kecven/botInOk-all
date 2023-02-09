@@ -2,25 +2,22 @@ package digital.moveto.botinok.client.ui;
 
 import digital.moveto.botinok.client.config.GlobalConfig;
 import digital.moveto.botinok.client.config.UIConst;
-import digital.moveto.botinok.model.entities.Account;
-import digital.moveto.botinok.model.entities.enums.Location;
-import digital.moveto.botinok.model.entities.MadeApply;
-import digital.moveto.botinok.model.entities.MadeContact;
+import digital.moveto.botinok.client.playwright.PlaywrightService;
 import digital.moveto.botinok.client.service.ClientAccountService;
 import digital.moveto.botinok.client.service.ClientMadeApplyService;
 import digital.moveto.botinok.client.service.ClientMadeContactService;
-import digital.moveto.botinok.client.playwright.PlaywrightService;
+import digital.moveto.botinok.model.entities.Account;
+import digital.moveto.botinok.model.entities.MadeApply;
+import digital.moveto.botinok.model.entities.MadeContact;
+import digital.moveto.botinok.model.entities.enums.Location;
 import digital.moveto.botinok.model.utils.BotinokUtils;
 import jakarta.annotation.PostConstruct;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
+import javafx.event.Event;
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -66,7 +63,7 @@ public class UiElements {
     private final Label userNameLabel = new Label("");
     private final CheckBox workInShabatCheckBox = new CheckBox("Work in Shabat");
     private final CheckBox activeSearch = new CheckBox("Active search");
-    private final ComboBox<Location> location = new ComboBox<>(FXCollections.observableArrayList(Location.getAllSortedLocations()));
+    private final AutoCompleteTextField<Location> locationAutoCompleteTextField = new AutoCompleteTextField(Location.getAllSortedLocations());
     private final TextField positionsField = new TextField();
     private final Button startButton = new Button("Loading...");    //after finish loading text will change to start
     private final ScrollPane scrollLogPane = new ScrollPane();
@@ -103,20 +100,35 @@ public class UiElements {
         getActiveSearch().setFont(new Font(14));
         getActiveSearch().setTooltip(new Tooltip("If you want to search for new jobs, check this box."));
         getActiveSearch().setCursor(Cursor.HAND);
-        getActiveSearch().setOnMouseClicked(e-> saveSettingForUser());
+        getActiveSearch().setOnMouseClicked(e -> saveSettingForUser());
 
         getPositionsField().setPromptText("Manager, Developer, etc...");
         getPositionsField().setPadding(new Insets(0, 10, 10, 10));
         getPositionsField().setPrefSize(UIConst.WIDTH_OF_SETTING, 16);
         getPositionsField().setFont(new Font(16));
         getPositionsField().setTooltip(new Tooltip("Enter positions you want to search. Separate by comma."));
-        getPositionsField().setOnInputMethodTextChanged(e->saveSettingForUser());
+        getPositionsField().setOnInputMethodTextChanged(e -> saveSettingForUser());
+        getPositionsField().textProperty().addListener(
+                (observable, oldValue, newValue) -> {
+                    if (newValue.length() > 255) {
+                        showAlert(Alert.AlertType.WARNING, "Many positions", "Positions can't be more than 255 characters", "Please select less positions");
+                        getPositionsField().setText(oldValue);
+                    }
+                }
+        );
+        getLocationAutoCompleteTextField().setPrefSize(UIConst.WIDTH_OF_SETTING, UIConst.HEIGHT_OF_LABEL);
+        getLocationAutoCompleteTextField().setPadding(new Insets(5, 10, 5, 10));
+        getLocationAutoCompleteTextField().setPromptText("Location");
+        getLocationAutoCompleteTextField().setTooltip(new Tooltip("Choose you location where you want to work"));
+        getLocationAutoCompleteTextField().setOnInputMethodTextChanged(e -> saveSettingForUser());
 
-        getLocation().setPrefSize(UIConst.WIDTH_OF_SETTING, UIConst.HEIGHT_OF_LABEL);
-        getLocation().setPadding(new Insets(5, 10, 5, 10));
-        getLocation().setPromptText("Location");
-        getLocation().setTooltip(new Tooltip("Choose you location where you want to work."));
-        getLocation().setOnInputMethodTextChanged(e->saveSettingForUser());
+        getLocationAutoCompleteTextField().getEntryMenu().setOnAction(e -> {
+            ((MenuItem) e.getTarget()).addEventHandler(Event.ANY, event -> {
+                if (getLocationAutoCompleteTextField().getLastSelectedObject() != null) {
+                    getLocationAutoCompleteTextField().setText(getLocationAutoCompleteTextField().getLastSelectedObject().toString());
+                }
+            });
+        });
 
         getStartButton().setCursor(Cursor.WAIT);
         getStartButton().setBackground(new Background(new BackgroundFill(Color.ORANGE, CornerRadii.EMPTY, Insets.EMPTY)));
@@ -126,7 +138,7 @@ public class UiElements {
 
         getCountDailyConnectSlider().setShowTickLabels(true);
         getCountDailyConnectSlider().setMajorTickUnit(5);
-        getCountDailyConnectSlider().setOnMouseClicked(e->saveSettingForUser());
+        getCountDailyConnectSlider().setOnMouseClicked(e -> saveSettingForUser());
 //        getCountDailyConnectSlider().setOnMouseReleased(e->saveSettingForUser());
 
 
@@ -330,25 +342,43 @@ public class UiElements {
                     activeSearch.setSelected(account.getActiveSearch());
                     positionsField.setText(account.getPosition());
                     userNameLabel.setText(account.getFullName());
-                    location.setValue(account.getLocation());
                     countDailyApplySlider.setValue(account.getCountDailyApply());
                     countDailyConnectSlider.setValue(account.getCountDailyConnect());
+                    try {
+                        locationAutoCompleteTextField.setText(account.getLocation().getName());
+                    } catch (IllegalArgumentException ignored) {
+                    }
                     updateStatistic();
                 }
         );
     }
 
-    public void saveSettingForUser(){
+    public boolean saveSettingForUser() {
         if (getSelectAccount() != null) {
+            if (getLocationAutoCompleteTextField().getLastSelectedObject() == null) {
+                showAlert(Alert.AlertType.WARNING, "Location not found", "Please select location which we provided", "If you can't find location, please contact with us");
+                return false;
+            }
+            if (positionsField.getText().isEmpty()
+                    || positionsField.getText().length() < 2) {
+                showAlert(Alert.AlertType.WARNING, "Position not found", "Please enter position", "You can enter more than one position, separate by comma");
+                return false;
+            }
+            if (positionsField.getText().length() > 255) {
+                showAlert(Alert.AlertType.WARNING, "So many positions", "Please delete some positions", "You can enter more than one position, separate by comma");
+                return false;
+            }
+
             selectAccount.setWorkInShabat(workInShabatCheckBox.isSelected());
             selectAccount.setActiveSearch(activeSearch.isSelected());
             selectAccount.setPosition(positionsField.getText());
-            selectAccount.setLocation(location.getValue());
+            selectAccount.setLocation(getLocationAutoCompleteTextField().getLastSelectedObject());
             selectAccount.setCountDailyApply((int) countDailyApplySlider.getValue());
             selectAccount.setCountDailyConnect((int) countDailyConnectSlider.getValue());
 
             clientAccountService.save(selectAccount);
         }
+        return true;
     }
 
     public void updateStatistic(){
@@ -374,5 +404,14 @@ public class UiElements {
                     }
             );
         }
+    }
+
+    public void showAlert(Alert.AlertType alertType, String title, String headerText, String contentText) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(headerText);
+        alert.setContentText(contentText);
+
+        alert.showAndWait();
     }
 }

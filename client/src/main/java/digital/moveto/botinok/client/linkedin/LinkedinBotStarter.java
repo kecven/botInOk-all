@@ -4,11 +4,11 @@ import com.microsoft.playwright.Playwright;
 import digital.moveto.botinok.client.config.ClientConst;
 import digital.moveto.botinok.client.config.GlobalConfig;
 import digital.moveto.botinok.client.feign.AccountFeignClient;
-import digital.moveto.botinok.model.entities.Account;
 import digital.moveto.botinok.client.service.ClientAccountService;
 import digital.moveto.botinok.client.ui.MainScene;
 import digital.moveto.botinok.client.ui.UiElements;
 import digital.moveto.botinok.client.utils.FileUtils;
+import digital.moveto.botinok.model.entities.Account;
 import digital.moveto.botinok.model.utils.BotinokUtils;
 import jakarta.annotation.PostConstruct;
 import javafx.scene.Cursor;
@@ -66,7 +66,9 @@ public class LinkedinBotStarter {
                 runInThread(() -> {
                     try {
                         log.info("Click button start bot");
-                        uiElements.saveSettingForUser();
+                        if (!uiElements.saveSettingForUser()) {
+                            return; // have error in save settings
+                        }
                         startSearchConnectsAndConnect();
                     } catch (Exception e) {
                         if (e.getCause().getClass().equals(InterruptedException.class)){

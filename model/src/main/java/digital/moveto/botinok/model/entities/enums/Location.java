@@ -744,9 +744,9 @@ public enum Location {
         return result;
     }
 
-    public static List<Location> getAllSortedLocations() {
-        List<Location> result = Arrays.asList(values());
-        Collections.sort(result, Comparator.comparing(o -> o.name));
+    public static SortedSet<Location> getAllSortedLocations() {
+        SortedSet<Location> result = new TreeSet<>(Comparator.comparing(Location::getName));
+        Collections.addAll(result, values());
         return result;
     }
 

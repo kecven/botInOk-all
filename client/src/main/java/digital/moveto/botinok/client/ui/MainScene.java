@@ -8,7 +8,6 @@ import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -74,9 +73,13 @@ public class MainScene {
         userNameLabelPane.setCenter(uiElements.getUserNameLabel());
         userNameLabelPane.setPrefSize(UIConst.WIDTH_OF_SETTING, UIConst.HEIGHT_OF_LABEL);
 
-        Label position = new Label("Positions:");
-        position.setTextAlignment(TextAlignment.CENTER);
-        position.setPadding(new Insets(10, 10, 0, 10));
+        Label positionLabel = new Label("Positions:");
+        positionLabel.setTextAlignment(TextAlignment.CENTER);
+        positionLabel.setPadding(new Insets(10, 10, 0, 10));
+
+        Label locationLabel = new Label("Location:");
+        locationLabel.setTextAlignment(TextAlignment.CENTER);
+        locationLabel.setPadding(new Insets(10, 10, 0, 10));
 
         Label countDailyApply = new Label("Count apply per day:");
         countDailyApply.setTextAlignment(TextAlignment.CENTER);
@@ -91,8 +94,9 @@ public class MainScene {
                 userNameLabelPane,
 //                uiElements.getWorkInShabatCheckBox(),
                 uiElements.getActiveSearch(),
-                uiElements.getLocation(),
-                position,
+                locationLabel,
+                uiElements.getLocationAutoCompleteTextField(),
+                positionLabel,
                 uiElements.getPositionsField(),
                 countDailyApply,
                 uiElements.getCountDailyApplySlider(),

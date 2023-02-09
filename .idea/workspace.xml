@@ -4,15 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c6251951-17d6-4930-8673-3bc1daab451c" name="Changes" comment="save data to server">
-      <change afterPath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/config/FeignClientConfig.java" afterDir="false" />
+    <list default="true" id="c6251951-17d6-4930-8673-3bc1daab451c" name="Changes" comment="add retrier for Feign client and add 700+ locations">
+      <change afterPath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/ui/AutoCompleteTextField.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/feign/AccountFeignClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/feign/AccountFeignClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/feign/BotinokFeignClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/feign/BotinokFeignClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/feign/CompanyFeignClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/feign/CompanyFeignClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/feign/ContactFeignClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/feign/ContactFeignClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/feign/MadeApplyFeignClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/feign/MadeApplyFeignClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/feign/MadeContactFeignClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/feign/MadeContactFeignClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/linkedin/LinkedinBotStarter.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/linkedin/LinkedinBotStarter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/ui/MainScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/ui/MainScene.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/ui/UiElements.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/ui/UiElements.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/model/src/main/java/digital/moveto/botinok/model/entities/enums/Location.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/src/main/java/digital/moveto/botinok/model/entities/enums/Location.java" afterDir="false" />
@@ -380,7 +375,14 @@
       <option name="project" value="LOCAL" />
       <updated>1675895956753</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="add retrier for Feign client and add 700+ locations">
+      <created>1675902562476</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1675902562476</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -407,14 +409,15 @@
     <MESSAGE value="add new Icon" />
     <MESSAGE value="a little bit upgrade design" />
     <MESSAGE value="save data to server" />
-    <option name="LAST_COMMIT_MESSAGE" value="save data to server" />
+    <MESSAGE value="add retrier for Feign client and add 700+ locations" />
+    <option name="LAST_COMMIT_MESSAGE" value="add retrier for Feign client and add 700+ locations" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/linkedin/LinkedinBotStarter.java</url>
-          <line>153</line>
+          <line>155</line>
           <option name="timeStamp" value="8" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -446,6 +449,11 @@
           <url>file://$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/feign/FeignClientService.java</url>
           <line>34</line>
           <option name="timeStamp" value="24" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/ui/UiElements.java</url>
+          <line>377</line>
+          <option name="timeStamp" value="27" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
