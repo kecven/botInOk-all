@@ -9,7 +9,7 @@ import digital.moveto.botinok.client.service.ClientMadeContactService;
 import digital.moveto.botinok.model.entities.Account;
 import digital.moveto.botinok.model.entities.MadeApply;
 import digital.moveto.botinok.model.entities.MadeContact;
-import digital.moveto.botinok.model.entities.enums.Location;
+import digital.moveto.botinok.model.entities.enums.LocationProperty;
 import digital.moveto.botinok.model.utils.BotinokUtils;
 import jakarta.annotation.PostConstruct;
 import javafx.application.Platform;
@@ -63,7 +63,7 @@ public class UiElements {
     private final Label userNameLabel = new Label("");
     private final CheckBox workInShabatCheckBox = new CheckBox("Work in Shabat");
     private final CheckBox activeSearch = new CheckBox("Active search");
-    private final AutoCompleteTextField<Location> locationAutoCompleteTextField = new AutoCompleteTextField(Location.getAllSortedLocations());
+    private final AutoCompleteTextField<LocationProperty> locationAutoCompleteTextField = new AutoCompleteTextField(LocationProperty.getAllSortedLocations());
     private final TextField positionsField = new TextField();
     private final Button startButton = new Button("Loading...");    //after finish loading text will change to start
     private final ScrollPane scrollLogPane = new ScrollPane();
@@ -345,7 +345,7 @@ public class UiElements {
                     countDailyApplySlider.setValue(account.getCountDailyApply());
                     countDailyConnectSlider.setValue(account.getCountDailyConnect());
                     try {
-                        locationAutoCompleteTextField.setText(account.getLocation().getName());
+                        locationAutoCompleteTextField.setText(LocationProperty.getByName(account.getLocation()).getName());
                     } catch (IllegalArgumentException ignored) {
                     }
                     updateStatistic();
@@ -372,7 +372,7 @@ public class UiElements {
             selectAccount.setWorkInShabat(workInShabatCheckBox.isSelected());
             selectAccount.setActiveSearch(activeSearch.isSelected());
             selectAccount.setPosition(positionsField.getText());
-            selectAccount.setLocation(getLocationAutoCompleteTextField().getLastSelectedObject());
+            selectAccount.setLocation(getLocationAutoCompleteTextField().getLastSelectedObject().getKey());
             selectAccount.setCountDailyApply((int) countDailyApplySlider.getValue());
             selectAccount.setCountDailyConnect((int) countDailyConnectSlider.getValue());
 

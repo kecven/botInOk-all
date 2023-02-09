@@ -1,7 +1,6 @@
 package digital.moveto.botinok.model.service;
 
 import digital.moveto.botinok.model.entities.Account;
-import digital.moveto.botinok.model.entities.enums.Location;
 import digital.moveto.botinok.model.repositories.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
+import static digital.moveto.botinok.model.Const.DEFAULT_LOCATION;
 
 @Service
 public class AccountService {
@@ -61,7 +62,7 @@ public class AccountService {
         account.setActive(true);
         account.setActiveSearch(true);
         account.setEndDateLicense(LocalDate.now().plusYears(20));
-        account.setLocation(Location.ISRAEL);
+        account.setLocation(DEFAULT_LOCATION);
 
         account = save(account);
         account.setFolder(account.getId().toString());

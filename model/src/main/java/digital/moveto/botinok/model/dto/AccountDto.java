@@ -7,7 +7,6 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import digital.moveto.botinok.model.Const;
 import digital.moveto.botinok.model.entities.Account;
-import digital.moveto.botinok.model.entities.enums.Location;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.logging.log4j.util.Strings;
@@ -43,7 +42,7 @@ public class AccountDto implements Serializable {
 
     private Integer countDailyConnect;
 
-    private Location location;
+    private String location;
 
     @JsonDeserialize(using = LocalDateDeserializer.class)
     @JsonSerialize(using = LocalDateSerializer.class)

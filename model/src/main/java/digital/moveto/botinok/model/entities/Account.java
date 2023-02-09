@@ -3,7 +3,6 @@ package digital.moveto.botinok.model.entities;
 
 import digital.moveto.botinok.model.Const;
 import digital.moveto.botinok.model.dto.AccountDto;
-import digital.moveto.botinok.model.entities.enums.Location;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -58,9 +57,8 @@ public class Account {
     @Column(name = "count_daily_connect", columnDefinition = "int default 15", nullable = false)
     private Integer countDailyConnect;
 
-    @Enumerated(EnumType.STRING)
     @Column(name = "location", length = 30)
-    private Location location;
+    private String location;
 
     @Column(name = "end_date_license")
     private LocalDate endDateLicense;
@@ -88,7 +86,7 @@ public class Account {
     }
     public String getShortName() {
         if (Strings.isNotBlank(firstName) && Strings.isNotBlank(lastName)) {
-            return firstName.substring(0,1) + lastName.substring(0,1);
+            return firstName.charAt(0) + lastName.charAt(0);
         }
 
         if (Strings.isNotBlank(firstName)) {

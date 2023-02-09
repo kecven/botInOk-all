@@ -5,11 +5,12 @@ import com.microsoft.playwright.PlaywrightException;
 import digital.moveto.botinok.client.config.ClientConst;
 import digital.moveto.botinok.client.config.GlobalConfig;
 import digital.moveto.botinok.client.exeptions.StopMadeContactException;
+import digital.moveto.botinok.client.playwright.PlaywrightService;
+import digital.moveto.botinok.client.service.*;
+import digital.moveto.botinok.client.ui.UiElements;
 import digital.moveto.botinok.client.utils.UrlUtils;
 import digital.moveto.botinok.model.entities.*;
-import digital.moveto.botinok.client.service.*;
-import digital.moveto.botinok.client.playwright.PlaywrightService;
-import digital.moveto.botinok.client.ui.UiElements;
+import digital.moveto.botinok.model.entities.enums.LocationProperty;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.util.Strings;
 import org.slf4j.Logger;
@@ -177,7 +178,7 @@ public class LinkedinBotService implements AutoCloseable {
             stringListMap.put("keywords", getRandomSearchKeyword());
             stringListMap.put("sid", generateRandomSid());
             if (account.getLocation() != null){
-                stringListMap.put("geoUrn", "%5B%22" + account.getLocation().getLinkedinId() + "%22%5D");
+                stringListMap.put("geoUrn", "%5B%22" + LocationProperty.getByName(account.getLocation()).getLinkedinId() + "%22%5D");
             }
 
             String nextPageUrl = ClientConst.DEFAULT_URL_FOR_SEARCH_WITHOUT_PARAMS + UrlUtils.createQueryString(stringListMap);
@@ -632,7 +633,7 @@ public class LinkedinBotService implements AutoCloseable {
                     return;
                 }
                 int start = j * COUNT_POSITION_ON_ONE_PAGE;
-                playwrightService.open("https://www.linkedin.com/jobs/search/?f_AL=true&f_TPR=r86400&geoId=" + account.getLocation().getLinkedinId() + "&keywords=" + position + "&location=" + account.getLocation().name() + "&refresh=true&start=" + start);
+                playwrightService.open("https://www.linkedin.com/jobs/search/?f_AL=true&f_TPR=r86400&geoId=" + LocationProperty.getLocation(account.getLocation()).getLinkedinId() + "&keywords=" + position + "&location=" + LocationProperty.getLocation(account.getLocation()).getName() + "&refresh=true&start=" + start);
                 playwrightService.sleepRandom(3000);
                 if (playwrightService.getByText("No matching jobs found.").isPresent()) {
                     log.info("No matching jobs found.");
