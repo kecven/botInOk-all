@@ -58,6 +58,9 @@ public class UiElements {
     @Autowired
     private ClientMadeContactService clientMadeContactService;
 
+    @Autowired
+    private PlaywrightService browserForLinks;
+
     public static Stage stage;
 
     private final Label userNameLabel = new Label("");
@@ -198,9 +201,10 @@ public class UiElements {
 
             Hyperlink hyperlink = new Hyperlink(links.get(i));
             hyperlink.setOnAction(event -> {
-                PlaywrightService linkForBrowser = context.getBean(PlaywrightService.class);
-                linkForBrowser.start(Paths.get(globalConfig.pathToStateFolder + getSelectAccount().getFolder()), false);
-                linkForBrowser.open(hyperlink.getText());
+                if (browserForLinks.getPlaywright() == null) {
+                    browserForLinks.start(Paths.get(globalConfig.pathToStateFolder + getSelectAccount().getFolder()), false);
+                }
+                browserForLinks.openInNewPage(hyperlink.getText());
             });
             hyperlink.setTextFill(Color.BLUE);
             hyperlink.setFont(Font.font("Helvetica", FontWeight.NORMAL, 16));
