@@ -359,9 +359,9 @@ public class UiElements {
 
     public boolean saveSettingForUser() {
         if (getSelectAccount() != null) {
-            Location selectLocation;
+            LocationProperty selectLocation;
             if (getLocationAutoCompleteTextField().getLastSelectedObject() == null) {
-                Location searchLocation = Location.getByName(getLocationAutoCompleteTextField().getText());
+                LocationProperty searchLocation = LocationProperty.getByName(getLocationAutoCompleteTextField().getText());
                 if (searchLocation != null) {
                     selectLocation = searchLocation;
                 } else {
@@ -384,7 +384,7 @@ public class UiElements {
             selectAccount.setWorkInShabat(workInShabatCheckBox.isSelected());
             selectAccount.setActiveSearch(activeSearch.isSelected());
             selectAccount.setPosition(positionsField.getText());
-            selectAccount.setLocation(getLocationAutoCompleteTextField().getLastSelectedObject().getKey());
+            selectAccount.setLocation(selectLocation.getKey());
             selectAccount.setCountDailyApply((int) countDailyApplySlider.getValue());
             selectAccount.setCountDailyConnect((int) countDailyConnectSlider.getValue());
 

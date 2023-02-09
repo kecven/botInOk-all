@@ -86,7 +86,7 @@ public class Account {
     }
     public String getShortName() {
         if (Strings.isNotBlank(firstName) && Strings.isNotBlank(lastName)) {
-            return firstName.charAt(0) + lastName.charAt(0);
+            return firstName.charAt(0) + "" + lastName.charAt(0);
         }
 
         if (Strings.isNotBlank(firstName)) {

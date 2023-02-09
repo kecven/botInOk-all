@@ -1,5 +1,8 @@
 package digital.moveto.botinok.model.entities.enums;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,6 +12,7 @@ import java.util.*;
 import static digital.moveto.botinok.model.Const.SEPARATOR_FOR_LOCATIONS;
 
 public class LocationProperty {
+    private static Logger log = LoggerFactory.getLogger(LocationProperty.class);
 
     private static final Map<String, LocationProperty> allLocations = initAllLocations();
 
@@ -18,6 +22,7 @@ public class LocationProperty {
 
     // TODO: OPTIMIZE LOAD AND CACHE. LOAD IN DIFFERENT THREAD. LOADING TAKE AROUND 150 MS
     private static Map<String, LocationProperty> initAllLocations() {
+        log.trace("Start init locations from csv file");
         Map<String, LocationProperty> allLocations = new HashMap<>(30_000);
         try (InputStream in = LocationProperty.class.getResourceAsStream("/locations.csv");
              BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
@@ -30,6 +35,7 @@ public class LocationProperty {
             throw new RuntimeException(e);
         }
 
+        log.trace("Finished init locations from csv file");
         return allLocations;
     }
 
