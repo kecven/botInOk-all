@@ -89,7 +89,7 @@ public class MainScene {
         setting.getChildren().addAll(
                 settingLabelPane,
                 userNameLabelPane,
-                uiElements.getWorkInShabatCheckBox(),
+//                uiElements.getWorkInShabatCheckBox(),
                 uiElements.getActiveSearch(),
                 uiElements.getLocation(),
                 position,

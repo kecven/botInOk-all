@@ -66,7 +66,7 @@ public class UiElements {
     private final Label userNameLabel = new Label("");
     private final CheckBox workInShabatCheckBox = new CheckBox("Work in Shabat");
     private final CheckBox activeSearch = new CheckBox("Active search");
-    private final ComboBox<Location> location = new ComboBox<>(FXCollections.observableArrayList(Location.values()));
+    private final ComboBox<Location> location = new ComboBox<>(FXCollections.observableArrayList(Location.getAllSortedLocations()));
     private final TextField positionsField = new TextField();
     private final Button startButton = new Button("Loading...");    //after finish loading text will change to start
     private final ScrollPane scrollLogPane = new ScrollPane();
