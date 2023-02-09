@@ -1,4 +1,4 @@
-package digital.moveto.botinok.client.ui;
+package digital.moveto.botinok.client.ui.elements;
 
 
 import javafx.beans.property.ObjectProperty;

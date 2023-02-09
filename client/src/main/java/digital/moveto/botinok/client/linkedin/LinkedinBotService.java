@@ -413,7 +413,7 @@ public class LinkedinBotService implements AutoCloseable {
 
     public void checkAuthorizationAndLogin() {
         if ( !checkAuthorization()) {
-            if (account.getLogin() != null && account.getPassword() != null) {
+            if (Strings.isNotBlank(account.getLogin()) && Strings.isNotBlank(account.getPassword())) {
                 login(account.getLogin(), account.getPassword());
             } else {
                 login();

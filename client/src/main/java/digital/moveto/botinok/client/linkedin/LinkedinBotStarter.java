@@ -3,9 +3,11 @@ package digital.moveto.botinok.client.linkedin;
 import com.microsoft.playwright.Playwright;
 import digital.moveto.botinok.client.config.ClientConst;
 import digital.moveto.botinok.client.config.GlobalConfig;
+import digital.moveto.botinok.client.exeptions.StopBotWorkException;
 import digital.moveto.botinok.client.feign.AccountFeignClient;
 import digital.moveto.botinok.client.service.ClientAccountService;
 import digital.moveto.botinok.client.ui.MainScene;
+import digital.moveto.botinok.client.ui.TutorialScene;
 import digital.moveto.botinok.client.ui.UiElements;
 import digital.moveto.botinok.client.utils.FileUtils;
 import digital.moveto.botinok.model.entities.Account;
@@ -44,6 +46,9 @@ public class LinkedinBotStarter {
     private MainScene mainScene;
 
     @Autowired
+    private TutorialScene tutorialScene;
+
+    @Autowired
     private AccountFeignClient accountFeignClient;
 
     private ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();
@@ -55,7 +60,11 @@ public class LinkedinBotStarter {
     @PostConstruct
     public void init() {
         addAllAccountToUi();
-        mainScene.finishInitialization();
+        if (tutorialScene.getNeedShowTutorial()) {
+            tutorialScene.init();
+        } else {
+            mainScene.finishInitialization();
+        }
 
         Playwright.create().close();
 
@@ -63,24 +72,11 @@ public class LinkedinBotStarter {
             if (uiElements.getStartButton().getText().equals("Start")) {
                 uiElements.changeButtonState(false);
 
-                runInThread(() -> {
-                    try {
-                        log.info("Click button start bot");
-                        if (!uiElements.saveSettingForUser()) {
-                            return; // have error in save settings
-                        }
-                        startSearchConnectsAndConnect();
-                    } catch (Exception e) {
-                        if (e.getCause().getClass().equals(InterruptedException.class)){
-                            uiElements.addLogToLogArea("Bot stopped");
-                        } else {
-                            log.error("Error in startSearchConnectsAndConnect", e);
-                            uiElements.addLogToLogArea("Error in Application. Please, restart application");
-                        }
-                    } finally {
-                        uiElements.changeButtonState(true);
-                    }
-                });
+                log.info("Click button start bot");
+                if (!uiElements.saveSettingForUser()) {
+                    return; // have error in save settings
+                }
+                start();
             } else {
                 log.info("Click button stop bot");
                 uiElements.addLogToLogArea("Stop bot");
@@ -90,8 +86,6 @@ public class LinkedinBotStarter {
             }
         });
 
-
-
         uiElements.addLogToLogArea("Loading complete");
         uiElements.changeButtonState(true);
         uiElements.getStartButton().setCursor(Cursor.HAND);
@@ -100,30 +94,41 @@ public class LinkedinBotStarter {
 
     @Scheduled(fixedRate = 1000 * 60 * 60 * 24, initialDelay = 10)
     public void startBotByScheduled() {
-
         if (globalConfig.startByDefault) {
-
-            runInThread(() -> {
-                try {
-                    startSearchConnectsAndConnect();
-                } catch (Exception e) {
-                    if (e.getCause().getClass().equals(InterruptedException.class)){
-                        uiElements.addLogToLogArea("Bot stopped");
-                    } else {
-                        log.error("Error in startSearchConnectsAndConnect", e);
-                        uiElements.addLogToLogArea("Error in Application. Please, restart application");
-                    }
-                } finally {
-                    uiElements.changeButtonState(true);
-                }
-            });
+            start();
         }
+    }
+    private void start(){
+        runInThread(() -> {
+            try {
+                startSearchConnectsAndConnect();
+            } catch (Exception e) {
+                Throwable exceptionCause = e;
+                for (int i = 0; i < 20; i++) {
+                    exceptionCause = exceptionCause.getCause();
+                    if (exceptionCause == null) {
+                        break;
+                    }
+                    if (exceptionCause.getClass().equals(InterruptedException.class)) {
+                        uiElements.addLogToLogArea("Bot stopped");
+                        return;
+                    }
+                }
+                log.error("Error in startSearchConnectsAndConnect", e);
+                uiElements.addLogToLogArea("Error in Application. Please, restart application");
+            } finally {
+                uiElements.changeButtonState(true);
+            }
+        });
     }
 
     private void addAllAccountToUi(){
         List<Account> accounts = clientAccountService.findAll();
         if (accounts == null || accounts.isEmpty()) {
+            // start first time
+            tutorialScene.setNeedShowTutorial(true);
             accounts.add(clientAccountService.addNewAccount());
+
         }
         uiElements.updateAccounts(accounts);
     }
@@ -150,6 +155,8 @@ public class LinkedinBotStarter {
                     log.info("Timeout between users " + ClientConst.SLEEP_BETWEEN_START_BOT_FOR_DIFFERENT_USERS);
                     linkedinBotService.sleepRandom(ClientConst.SLEEP_BETWEEN_START_BOT_FOR_DIFFERENT_USERS);
                 }
+            } catch (StopBotWorkException e) {
+                throw e;
             } catch (Exception e) {
                 log.error("Error bot for user " + account.getFullName() + ", UUID = " + account.getId(), e);
 

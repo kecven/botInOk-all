@@ -3,6 +3,7 @@ package digital.moveto.botinok.client.playwright;
 import com.microsoft.playwright.*;
 import digital.moveto.botinok.client.config.ClientConst;
 import digital.moveto.botinok.client.config.GlobalConfig;
+import digital.moveto.botinok.client.exeptions.StopBotWorkException;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
@@ -194,7 +195,7 @@ public class PlaywrightService implements AutoCloseable {
         try {
             Thread.sleep(timeout);
         } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+            throw new StopBotWorkException(e);
         }
     }
 
