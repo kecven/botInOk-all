@@ -4,9 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c6251951-17d6-4930-8673-3bc1daab451c" name="Changes" comment="change input for locations">
+    <list default="true" id="c6251951-17d6-4930-8673-3bc1daab451c" name="Changes" comment="add new Icon">
+      <change afterPath="$PROJECT_DIR$/client/start.sh" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/src/main/java/digital/moveto/botinok/model/entities/enums/Location.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/src/main/java/digital/moveto/botinok/model/entities/enums/Location.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/client/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/linkedin/LinkedinBotService.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/linkedin/LinkedinBotService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/playwright/PlaywrightService.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/playwright/PlaywrightService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/ui/UiElements.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/ui/UiElements.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/resources/application-stage.properties" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/resources/application-stage.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,24 +63,6 @@
                 <item name="Tasks" type="e4a08cd1:TasksNode" />
                 <item name="build" type="c8890929:TasksNode$1" />
               </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="botInOk" type="f1a62948:ProjectNode" />
-                <item name="web" type="2d1252cf:ModuleNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="botInOk" type="f1a62948:ProjectNode" />
-                <item name="web" type="2d1252cf:ModuleNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="botInOk" type="f1a62948:ProjectNode" />
-                <item name="web" type="2d1252cf:ModuleNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-                <item name="build" type="c8890929:TasksNode$1" />
-              </path>
             </expand>
             <select />
           </tree_state>
@@ -111,21 +98,20 @@
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
     &quot;jdk.selected.JAVA_MODULE&quot;: &quot;graalvm-ce-19&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/atetka/Projects/botinok/botInOk-all/client/src/main/java/digital/moveto/botinok/client/utils&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/andte/Projects/botinok/botInOk-all/client&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.41034484&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.project.gradle&quot;,
     &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
   }
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/utils" />
-      <recent name="$PROJECT_DIR$/model/src/main/java/digital/moveto/botinok/model" />
-      <recent name="$PROJECT_DIR$/web" />
+      <recent name="C:\Users\andte\Projects\botinok\botInOk-all\client" />
       <recent name="C:\Users\andreit\Projects\botInOk\botInOk\client\src\main\java\digital\moveto\botinok\client\feign" />
       <recent name="C:\Users\andreit\Projects\botInOk\botInOk\model\src\main\java\digital\moveto\botinok\model\dto" />
+      <recent name="C:\Users\andreit\Projects\botInOk\botInOk\web\src\main\resources" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/client/src/main/resources/ui/images" />
@@ -145,7 +131,8 @@
     <configuration name="BotinokClientApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="digital.moveto.botinok.BotinokClientApplication" />
       <module name="botInOk.client.main" />
-      <option name="VM_PARAMETERS" value="--module-path $USER_HOME$/Programs/javafx-sdk-19.0.2.1/lib --add-modules javafx.controls" />
+      <option name="PROGRAM_PARAMETERS" value="--spring.profiles.active=stage" />
+      <option name="VM_PARAMETERS" value="--module-path C:\Users\andte\Soft\javafx-sdk-19.0.2.1\lib --add-modules javafx.controls" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="digital.moveto.botinok.*" />
@@ -242,9 +229,9 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.botInOk:client [bootJar]" />
         <item itemvalue="Gradle.botInOk-all:client [clean]" />
         <item itemvalue="Gradle.botInOk-all:web [bootJar]" />
-        <item itemvalue="Gradle.botInOk:client [bootJar]" />
         <item itemvalue="Application.BotinokClientApplication" />
         <item itemvalue="Gradle.botInOk:model [clean]" />
       </list>
@@ -336,56 +323,14 @@
       <option name="project" value="LOCAL" />
       <updated>1675815883840</updated>
     </task>
-    <task id="LOCAL-00012" summary="a little bit upgrade design">
-      <created>1675816928986</created>
+    <task id="LOCAL-00012" summary="add new Icon">
+      <created>1675859305960</created>
       <option name="number" value="00012" />
       <option name="presentableId" value="LOCAL-00012" />
       <option name="project" value="LOCAL" />
-      <updated>1675816928986</updated>
+      <updated>1675859305960</updated>
     </task>
-    <task id="LOCAL-00013" summary="save data to server">
-      <created>1675870843804</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1675870843804</updated>
-    </task>
-    <task id="LOCAL-00014" summary="save data to server">
-      <created>1675885839257</created>
-      <option name="number" value="00014" />
-      <option name="presentableId" value="LOCAL-00014" />
-      <option name="project" value="LOCAL" />
-      <updated>1675885839257</updated>
-    </task>
-    <task id="LOCAL-00015" summary="save data to server">
-      <created>1675886182894</created>
-      <option name="number" value="00015" />
-      <option name="presentableId" value="LOCAL-00015" />
-      <option name="project" value="LOCAL" />
-      <updated>1675886182894</updated>
-    </task>
-    <task id="LOCAL-00016" summary="save data to server">
-      <created>1675895956753</created>
-      <option name="number" value="00016" />
-      <option name="presentableId" value="LOCAL-00016" />
-      <option name="project" value="LOCAL" />
-      <updated>1675895956753</updated>
-    </task>
-    <task id="LOCAL-00017" summary="add retrier for Feign client and add 700+ locations">
-      <created>1675902562476</created>
-      <option name="number" value="00017" />
-      <option name="presentableId" value="LOCAL-00017" />
-      <option name="project" value="LOCAL" />
-      <updated>1675902562476</updated>
-    </task>
-    <task id="LOCAL-00018" summary="change input for locations">
-      <created>1675905506347</created>
-      <option name="number" value="00018" />
-      <option name="presentableId" value="LOCAL-00018" />
-      <option name="project" value="LOCAL" />
-      <updated>1675905506347</updated>
-    </task>
-    <option name="localTasksCounter" value="19" />
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -400,7 +345,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
     <MESSAGE value="fix te" />
     <MESSAGE value="init v.0.2.5" />
     <MESSAGE value="Merge remote-tracking branch 'origin/main'&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml" />
@@ -411,13 +355,7 @@
     <MESSAGE value="save data on server. micro fixes" />
     <MESSAGE value="add sliders for count connect and count apply" />
     <MESSAGE value="add new Icon" />
-    <MESSAGE value="a little bit upgrade design" />
-    <MESSAGE value="save data to server" />
-    <MESSAGE value="add retrier for Feign client and add 700+ locations" />
-    <MESSAGE value="change input for locations" />
-    <option name="LAST_COMMIT_MESSAGE" value="change input for locations" />
-    <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
-    <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
+    <option name="LAST_COMMIT_MESSAGE" value="add new Icon" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -428,39 +366,9 @@
           <option name="timeStamp" value="8" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/web/src/main/java/digital/moveto/botinok/web/ContactRestController.java</url>
-          <line>32</line>
-          <option name="timeStamp" value="14" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/feign/FeignClientService.java</url>
-          <line>78</line>
-          <option name="timeStamp" value="20" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/feign/FeignClientService.java</url>
-          <line>67</line>
-          <option name="timeStamp" value="21" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/feign/FeignClientService.java</url>
-          <line>56</line>
-          <option name="timeStamp" value="22" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/feign/FeignClientService.java</url>
-          <line>45</line>
-          <option name="timeStamp" value="23" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/feign/FeignClientService.java</url>
-          <line>34</line>
-          <option name="timeStamp" value="24" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/ui/UiElements.java</url>
-          <line>374</line>
-          <option name="timeStamp" value="27" />
+          <url>file://$PROJECT_DIR$/web/src/main/java/digital/moveto/botinok/web/AccountRestController.java</url>
+          <line>26</line>
+          <option name="timeStamp" value="10" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

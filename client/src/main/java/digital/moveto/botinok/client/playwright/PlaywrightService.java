@@ -76,7 +76,9 @@ public class PlaywrightService implements AutoCloseable {
     }
 
     public void close() {
-        this.playwright.close();
+        if (this.playwright != null) {
+            this.playwright.close();
+        }
         this.playwright = null;
         this.page = null;
     }

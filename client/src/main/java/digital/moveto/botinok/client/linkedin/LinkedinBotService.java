@@ -97,11 +97,15 @@ public class LinkedinBotService implements AutoCloseable {
     }
 
     public void searchConnectsAndConnect() {
+        AtomicInteger count = new AtomicInteger(clientMadeContactService.getCountOfTodayForAccount(account));
+
+        if (count.get() >= account.getCountDailyConnect()){
+            return;
+        }
+
         log.info("Start search connects for user " + account.getFullName());
 
         goSearchRandomKeywordsAndPageAndSid();
-
-        AtomicInteger count = new AtomicInteger(clientMadeContactService.getCountOfTodayForAccount(account));
 
         CREATE_CONNECTS:
         for (int page = 0; page < MAX_COUNT_PAGE_FOR_ONE_TIME; page++) {
@@ -426,7 +430,9 @@ public class LinkedinBotService implements AutoCloseable {
 
     @Override
     public void close() {
-        playwrightService.close();
+        if (playwrightService != null) {
+            playwrightService.close();
+        }
     }
 
     public void sleepRandom(int timeout) {
@@ -618,12 +624,16 @@ public class LinkedinBotService implements AutoCloseable {
 
     public void applyToPositions(){
         AtomicInteger countApply = new AtomicInteger(clientMadeApplyService.getCountOfTodayForAccount(getAccount()));
+        if (countApply.get() >= account.getCountDailyApply()){
+            return;
+        }
+
         uiElements.addLogToLogArea("Start apply to positions");
         log.info("Start apply to positions for user: " + account.getFullName());
 //        https://www.linkedin.com/jobs/search/?currentJobId=3450022774&f_AL=true&f_TPR=r86400&geoId=101620260&keywords=java%20developer&location=Israel&refresh=true
 //        https://www.linkedin.com/jobs/search/?currentJobId=3462346515&f_AL=true&f_TPR=r86400&geoId=101620260&keywords=java%20developer&location=Israel&refresh=true&start=25
 
-        int initPosition = (int) (Math.random() * 1000);
+        int initPosition = (int) (Math.random() * 100000);
         for (int i = 0; i < 5; i++) {
             String position = takeString(initPosition + i, account.getPosition()).trim();
 

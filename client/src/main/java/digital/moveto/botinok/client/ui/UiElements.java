@@ -359,9 +359,17 @@ public class UiElements {
 
     public boolean saveSettingForUser() {
         if (getSelectAccount() != null) {
+            Location selectLocation;
             if (getLocationAutoCompleteTextField().getLastSelectedObject() == null) {
-                showAlert(Alert.AlertType.WARNING, "Location not found", "Please select location which we provided", "If you can't find location, please contact with us");
-                return false;
+                Location searchLocation = Location.getByName(getLocationAutoCompleteTextField().getText());
+                if (searchLocation != null) {
+                    selectLocation = searchLocation;
+                } else {
+                    showAlert(Alert.AlertType.WARNING, "Location not found", "Please select location which we provided", "If you can't find location, please contact with us");
+                    return false;
+                }
+            } else {
+                selectLocation = getLocationAutoCompleteTextField().getLastSelectedObject();
             }
             if (positionsField.getText().isEmpty()
                     || positionsField.getText().length() < 2) {
@@ -376,7 +384,7 @@ public class UiElements {
             selectAccount.setWorkInShabat(workInShabatCheckBox.isSelected());
             selectAccount.setActiveSearch(activeSearch.isSelected());
             selectAccount.setPosition(positionsField.getText());
-            selectAccount.setLocation(getLocationAutoCompleteTextField().getLastSelectedObject());
+            selectAccount.setLocation(selectLocation);
             selectAccount.setCountDailyApply((int) countDailyApplySlider.getValue());
             selectAccount.setCountDailyConnect((int) countDailyConnectSlider.getValue());
 
@@ -411,11 +419,15 @@ public class UiElements {
     }
 
     public void showAlert(Alert.AlertType alertType, String title, String headerText, String contentText) {
-        Alert alert = new Alert(alertType);
-        alert.setTitle(title);
-        alert.setHeaderText(headerText);
-        alert.setContentText(contentText);
+        Platform.runLater(
+                () -> {
+                    Alert alert = new Alert(alertType);
+                    alert.setTitle(title);
+                    alert.setHeaderText(headerText);
+                    alert.setContentText(contentText);
 
-        alert.showAndWait();
+                    alert.showAndWait();
+                }
+        );
     }
 }
