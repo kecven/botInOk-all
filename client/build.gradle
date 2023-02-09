@@ -7,11 +7,11 @@ plugins {
 }
 
 group 'digital.moveto.botinok'
-version = '0.2.5'
-sourceCompatibility = '19'
+version = '0.2.7'
+sourceCompatibility = '17'
 
 application {
-    mainClass = 'digital.moveto.botinok.client.BotinokApplication'
+    mainClass = 'digital.moveto.botinok.client.BotinokClientApplication'
 }
 
 repositories {
@@ -53,7 +53,7 @@ test {
 }
 
 javafx {
-    version = "19"
+    version = "17"
     modules = ['javafx.controls']
     configuration = "compileOnly"
 }

@@ -58,6 +58,9 @@ public class UiElements {
     @Autowired
     private ClientMadeContactService clientMadeContactService;
 
+    @Autowired
+    private PlaywrightService browserForLinks;
+
     public static Stage stage;
 
     private final Label userNameLabel = new Label("");
@@ -198,9 +201,10 @@ public class UiElements {
 
             Hyperlink hyperlink = new Hyperlink(links.get(i));
             hyperlink.setOnAction(event -> {
-                PlaywrightService linkForBrowser = context.getBean(PlaywrightService.class);
-                linkForBrowser.start(Paths.get(globalConfig.pathToStateFolder + getSelectAccount().getFolder()), false);
-                linkForBrowser.open(hyperlink.getText());
+                if (browserForLinks.getPlaywright() == null) {
+                    browserForLinks.start(Paths.get(globalConfig.pathToStateFolder + getSelectAccount().getFolder()), false);
+                }
+                browserForLinks.openInNewPage(hyperlink.getText());
             });
             hyperlink.setTextFill(Color.BLUE);
             hyperlink.setFont(Font.font("Helvetica", FontWeight.NORMAL, 16));
@@ -355,9 +359,17 @@ public class UiElements {
 
     public boolean saveSettingForUser() {
         if (getSelectAccount() != null) {
+            Location selectLocation;
             if (getLocationAutoCompleteTextField().getLastSelectedObject() == null) {
-                showAlert(Alert.AlertType.WARNING, "Location not found", "Please select location which we provided", "If you can't find location, please contact with us");
-                return false;
+                Location searchLocation = Location.getByName(getLocationAutoCompleteTextField().getText());
+                if (searchLocation != null) {
+                    selectLocation = searchLocation;
+                } else {
+                    showAlert(Alert.AlertType.WARNING, "Location not found", "Please select location which we provided", "If you can't find location, please contact with us");
+                    return false;
+                }
+            } else {
+                selectLocation = getLocationAutoCompleteTextField().getLastSelectedObject();
             }
             if (positionsField.getText().isEmpty()
                     || positionsField.getText().length() < 2) {
@@ -407,11 +419,15 @@ public class UiElements {
     }
 
     public void showAlert(Alert.AlertType alertType, String title, String headerText, String contentText) {
-        Alert alert = new Alert(alertType);
-        alert.setTitle(title);
-        alert.setHeaderText(headerText);
-        alert.setContentText(contentText);
+        Platform.runLater(
+                () -> {
+                    Alert alert = new Alert(alertType);
+                    alert.setTitle(title);
+                    alert.setHeaderText(headerText);
+                    alert.setContentText(contentText);
 
-        alert.showAndWait();
+                    alert.showAndWait();
+                }
+        );
     }
 }

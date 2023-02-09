@@ -153,9 +153,9 @@ public class LinkedinBotStarter {
             } catch (Exception e) {
                 log.error("Error bot for user " + account.getFullName() + ", UUID = " + account.getId(), e);
 
-                if (e.getCause().getClass().equals(InterruptedException.class)){
-                    throw e;
-                }
+//                if (e.getCause().getClass().equals(InterruptedException.class)){
+//                    throw e;
+//                }
             }
         }
 

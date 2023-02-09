@@ -3,6 +3,7 @@ package digital.moveto.botinok.client.playwright;
 import com.microsoft.playwright.*;
 import digital.moveto.botinok.client.config.ClientConst;
 import digital.moveto.botinok.client.config.GlobalConfig;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Getter
 @Service
 @NoArgsConstructor
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
@@ -34,6 +36,7 @@ public class PlaywrightService implements AutoCloseable {
     public Page getPage() {
         return page;
     }
+
 
     @Autowired
     private GlobalConfig globalConfig;
@@ -73,7 +76,11 @@ public class PlaywrightService implements AutoCloseable {
     }
 
     public void close() {
-        playwright.close();
+        if (this.playwright != null) {
+            this.playwright.close();
+        }
+        this.playwright = null;
+        this.page = null;
     }
 
     public void click(String selector) {
