@@ -635,7 +635,8 @@ public class LinkedinBotService implements AutoCloseable {
 //        https://www.linkedin.com/jobs/search/?currentJobId=3462346515&f_AL=true&f_TPR=r86400&geoId=101620260&keywords=java%20developer&location=Israel&refresh=true&start=25
 
         int initPosition = (int) (Math.random() * 100000);
-        for (int i = 0; i < 5; i++) {
+        int countPositionsForCurrentAccount = takeListString(account.getPosition()).size();
+        for (int i = 0; i < countPositionsForCurrentAccount; i++) {
             String position = takeString(initPosition + i, account.getPosition()).trim();
 
             for (int j = 0; j < COUNT_PAGE_FOR_SEARCH_POSITIONS; j++) {
