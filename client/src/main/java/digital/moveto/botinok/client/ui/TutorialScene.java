@@ -17,7 +17,7 @@ import java.io.InputStream;
 public class TutorialScene {
     @Getter
     @Setter
-    private Boolean needShowTutorial = false;
+    private Boolean showTutorial = false;
 
     @Autowired
     private MainScene mainScene;
@@ -52,7 +52,7 @@ public class TutorialScene {
         InputStream resourceAsStream = getClass().getResourceAsStream("/ui/images/tutorial/" + currentStep + ".png");
 
         if (resourceAsStream == null) {
-            needShowTutorial = false;
+            showTutorial = false;
             mainScene.finishInitialization();
             return;
         }

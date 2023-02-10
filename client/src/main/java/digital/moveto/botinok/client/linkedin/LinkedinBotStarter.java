@@ -60,7 +60,7 @@ public class LinkedinBotStarter {
     @PostConstruct
     public void init() {
         addAllAccountToUi();
-        if (tutorialScene.getNeedShowTutorial()) {
+        if (tutorialScene.getShowTutorial()) {
             tutorialScene.init();
         } else {
             mainScene.finishInitialization();
@@ -126,7 +126,7 @@ public class LinkedinBotStarter {
         List<Account> accounts = clientAccountService.findAll();
         if (accounts == null || accounts.isEmpty()) {
             // start first time
-            tutorialScene.setNeedShowTutorial(true);
+            tutorialScene.setShowTutorial(true);
             accounts.add(clientAccountService.addNewAccount());
 
         }
