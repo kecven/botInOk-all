@@ -15,7 +15,7 @@ public class GlobalConfig {
     @Value("${botinok.countConnectionForOneTime:15}")
     public int countConnectionForOneTime;
 
-    @Value("${botinok.countParseForOneTime:15}")
+    @Value("${botinok.countParseForOneTime:50}")
     public int countParseForOneTime;
 
     @Value("${botinok.countApplyForOneTime:15}")

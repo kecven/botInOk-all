@@ -198,9 +198,9 @@ public class LinkedinBotStarter {
 
         uiElements.addLogToLogArea("Start bot for user " + account.getFullName());
 
-        if (account.getActiveSearch()) {
+//        if (account.getActiveSearch()) {
             linkedinBotService.applyToPositions();
-        }
+//        }
 
         linkedinBotService.searchConnectsAndConnect();
 

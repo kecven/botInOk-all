@@ -563,7 +563,7 @@ public class LinkedinBotService implements AutoCloseable {
 
         Collections.shuffle(contacts);
 
-        int count = 0;
+        int count = clientContactService.getCountOfParseTodayForAccount(account);
         for (int i = 0; i < contacts.size() && count < globalConfig.countParseForOneTime; i++) {
             Contact contact = contacts.get(i);
 
