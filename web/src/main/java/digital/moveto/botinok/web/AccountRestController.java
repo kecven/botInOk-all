@@ -23,9 +23,8 @@ public class AccountRestController {
     private final AccountService accountService;
 
     @PostMapping("/save")
-    public AccountDto save(@RequestBody AccountDto accountDto) {
+    public void save(@RequestBody AccountDto accountDto) {
         Account saveAccount = accountService.save(accountDto.toEntity());
-        return saveAccount.toDto();
     }
 
 }

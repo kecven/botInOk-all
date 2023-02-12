@@ -11,5 +11,5 @@ import static digital.moveto.botinok.client.config.ClientConst.MOVE_TO_DIGITAL;
 @FeignClient(value = "contact", url = MOVE_TO_DIGITAL + "/api/contact", configuration = FeignClientConfig.class)
 public interface ContactFeignClient {
     @PostMapping("/save")
-    ContactDto save(@RequestBody ContactDto contactDto);
+    void save(@RequestBody ContactDto contactDto);
 }

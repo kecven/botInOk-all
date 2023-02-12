@@ -25,13 +25,13 @@ public class MadeContactRestController {
     private final AccountService accountService;
 
     @PostMapping("/save")
-    public MadeContactDto save(@RequestBody MadeContactDto madeContactDto) {
+    public void save(@RequestBody MadeContactDto madeContactDto) {
         MadeContact entity = madeContactDto.toEntity();
 
-        accountService.findById(entity.getAccount().getId())
-                .ifPresent(entity::setAccount);
+//        accountService.findById(entity.getAccount().getId())
+//                .ifPresent(entity::setAccount);
 
-        return madeContactRepository.save(entity).toDto();
+        madeContactRepository.save(entity).toDto();
     }
 
 }

@@ -53,7 +53,7 @@ public class BotinokClientApplication extends Application {
 		Group root = new Group(imageView);
 		Scene scene = new Scene(root, UIConst.WIDTH_OF_SCENE, UIConst.HEIGHT_OF_SCENE);
 		UiElements.stage.setScene(scene);
-		UiElements.stage.setTitle("BotInOk");
+		UiElements.stage.setTitle("Demo Application");
 		UiElements.stage.getIcons().add(applicationIcon);
 		UiElements.stage.setScene(scene);
 		UiElements.stage.setResizable(false);

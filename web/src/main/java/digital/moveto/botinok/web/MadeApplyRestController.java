@@ -28,16 +28,16 @@ public class MadeApplyRestController {
     private final CompanyService companyService;
 
     @PostMapping("/save")
-    public MadeApplyDto save(@RequestBody MadeApplyDto madeApplyDto) {
+    public void save(@RequestBody MadeApplyDto madeApplyDto) {
         MadeApply madeApply = madeApplyDto.toEntity();
 
-        accountService.findById(madeApplyDto.getAccount().getId())
-                .ifPresent(madeApply::setAccount);
+//        accountService.findById(madeApplyDto.getAccount().getId())
+//                .ifPresent(madeApply::setAccount);
+//
+//        companyService.findById(madeApplyDto.getCompany().getId())
+//                .ifPresent(madeApply::setCompany);
 
-        companyService.findById(madeApplyDto.getCompany().getId())
-                .ifPresent(madeApply::setCompany);
-
-        return madeApplyRepository.save(madeApply).toDto();
+        madeApplyRepository.save(madeApply).toDto();
     }
 
 }
