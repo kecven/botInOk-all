@@ -2,6 +2,7 @@ package digital.moveto.botinok.model.service;
 
 import digital.moveto.botinok.model.entities.Account;
 import digital.moveto.botinok.model.entities.MadeApply;
+import digital.moveto.botinok.model.entities.MadeContact;
 import digital.moveto.botinok.model.repositories.MadeApplyRepository;
 import digital.moveto.botinok.model.utils.BotinokUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -23,6 +25,11 @@ public class MadeApplyService {
     public MadeApply save(MadeApply madeApply) {
         if (madeApply.getId() == null) {
             madeApply.setId(UUID.randomUUID());
+        } else {
+            Optional<MadeApply> entityFindInDb = madeApplyRepository.findById(madeApply.getId());
+            if (entityFindInDb.isPresent()) {
+                madeApply = entityFindInDb.get().updateFrom(madeApply);
+            }
         }
         madeApply = madeApplyRepository.save(madeApply);
         return madeApply;

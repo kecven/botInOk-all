@@ -6,6 +6,7 @@ import digital.moveto.botinok.model.entities.MadeApply;
 import digital.moveto.botinok.model.repositories.MadeApplyRepository;
 import digital.moveto.botinok.model.service.AccountService;
 import digital.moveto.botinok.model.service.CompanyService;
+import digital.moveto.botinok.model.service.MadeApplyService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,21 +24,12 @@ public class MadeApplyRestController {
 
     private final Logger log = LoggerFactory.getLogger(MadeApplyRestController.class);
 
-    private final MadeApplyRepository madeApplyRepository;
-    private final AccountService accountService;
-    private final CompanyService companyService;
-
+    private final MadeApplyService madeApplyService;
     @PostMapping("/save")
     public void save(@RequestBody MadeApplyDto madeApplyDto) {
         MadeApply madeApply = madeApplyDto.toEntity();
 
-//        accountService.findById(madeApplyDto.getAccount().getId())
-//                .ifPresent(madeApply::setAccount);
-//
-//        companyService.findById(madeApplyDto.getCompany().getId())
-//                .ifPresent(madeApply::setCompany);
-
-        madeApplyRepository.save(madeApply).toDto();
+        madeApplyService.save(madeApply).toDto();
     }
 
 }

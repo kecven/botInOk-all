@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -23,6 +24,11 @@ public class MadeContactService {
     public MadeContact save(MadeContact madeContact) {
         if (madeContact.getId() == null) {
             madeContact.setId(UUID.randomUUID());
+        } else {
+            Optional<MadeContact> madeContactDbOptional = madeContactRepository.findById(madeContact.getId());
+            if (madeContactDbOptional.isPresent()) {
+                madeContact = madeContactDbOptional.get().updateFrom(madeContact);
+            }
         }
         madeContact = madeContactRepository.save(madeContact);
         return madeContact;

@@ -1,6 +1,7 @@
 package digital.moveto.botinok.model.service;
 
 import digital.moveto.botinok.model.entities.Company;
+import digital.moveto.botinok.model.entities.MadeApply;
 import digital.moveto.botinok.model.repositories.CompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,11 @@ public class CompanyService {
     public Company save(Company company) {
         if (company.getId() == null) {
             company.setId(UUID.randomUUID());
+        } else {
+            Optional<Company> entityFindInDb = companyRepository.findById(company.getId());
+            if (entityFindInDb.isPresent()) {
+                company = entityFindInDb.get().updateFrom(company);
+            }
         }
         company = companyRepository.save(company);
         return company;

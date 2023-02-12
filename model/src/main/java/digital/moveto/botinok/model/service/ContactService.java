@@ -1,6 +1,7 @@
 package digital.moveto.botinok.model.service;
 
 import digital.moveto.botinok.model.entities.Contact;
+import digital.moveto.botinok.model.entities.MadeApply;
 import digital.moveto.botinok.model.repositories.ContactRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,11 @@ public class ContactService {
         }
         if (contact.getId() == null){
             contact.setId(UUID.randomUUID());
+        } else {
+            Optional<Contact> entityFindInDb = contactRepository.findById(contact.getId());
+            if (entityFindInDb.isPresent()) {
+                contact = entityFindInDb.get().updateFrom(contact);
+            }
         }
         contact = contactRepository.save(contact);
         return contact;

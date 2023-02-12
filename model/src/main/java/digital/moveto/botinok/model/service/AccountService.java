@@ -1,6 +1,7 @@
 package digital.moveto.botinok.model.service;
 
 import digital.moveto.botinok.model.entities.Account;
+import digital.moveto.botinok.model.entities.MadeApply;
 import digital.moveto.botinok.model.repositories.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,11 @@ public class AccountService {
     public Account save(Account account) {
         if (account.getId() == null) {
             account.setId(UUID.randomUUID());
+        } else {
+            Optional<Account> entityFindInDb = accountRepository.findById(account.getId());
+            if (entityFindInDb.isPresent()) {
+                account = entityFindInDb.get().updateFrom(account);
+            }
         }
         account = accountRepository.save(account);
         return account;
