@@ -25,6 +25,7 @@ public class MadeApplyRestController {
     private final Logger log = LoggerFactory.getLogger(MadeApplyRestController.class);
 
     private final MadeApplyService madeApplyService;
+
     @PostMapping("/save")
     public void save(@RequestBody MadeApplyDto madeApplyDto) {
         MadeApply madeApply = madeApplyDto.toEntity();

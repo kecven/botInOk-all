@@ -764,7 +764,7 @@ public class LinkedinBotService implements AutoCloseable {
 
                         log.info("Submit application #" + countApply.incrementAndGet() + " for position " + madeApply.getPosition() + " in company " + madeApply.getCompany().getName());
                         madeApply.setDate(LocalDateTime.now());
-                        madeApply = clientMadeApplyService.saveAndFlush(madeApply);
+                        madeApply = clientMadeApplyService.save(madeApply);
                         uiElements.updateStatistic();
                         uiElements.addLogToLogAreaWithLinks("Submit application for position " + madeApply.getPosition() + " ($) in company " + madeApply.getCompany().getName() + " ($)", Arrays.asList(madeApply.getLink(), madeApply.getCompany().getLink()));
 

@@ -18,7 +18,7 @@ import java.util.UUID;
 public class MadeApplyService {
 
     @Autowired
-    private MadeApplyRepository madeApplyRepository;
+    protected MadeApplyRepository madeApplyRepository;
 
 
     @Transactional
@@ -39,12 +39,12 @@ public class MadeApplyService {
         return madeApplyRepository.findAll();
     }
 
-    @Transactional
-    public MadeApply saveAndFlush(MadeApply madeApply) {
-        madeApply = save(madeApply);
-        madeApplyRepository.flush();
-        return madeApply;
-    }
+//    @Transactional
+//    public MadeApply saveAndFlush(MadeApply madeApply) {
+//        madeApply = save(madeApply);
+//        madeApplyRepository.flush();
+//        return madeApply;
+//    }
 
     @Transactional
     public List<MadeApply> findAllByAccount(Account account){

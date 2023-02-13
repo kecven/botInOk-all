@@ -21,10 +21,10 @@ public class ClientMadeApplyService extends MadeApplyService {
         return madeApply;
     }
 
-    @Transactional
-    public MadeApply saveAndFlush(MadeApply madeApply) {
-        madeApply = super.saveAndFlush(madeApply);
-        feignClientService.saveMadeApply(madeApply);
-        return madeApply;
-    }
+//    @Transactional
+//    public MadeApply saveAndFlush(MadeApply madeApply) {
+//        madeApply = save(madeApply);
+//        madeApplyRepository.flush();
+//        return madeApply;
+//    }
 }
