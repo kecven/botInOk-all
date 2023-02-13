@@ -159,10 +159,6 @@ public class LinkedinBotStarter {
                 throw e;
             } catch (Exception e) {
                 log.error("Error bot for user " + account.getFullName() + ", UUID = " + account.getId(), e);
-
-//                if (e.getCause().getClass().equals(InterruptedException.class)){
-//                    throw e;
-//                }
             }
         }
 
@@ -198,19 +194,14 @@ public class LinkedinBotStarter {
 
         uiElements.addLogToLogArea("Start bot for user " + account.getFullName());
 
-//        if (account.getActiveSearch()) {
-            linkedinBotService.applyToPositions();
-//        }
+        linkedinBotService.applyToPositions();
 
         linkedinBotService.searchConnectsAndConnect();
 
-        if (LocalDate.now().getDayOfMonth() == 20
-                || account.getContacts() == null
-                || account.getContacts().isEmpty()) {
+        if ( ! linkedinBotService.parseLinkedinUser()){
             linkedinBotService.parseLinkedinUrlOfConnections();
+            linkedinBotService.parseLinkedinUser();
         }
-
-        linkedinBotService.parseLinkedinUser();
 
         linkedinBotService.close();
     }

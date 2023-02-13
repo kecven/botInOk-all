@@ -552,13 +552,13 @@ public class LinkedinBotService implements AutoCloseable {
         }
     }
 
-    public void parseLinkedinUser() {
+    public boolean parseLinkedinUser() {
         log.info("Start parseLinkedinUser for user " + account.getFullName());
         this.account = clientAccountService.findById(account.getId()).get();
         List<Contact> contacts = account.getContacts();
         if (contacts == null || contacts.isEmpty()) {
             log.info("No users for parse");
-            return;
+            return false;
         }
 
         Collections.shuffle(contacts);
@@ -567,7 +567,7 @@ public class LinkedinBotService implements AutoCloseable {
         for (int i = 0; i < contacts.size() && count < globalConfig.countParseForOneTime; i++) {
             Contact contact = contacts.get(i);
 
-            if (contact.getEmail() != null || contact.getPhone() != null || contact.getLocation() != null || contact.getParseDate() != null) {
+            if (contact.getParseDate() != null) {
                 continue;
             }
 
@@ -620,6 +620,11 @@ public class LinkedinBotService implements AutoCloseable {
             log.debug("User " + ++count + "/" + contacts.size() + ". Parsed and save.");
             log.debug(contact.toString());
 
+        }
+        if (count < globalConfig.countParseForOneTime) {
+            return false;
+        } else {
+            return true;
         }
     }
 
