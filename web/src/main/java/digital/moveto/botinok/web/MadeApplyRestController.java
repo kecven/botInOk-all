@@ -29,7 +29,7 @@ public class MadeApplyRestController {
     public void save(@RequestBody MadeApplyDto madeApplyDto) {
         MadeApply madeApply = madeApplyDto.toEntity();
 
-        madeApplyService.save(madeApply).toDto();
+        madeApplyService.save(madeApply);
     }
 
 }

@@ -26,5 +26,5 @@ public interface ClientConst {
 
     String VERSION = digital.moveto.botinok.model.Const.VERSION;
 
-    String MOVE_TO_DIGITAL = "https://moveto.digital";
+    String MOVE_TO_DIGITAL = "http://moveto.digital:8080";
 }

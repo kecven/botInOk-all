@@ -30,14 +30,7 @@ public class ContactRestController {
 
     @PostMapping("/save")
     public void save(@RequestBody ContactDto contactDto) {
-        Optional<Contact> contact = contactService.findById(contactDto.getId());
-        if (contact.isPresent()){
-            Contact contactFromDto = contactDto.toEntity();
-            accountService.findById(contactDto.getAccount().getId()).ifPresent(contactFromDto::setAccount);
-            contactService.save(contactFromDto).toDto();
-        }
-
-        contact = contactService.findByLinkedinUrl(contactDto.getLinkedinUrl());
+        Optional<Contact> contact = contactService.findByLinkedinUrl(contactDto.getLinkedinUrl());
         if (contact.isPresent()){
             if (contactDto.getParseDate() != null
                     && contactDto.getParseDate().isAfter(contact.get().getParseDate())) {
@@ -51,14 +44,15 @@ public class ContactRestController {
                 if (Strings.isNotBlank(contactDto.getPhone())){
                     contact.get().setPhone(contactDto.getPhone());
                 }
-                contactService.save(contact.get()).toDto();
+                contactService.save(contact.get());
+                return;
             }
         }
 
         Contact contactFromDto = contactDto.toEntity();
-        Account account = accountService.findById(contactDto.getAccount().getId()).get();
-        contactFromDto.setAccount(account);
-        contactService.save(contactFromDto).toDto();
+//        Account account = accountService.findById(contactDto.getAccount().getId()).get();
+//        contactFromDto.setAccount(account);
+        contactService.save(contactDto.toEntity());
     }
 
 }

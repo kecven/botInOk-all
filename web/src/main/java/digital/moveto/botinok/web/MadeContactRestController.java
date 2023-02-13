@@ -27,7 +27,7 @@ public class MadeContactRestController {
     public void save(@RequestBody MadeContactDto madeContactDto) {
         MadeContact entity = madeContactDto.toEntity();
 
-        madeContactService.save(entity).toDto();
+        madeContactService.save(entity);
     }
 
 }

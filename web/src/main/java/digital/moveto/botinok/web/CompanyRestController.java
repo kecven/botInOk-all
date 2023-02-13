@@ -31,13 +31,12 @@ public class CompanyRestController {
             Optional<Company> companyByLink = companyService.findByLink(companyDto.getLink());
             if (companyByLink.isPresent()){
                 companyByLink.get().updateFrom(companyDto.toEntity());
-                companyService.save(companyByLink.get()).toDto();
+                companyService.save(companyByLink.get());
             }
         }
 
-        Optional<Company> findCompanyById = companyService.findById(companyDto.getId());
 
-        companyService.save(companyDto.toEntity()).toDto();
+        companyService.save(companyDto.toEntity());
     }
 
 }
