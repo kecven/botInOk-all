@@ -27,16 +27,19 @@ public class CompanyRestController {
 
     @PostMapping("/save")
     public void save(@RequestBody CompanyDto companyDto) {
+        Company company = companyDto.toEntity();
+        log.trace("save({})", company);
+
         if (Strings.isNotBlank(companyDto.getLink())) {
             Optional<Company> companyByLink = companyService.findByLink(companyDto.getLink());
             if (companyByLink.isPresent()){
-                companyByLink.get().updateFrom(companyDto.toEntity());
+                companyByLink.get().updateFrom(company);
                 companyService.save(companyByLink.get());
             }
         }
 
 
-        companyService.save(companyDto.toEntity());
+        companyService.save(company);
     }
 
 }

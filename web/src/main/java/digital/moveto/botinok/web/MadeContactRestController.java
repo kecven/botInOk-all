@@ -25,9 +25,10 @@ public class MadeContactRestController {
 
     @PostMapping("/save")
     public void save(@RequestBody MadeContactDto madeContactDto) {
-        MadeContact entity = madeContactDto.toEntity();
+        MadeContact madeContact = madeContactDto.toEntity();
+        log.trace("save({})", madeContact);
 
-        madeContactService.save(entity);
+        madeContactService.save(madeContact);
     }
 
 }

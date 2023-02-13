@@ -26,33 +26,32 @@ public class ContactRestController {
     private final Logger log = LoggerFactory.getLogger(ContactRestController.class);
 
     private final ContactService contactService;
-    private final AccountService accountService;
 
     @PostMapping("/save")
     public void save(@RequestBody ContactDto contactDto) {
-        Optional<Contact> contact = contactService.findByLinkedinUrl(contactDto.getLinkedinUrl());
-        if (contact.isPresent()){
+        Contact contact = contactDto.toEntity();
+        log.trace("save({})", contact);
+
+        Optional<Contact> contactDb = contactService.findByLinkedinUrl(contactDto.getLinkedinUrl());
+        if (contactDb.isPresent()){
             if (contactDto.getParseDate() != null
-                    && contactDto.getParseDate().isAfter(contact.get().getParseDate())) {
+                    && contactDto.getParseDate().isAfter(contactDb.get().getParseDate())) {
 
                 if (Strings.isNotBlank(contactDto.getEmail())){
-                    contact.get().setEmail(contactDto.getEmail());
+                    contactDb.get().setEmail(contactDto.getEmail());
                 }
                 if (Strings.isNotBlank(contactDto.getLocation())){
-                    contact.get().setLocation(contactDto.getLocation());
+                    contactDb.get().setLocation(contactDto.getLocation());
                 }
                 if (Strings.isNotBlank(contactDto.getPhone())){
-                    contact.get().setPhone(contactDto.getPhone());
+                    contactDb.get().setPhone(contactDto.getPhone());
                 }
-                contactService.save(contact.get());
+                contactService.save(contactDb.get());
                 return;
             }
         }
 
-        Contact contactFromDto = contactDto.toEntity();
-//        Account account = accountService.findById(contactDto.getAccount().getId()).get();
-//        contactFromDto.setAccount(account);
-        contactService.save(contactDto.toEntity());
+        contactService.save(contact);
     }
 
 }

@@ -28,6 +28,7 @@ public class MadeApplyRestController {
     @PostMapping("/save")
     public void save(@RequestBody MadeApplyDto madeApplyDto) {
         MadeApply madeApply = madeApplyDto.toEntity();
+        log.trace("save({})", madeApply);
 
         madeApplyService.save(madeApply);
     }
