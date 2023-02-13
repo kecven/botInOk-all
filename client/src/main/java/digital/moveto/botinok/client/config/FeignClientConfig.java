@@ -13,6 +13,6 @@ public class FeignClientConfig {
     @Bean
     public Feign.Builder feignBuilder() {
         return Feign.builder()
-                .retryer(new Retryer.Default(100, TimeUnit.SECONDS.toMillis(1), 3));
+                .retryer(new Retryer.Default(100, TimeUnit.SECONDS.toMillis(120), 20));
     }
 }

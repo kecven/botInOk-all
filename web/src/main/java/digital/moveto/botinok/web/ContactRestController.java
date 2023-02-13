@@ -34,8 +34,9 @@ public class ContactRestController {
 
         Optional<Contact> contactDb = contactService.findByLinkedinUrl(contactDto.getLinkedinUrl());
         if (contactDb.isPresent()){
-            if (contactDto.getParseDate() != null
-                    && contactDto.getParseDate().isAfter(contactDb.get().getParseDate())) {
+
+            if (contactDb.get().getParseDate() == null
+                    || contactDto.getParseDate() != null && contactDto.getParseDate().isAfter(contactDb.get().getParseDate())) {
 
                 if (Strings.isNotBlank(contactDto.getEmail())){
                     contactDb.get().setEmail(contactDto.getEmail());
