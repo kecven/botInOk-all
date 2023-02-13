@@ -11,7 +11,7 @@ version = '0.2.7'
 sourceCompatibility = '17'
 
 application {
-    mainClass = 'digital.moveto.botinok.client.BotinokClientApplication'
+    mainClass = 'digital.moveto.botinok.BotinokClientApplication'
 }
 
 repositories {
