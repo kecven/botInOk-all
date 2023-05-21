@@ -53,6 +53,14 @@ public class LocationProperty {
         }
         return null;
     }
+    public static LocationProperty getByKey(String key) {
+        for (LocationProperty location : allLocations.values()) {
+            if (location.key.equalsIgnoreCase(key)) {
+                return location;
+            }
+        }
+        return null;
+    }
 
 
     private final String linkedinId;

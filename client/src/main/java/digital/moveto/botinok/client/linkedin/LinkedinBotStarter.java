@@ -101,7 +101,9 @@ public class LinkedinBotStarter {
     private void start(){
         runInThread(() -> {
             try {
-                startSearchConnectsAndConnect();
+                for (int i = 0; i < 3; i++) {
+                    startSearchConnectsAndConnect();
+                }
             } catch (Exception e) {
                 Throwable exceptionCause = e;
                 for (int i = 0; i < 20; i++) {
@@ -123,7 +125,7 @@ public class LinkedinBotStarter {
     }
 
     private void addAllAccountToUi(){
-        List<Account> accounts = clientAccountService.findAll();
+        List<Account> accounts = clientAccountService.findAllActive();
         if (accounts == null || accounts.isEmpty()) {
             // start first time
             tutorialScene.setShowTutorial(true);
@@ -140,7 +142,7 @@ public class LinkedinBotStarter {
 
         FileUtils.mkdirs(globalConfig.pathToStateFolder);   //if we don't have a folder, we create it
 
-        List<Account> allActiveAccounts = clientAccountService.findAll();
+        List<Account> allActiveAccounts = clientAccountService.findAllActive();
 
         for (int i = 0; i < allActiveAccounts.size(); i++) {
             Account account = clientAccountService.findById(allActiveAccounts.get(i).getId()).get();
@@ -169,7 +171,7 @@ public class LinkedinBotStarter {
 
     private void botWork(LinkedinBotService linkedinBotService, Account account) {
 
-        List<Account> accountList = clientAccountService.findAll();
+        List<Account> accountList = clientAccountService.findAllActive();
         uiElements.updateAccounts(accountList, account.getId());
 
         if ( ! account.getActive()){

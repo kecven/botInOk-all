@@ -225,6 +225,14 @@ public class AutoCompleteTextField<S> extends TextField {
         return lastSelectedItem.get();
     }
 
+    public void setLastSelectedObject(S element) {
+        lastSelectedItem.set(element);
+    }
+
+    public void hidePopup(){
+        entriesPopup.hide();
+    }
+
     public ContextMenu getEntryMenu() {
         return entriesPopup;
     }

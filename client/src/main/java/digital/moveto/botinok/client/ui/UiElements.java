@@ -350,7 +350,11 @@ public class UiElements {
                     countDailyApplySlider.setValue(account.getCountDailyApply());
                     countDailyConnectSlider.setValue(account.getCountDailyConnect());
                     try {
-                        locationAutoCompleteTextField.setText(LocationProperty.getByName(account.getLocation()).getName());
+//                        locationAutoCompleteTextField.setPopupHidden(true);
+                        getLocationAutoCompleteTextField().setLastSelectedObject(null);
+                        locationAutoCompleteTextField.setText(LocationProperty.getByKey(account.getLocation()).getName());
+                        locationAutoCompleteTextField.hidePopup();
+//                        locationAutoCompleteTextField.setPopupHidden(false);
                     } catch (IllegalArgumentException ignored) {
                     }
                     updateStatistic();
