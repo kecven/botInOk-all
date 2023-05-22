@@ -125,6 +125,7 @@ public class UiElements {
         getLocationAutoCompleteTextField().setPromptText("Location");
         getLocationAutoCompleteTextField().setTooltip(new Tooltip("Choose you location where you want to work"));
         getLocationAutoCompleteTextField().setOnInputMethodTextChanged(e -> saveSettingForUser());
+        getLocationAutoCompleteTextField().setMaxEntries(20);
 
         getLocationAutoCompleteTextField().getEntryMenu().setOnAction(e -> {
             ((MenuItem) e.getTarget()).addEventHandler(Event.ANY, event -> {
@@ -350,11 +351,9 @@ public class UiElements {
                     countDailyApplySlider.setValue(account.getCountDailyApply());
                     countDailyConnectSlider.setValue(account.getCountDailyConnect());
                     try {
-//                        locationAutoCompleteTextField.setPopupHidden(true);
-                        getLocationAutoCompleteTextField().setLastSelectedObject(null);
+                        locationAutoCompleteTextField.setLastSelectedObject(null);
                         locationAutoCompleteTextField.setText(LocationProperty.getByKey(account.getLocation()).getName());
                         locationAutoCompleteTextField.hidePopup();
-//                        locationAutoCompleteTextField.setPopupHidden(false);
                     } catch (IllegalArgumentException ignored) {
                     }
                     updateStatistic();
