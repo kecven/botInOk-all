@@ -31,7 +31,4 @@ public class GlobalConfig {
     @Value("${botinok.headlessBrowser:true}")
     public boolean headlessBrowser;
 
-    @Value("${botinok.startByDefault:false}")
-    public boolean startByDefault;
-
 }

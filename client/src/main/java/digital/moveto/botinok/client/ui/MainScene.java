@@ -106,13 +106,15 @@ public class MainScene {
                 uiElements.getScrollAccountPane());
 
 
+        HBox versionLabelPane = new HBox();
         Label versionLabel = new Label("Version: " + ClientConst.VERSION);
         versionLabel.setTextAlignment(TextAlignment.CENTER);
         versionLabel.setPrefSize(UIConst.WIDTH_OF_SETTING, UIConst.HEIGHT_OF_VERSION);
         versionLabel.setPadding(new Insets(10, 10, 10, 10));
         versionLabel.setFont(Font.font("Dialog", FontWeight.BOLD, 10));
 
-        result.getChildren().addAll(setting, versionLabel);
+        versionLabelPane.getChildren().addAll(versionLabel, uiElements.getStartEvery24Hours());
+        result.getChildren().addAll(setting, versionLabelPane);
 
         return result;
     }

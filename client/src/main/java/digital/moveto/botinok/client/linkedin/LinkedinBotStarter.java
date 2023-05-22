@@ -11,6 +11,8 @@ import digital.moveto.botinok.client.ui.TutorialScene;
 import digital.moveto.botinok.client.ui.UiElements;
 import digital.moveto.botinok.client.utils.FileUtils;
 import digital.moveto.botinok.model.entities.Account;
+import digital.moveto.botinok.model.entities.enums.SettingKey;
+import digital.moveto.botinok.model.service.SettingService;
 import digital.moveto.botinok.model.utils.BotinokUtils;
 import jakarta.annotation.PostConstruct;
 import javafx.scene.Cursor;
@@ -51,11 +53,17 @@ public class LinkedinBotStarter {
     @Autowired
     private AccountFeignClient accountFeignClient;
 
+    @Autowired
+    private SettingService settingService;
+
     private ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();
 
     public void runInThread(Runnable runnable) {
         singleThreadExecutor.submit(runnable);
     }
+
+    private Thread threadIn24Hours = null;
+
 
     @PostConstruct
     public void init() {
@@ -86,19 +94,38 @@ public class LinkedinBotStarter {
             }
         });
 
+        uiElements.getStartEvery24Hours().setOnAction(e -> {
+            settingService.setSetting(SettingKey.START_AUTOMATICALLY_EVERY_24_HOURS, uiElements.getStartEvery24Hours().isSelected());
+            if (uiElements.getStartEvery24Hours().isSelected()) {
+                uiElements.getStartEvery24Hours().setText("Start every 24 hours");
+            } else {
+                uiElements.getStartEvery24Hours().setText("Start only once");
+                threadIn24Hours.interrupt();
+            }
+        });
+
+
         uiElements.addLogToLogArea("Loading complete");
         uiElements.changeButtonState(true);
         uiElements.getStartButton().setCursor(Cursor.HAND);
 
     }
 
-    @Scheduled(fixedRate = 1000 * 60 * 60 * 24, initialDelay = 10)
-    public void startBotByScheduled() {
-        if (globalConfig.startByDefault) {
-            start();
-        }
-    }
     private void start(){
+        if (uiElements.getStartEvery24Hours().isSelected()) {
+            threadIn24Hours = new Thread(() -> {
+                while (true) {
+                    try {
+                        Thread.sleep(1000 * 60 * 60 * 24);
+                        start();
+                    } catch (InterruptedException e) {
+                        return;
+                    }
+                }
+            });
+            threadIn24Hours.start();
+        }
+
         runInThread(() -> {
             try {
                 for (int i = 0; i < 3; i++) {
