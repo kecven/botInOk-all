@@ -125,7 +125,7 @@ public class UiElements {
         getLocationAutoCompleteTextField().setPromptText("Location");
         getLocationAutoCompleteTextField().setTooltip(new Tooltip("Choose you location where you want to work"));
         getLocationAutoCompleteTextField().setOnInputMethodTextChanged(e -> saveSettingForUser());
-        getLocationAutoCompleteTextField().setMaxEntries(20);
+        getLocationAutoCompleteTextField().setMaxEntries(15);
 
         getLocationAutoCompleteTextField().getEntryMenu().setOnAction(e -> {
             ((MenuItem) e.getTarget()).addEventHandler(Event.ANY, event -> {
