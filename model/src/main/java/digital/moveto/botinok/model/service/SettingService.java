@@ -17,8 +17,8 @@ public class SettingService {
     }
 
     public String getSetting(SettingKey key) {
-        return settingRepository.findByKey(key.name())
-                .map(Setting::getValue)
+        return settingRepository.findByName(key.name())
+                .map(Setting::getSettingValue)
                 .orElse(key.getDefaultValue());
     }
 
@@ -38,10 +38,10 @@ public class SettingService {
     }
 
     public void setSetting(SettingKey key, String value) {
-        Setting setting = settingRepository.findByKey(key.name())
+        Setting setting = settingRepository.findByName(key.name())
                 .orElse(new Setting());
-        setting.setKey(key.name());
-        setting.setValue(value);
+        setting.setName(key.name());
+        setting.setSettingValue(value);
         settingRepository.save(setting);
     }
 

@@ -20,9 +20,9 @@ public class Setting {
     @Column(name = "id", updatable = false, nullable = false)
     private Long id;
 
-    @Column(name = "key")
-    private String key;
+    @Column(name = "name")
+    private String name;
 
-    @Column(name = "value")
-    private String value;
+    @Column(name = "setting_value")
+    private String settingValue;
 }
