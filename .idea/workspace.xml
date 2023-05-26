@@ -4,13 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c6251951-17d6-4930-8673-3bc1daab451c" name="Changes" comment="fix bug with settings">
-      <change afterPath="$PROJECT_DIR$/run.sh" afterDir="false" />
+    <list default="true" id="c6251951-17d6-4930-8673-3bc1daab451c" name="Changes" comment="small fixes with start every 24 hours">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/linkedin/LinkedinBotStarter.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/linkedin/LinkedinBotStarter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/linkedin/LinkedinBotService.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/digital/moveto/botinok/client/linkedin/LinkedinBotService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/start.sh" beforeDir="false" afterPath="$PROJECT_DIR$/client/start.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/src/main/java/digital/moveto/botinok/model/entities/Setting.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/src/main/java/digital/moveto/botinok/model/entities/Setting.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -380,7 +377,14 @@
       <option name="project" value="LOCAL" />
       <updated>1685043553163</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="small fixes with start every 24 hours">
+      <created>1685094020330</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1685094020330</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -406,7 +410,8 @@
     <MESSAGE value="add sliders for count connect and count apply" />
     <MESSAGE value="add new Icon" />
     <MESSAGE value="fix bug with settings" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix bug with settings" />
+    <MESSAGE value="small fixes with start every 24 hours" />
+    <option name="LAST_COMMIT_MESSAGE" value="small fixes with start every 24 hours" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

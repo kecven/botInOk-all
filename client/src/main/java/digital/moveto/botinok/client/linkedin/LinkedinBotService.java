@@ -314,7 +314,7 @@ public class LinkedinBotService implements AutoCloseable {
     private String randomString(String... strings) {
         List<String> collectionSuggest = takeListString(strings);
         String result = collectionSuggest.get((int) (Math.random() * collectionSuggest.size()));
-        return trimIfNeed(result);
+        return result;
     }
 
     private List<String> takeListString(String... strings) {
@@ -329,15 +329,8 @@ public class LinkedinBotService implements AutoCloseable {
     private String takeString(int number, String... strings) {
         List<String> collectionSuggest = takeListString(strings);
         number = number % collectionSuggest.size();
-        String result = trimIfNeed(collectionSuggest.get(number));
+        String result = collectionSuggest.get(number);
         return result;
-    }
-
-    private String trimIfNeed(String text) {
-        if (text.length() > 3){
-//            text = text.trim();
-        }
-        return text;
     }
 
     void login(String login, String password) {
@@ -641,7 +634,7 @@ public class LinkedinBotService implements AutoCloseable {
 
         int initPosition = (int) (Math.random() * 100000);
         int countPositionsForCurrentAccount = takeListString(account.getPosition()).size();
-        for (int i = 0; i < countPositionsForCurrentAccount; i++) {
+        for (int i = 0; i < countPositionsForCurrentAccount && countApply.get() < account.getCountDailyApply(); i++) {
             String position = takeString(initPosition + i, account.getPosition()).trim();
 
             for (int j = 0; j < COUNT_PAGE_FOR_SEARCH_POSITIONS; j++) {
@@ -749,7 +742,11 @@ public class LinkedinBotService implements AutoCloseable {
                     Optional<ElementHandle> nextBtn = playwrightService.getElementByLocator("button[aria-label=\"Continue to next step\"] > span");
                     if (nextBtn.isPresent() && nextBtn.get().innerText().equals("Next")) {
                         nextBtn.get().click();
-                        playwrightService.sleepRandom(1000);
+                        if (globalConfig.headlessBrowser) {
+                            playwrightService.sleepRandom(1000);
+                        } else {
+                            playwrightService.sleepRandom(5000);
+                        }
                     }
 
                     Optional<ElementHandle> reviewBtn = playwrightService.getElementByLocator("button[aria-label=\"Review your application\"] > span");
