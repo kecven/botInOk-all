@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# add cron job to run this script every day
-# 30 15 * * * /home/andrei/Projects/boty/start.sh"
-
 cd $(dirname $0)
 set -Eeuo pipefail
 

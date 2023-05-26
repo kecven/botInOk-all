@@ -111,20 +111,18 @@ public class LinkedinBotStarter {
 
     }
 
-    private void start(){
-        if (uiElements.getStartEvery24Hours().isSelected()) {
-            threadIn24Hours = new Thread(() -> {
-                while (true) {
-                    try {
-                        Thread.sleep(1000 * 60 * 60 * 24);
-                        start();
-                    } catch (InterruptedException e) {
-                        return;
-                    }
+    private void start() {
+        threadIn24Hours = new Thread(() -> {
+            try {
+                Thread.sleep(1000 * 60 * 60 * 24);
+                if (uiElements.getStartEvery24Hours().isSelected()) {
+                    start();
                 }
-            });
-            threadIn24Hours.start();
-        }
+            } catch (InterruptedException e) {
+                return;
+            }
+        });
+        threadIn24Hours.start();
 
         runInThread(() -> {
             try {
