@@ -752,7 +752,11 @@ public class LinkedinBotService implements AutoCloseable {
                     Optional<ElementHandle> reviewBtn = playwrightService.getElementByLocator("button[aria-label=\"Review your application\"] > span");
                     if (reviewBtn.isPresent() && reviewBtn.get().innerText().equals("Review")){
                         reviewBtn.get().click();
-                        playwrightService.sleepRandom(1000);
+                        if (globalConfig.headlessBrowser) {
+                            playwrightService.sleepRandom(1000);
+                        } else {
+                            playwrightService.sleepRandom(5000);
+                        }
                     }
 
                     Optional<ElementHandle> submitBtn = playwrightService.getElementWithCurrentText("Submit application");
