@@ -24,6 +24,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -168,6 +169,9 @@ public class LinkedinBotStarter {
         FileUtils.mkdirs(globalConfig.pathToStateFolder);   //if we don't have a folder, we create it
 
         List<Account> allActiveAccounts = clientAccountService.findAllActive();
+        if (globalConfig.reverseAccounts){
+            Collections.reverse(allActiveAccounts);
+        }
 
         for (int i = 0; i < allActiveAccounts.size(); i++) {
             Account account = clientAccountService.findById(allActiveAccounts.get(i).getId()).get();
