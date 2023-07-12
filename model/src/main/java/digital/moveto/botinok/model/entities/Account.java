@@ -57,7 +57,7 @@ public class Account {
     @Column(name = "count_daily_connect", columnDefinition = "int default 15", nullable = false)
     private Integer countDailyConnect;
 
-    @Column(name = "location", length = 30)
+    @Column(name = "location", length = 255)
     private String location;
 
     @Column(name = "end_date_license")

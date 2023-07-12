@@ -31,4 +31,7 @@ public class GlobalConfig {
     @Value("${botinok.headlessBrowser:true}")
     public boolean headlessBrowser;
 
+    @Value("${botinok.sendDataToServer:false}")
+    public boolean sendDataToServer;
+
 }

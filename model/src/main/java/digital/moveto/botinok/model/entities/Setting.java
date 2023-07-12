@@ -1,9 +1,6 @@
 package digital.moveto.botinok.model.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,12 +14,13 @@ public class Setting {
 
 
     @Id
+    @GeneratedValue
     @Column(name = "id", updatable = false, nullable = false)
     private Long id;
 
-    @Column(name = "key")
-    private String key;
+    @Column(name = "name")
+    private String name;
 
-    @Column(name = "value")
-    private String value;
+    @Column(name = "setting_value")
+    private String settingValue;
 }
