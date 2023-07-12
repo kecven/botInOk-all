@@ -69,6 +69,9 @@ public class Account {
     @Column(name = "work_in_shabat")
     private Boolean workInShabat;
 
+    @Column(name = "remote_work", nullable = true, columnDefinition = "boolean default false")
+    private Boolean remoteWork;
+
     public String getFullName() {
         if (Strings.isNotBlank(firstName) && Strings.isNotBlank(lastName)) {
             return firstName + " " + lastName;

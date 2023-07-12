@@ -636,8 +636,6 @@ public class LinkedinBotService implements AutoCloseable {
 
         uiElements.addLogToLogArea("Start apply to positions");
         log.info("Start apply to positions for user: " + account.getFullName());
-//        https://www.linkedin.com/jobs/search/?currentJobId=3450022774&f_AL=true&f_TPR=r86400&geoId=101620260&keywords=java%20developer&location=Israel&refresh=true
-//        https://www.linkedin.com/jobs/search/?currentJobId=3462346515&f_AL=true&f_TPR=r86400&geoId=101620260&keywords=java%20developer&location=Israel&refresh=true&start=25
 
         int initPosition = (int) (Math.random() * 100000);
         int countPositionsForCurrentAccount = takeListString(account.getPosition()).size();
@@ -649,7 +647,13 @@ public class LinkedinBotService implements AutoCloseable {
                     return;
                 }
                 int start = j * COUNT_POSITION_ON_ONE_PAGE;
-                playwrightService.open("https://www.linkedin.com/jobs/search/?f_AL=true&f_TPR=r86400&geoId=" + LocationProperty.getLocation(account.getLocation()).getLinkedinId() + "&keywords=" + position + "&location=" + LocationProperty.getLocation(account.getLocation()).getName() + "&refresh=true&start=" + start);
+
+                if (account.getRemoteWork()){
+                    playwrightService.open("https://www.linkedin.com/jobs/search/?f_AL=true&f_TPR=r86400&geoId=" + LocationProperty.getLocation(account.getLocation()).getLinkedinId() + "&keywords=" + position + "&location=" + LocationProperty.getLocation(account.getLocation()).getName() + "&refresh=true&start=" + start + "&f_WT=2");
+                } else {
+                    playwrightService.open("https://www.linkedin.com/jobs/search/?f_AL=true&f_TPR=r86400&geoId=" + LocationProperty.getLocation(account.getLocation()).getLinkedinId() + "&keywords=" + position + "&location=" + LocationProperty.getLocation(account.getLocation()).getName() + "&refresh=true&start=" + start);
+                }
+
                 playwrightService.sleepRandom(3000);
                 if (playwrightService.getByText("No matching jobs found.").isPresent()) {
                     log.info("No matching jobs found.");
