@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c6251951-17d6-4930-8673-3bc1daab451c" name="Changes" comment="update">
+    <list default="true" id="c6251951-17d6-4930-8673-3bc1daab451c" name="Changes" comment="add javafx lib">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/resources/application-stage.properties" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/resources/application-stage.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,24 +54,6 @@
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
                 <item name="botInOk" type="f1a62948:ProjectNode" />
                 <item name="client" type="2d1252cf:ModuleNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-                <item name="build" type="c8890929:TasksNode$1" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="botInOk" type="f1a62948:ProjectNode" />
-                <item name="model" type="2d1252cf:ModuleNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="botInOk" type="f1a62948:ProjectNode" />
-                <item name="model" type="2d1252cf:ModuleNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="botInOk" type="f1a62948:ProjectNode" />
-                <item name="model" type="2d1252cf:ModuleNode" />
                 <item name="Tasks" type="e4a08cd1:TasksNode" />
                 <item name="build" type="c8890929:TasksNode$1" />
               </path>
@@ -426,7 +407,15 @@
       <option name="project" value="LOCAL" />
       <updated>1687971029559</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="add javafx lib">
+      <option name="closed" value="true" />
+      <created>1689177288732</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1689177288732</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -455,7 +444,8 @@
     <MESSAGE value="small fixes with start every 24 hours" />
     <MESSAGE value="small fixes" />
     <MESSAGE value="update" />
-    <option name="LAST_COMMIT_MESSAGE" value="update" />
+    <MESSAGE value="add javafx lib" />
+    <option name="LAST_COMMIT_MESSAGE" value="add javafx lib" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
