@@ -405,7 +405,9 @@ public class LinkedinBotService implements AutoCloseable {
     }
 
     public void checkAuthorizationAndLogin() {
-        if ( !checkAuthorization()) {
+        boolean checkAuthorization = checkAuthorization();
+        log.info("User checkAuthorization: " + checkAuthorization);
+        if ( !checkAuthorization) {
             if (Strings.isNotBlank(account.getLogin()) && Strings.isNotBlank(account.getPassword())) {
                 login(account.getLogin(), account.getPassword());
             } else {
@@ -419,7 +421,20 @@ public class LinkedinBotService implements AutoCloseable {
      */
     boolean checkAuthorization() {
         openLinkedInPageIfNeed();
-        return playwrightService.isSelectorFind("input[placeholder=Search]");
+        return playwrightService.isSelectorFind("input[placeholder=Search]")
+                || playwrightService.isSelectorFind("input[placeholder=\"Search topics, people, jobs, and more\"]");
+//        try {
+//        class="search-global-typeahead__input"
+//        <input class="search-global-typeahead__input" placeholder="Search topics, people, jobs, and more" role="combobox" aria-autocomplete="list" aria-label="Search topics, people, jobs, and more" aria-activedescendant="" aria-expanded="false" type="text">
+//            return playwrightService.isSelectorFind("input[placeholder=Search]");
+//        } catch (Exception e) {
+//            try {
+//                log.warn("Can't find default search placeholder");
+//                return playwrightService.isSelectorFind("input[placeholder=\"Search topics, people, jobs, and more\"]");
+//            } catch (Exception ex) {
+//                throw ex;
+//            }
+//        }
     }
 
     @Override

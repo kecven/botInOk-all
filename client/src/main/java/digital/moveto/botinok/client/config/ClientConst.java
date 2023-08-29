@@ -5,7 +5,7 @@ import java.util.List;
 
 public interface ClientConst {
 
-    int DEFAULT_TIMEOUT_FOR_BROWSER = 120_000;
+    int DEFAULT_TIMEOUT_FOR_BROWSER = 60_000;
 
     String LINKEDIN_URL = "https://www.linkedin.com";
     String DEFAULT_URL_FOR_SEARCH = "https://www.linkedin.com/search/results/people/?geoUrn=%5B%22101620260%22%5D&keywords=human%20resources&origin=FACETED_SEARCH&sid=ynM&page=2";
