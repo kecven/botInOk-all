@@ -22,7 +22,7 @@ public class GlobalConfig {
     public int countApplyForOneTime;
 
 
-    @Value("${botinok.reverseAccounts:false}")
+    @Value("${botinok.reverseAccounts:true}")
     public boolean reverseAccounts;
 
     @Value("${botinok.pathToStateFolder}")
