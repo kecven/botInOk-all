@@ -340,8 +340,17 @@ public class LinkedinBotService implements AutoCloseable {
         playwrightService.type("input[name=session_key]", login);
         playwrightService.type("input[name=session_password]", password);
         playwrightService.click("button[type=submit]");
-        sleepRandom(500);
-        playwrightService.waitForSelector("input[placeholder=Search]");
+//        for (int i = 0; i < 1200; i++) {
+//            if (checkAuthorization()) {
+//                sleep(1000);
+//            } else {
+//                log.info("Authorization success");
+//            }
+//
+//        }
+        log.info("sleep 180 sec for captca and second factor");
+        sleep(180_000, false);
+//        playwrightService.waitForSelector("input[placeholder=Search]");
 
         closeHeadlessBrowserIfNeed();
     }
