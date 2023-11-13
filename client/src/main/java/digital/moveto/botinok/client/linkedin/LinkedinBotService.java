@@ -584,7 +584,8 @@ public class LinkedinBotService implements AutoCloseable {
         for (int i = 0; i < contacts.size() && count < globalConfig.countParseForOneTime; i++) {
             Contact contact = contacts.get(i);
 
-            if (contact.getParseDate() != null) {
+            // update only if we have old update. Older then 6 months
+            if (contact.getParseDate() != null && contact.getParseDate().isBefore(LocalDate.now().minusMonths(6))) {
                 continue;
             }
 
