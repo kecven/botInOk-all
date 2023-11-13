@@ -94,6 +94,7 @@ public class MainScene {
                 userNameLabelPane,
 //                uiElements.getWorkInShabatCheckBox(),
                 uiElements.getActiveSearch(),
+                uiElements.getRemoteWork(),
                 locationLabel,
                 uiElements.getLocationAutoCompleteTextField(),
                 positionLabel,

@@ -72,6 +72,7 @@ public class UiElements {
     private final Label userNameLabel = new Label("");
     private final CheckBox workInShabatCheckBox = new CheckBox("Work in Shabat");
     private final CheckBox activeSearch = new CheckBox("Active search");
+    private final CheckBox remoteWork = new CheckBox("Remote work");
     private final CheckBox startEvery24Hours = new CheckBox("Start every 24 hours");
     private final AutoCompleteTextField<LocationProperty> locationAutoCompleteTextField = new AutoCompleteTextField(LocationProperty.getAllSortedLocations());
     private final TextField positionsField = new TextField();
@@ -111,6 +112,14 @@ public class UiElements {
         getActiveSearch().setTooltip(new Tooltip("If you want to search for new jobs, check this box."));
         getActiveSearch().setCursor(Cursor.HAND);
         getActiveSearch().setOnMouseClicked(e -> saveSettingForUser());
+
+
+        getRemoteWork().setPadding(new Insets(5, 10, 10, 10));
+        getRemoteWork().setSelected(true);
+        getRemoteWork().setFont(new Font(14));
+        getRemoteWork().setTooltip(new Tooltip("If you want to search only remote work, check this box."));
+        getRemoteWork().setCursor(Cursor.HAND);
+        getRemoteWork().setOnMouseClicked(e -> saveSettingForUser());
 
         getPositionsField().setPromptText("Manager, Developer, etc...");
         getPositionsField().setPadding(new Insets(0, 10, 10, 10));
@@ -354,6 +363,7 @@ public class UiElements {
                 () -> {
                     workInShabatCheckBox.setSelected(account.getWorkInShabat());
                     activeSearch.setSelected(account.getActiveSearch());
+                    remoteWork.setSelected(account.getRemoteWork());
                     positionsField.setText(account.getPosition());
                     userNameLabel.setText(account.getFullName());
                     countDailyApplySlider.setValue(account.getCountDailyApply());
@@ -395,6 +405,7 @@ public class UiElements {
 
             selectAccount.setWorkInShabat(workInShabatCheckBox.isSelected());
             selectAccount.setActiveSearch(activeSearch.isSelected());
+            selectAccount.setRemoteWork(remoteWork.isSelected());
             selectAccount.setPosition(positionsField.getText());
             selectAccount.setLocation(selectLocation.getKey());
             selectAccount.setCountDailyApply((int) countDailyApplySlider.getValue());
