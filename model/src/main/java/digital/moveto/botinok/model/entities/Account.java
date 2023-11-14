@@ -79,6 +79,23 @@ public class Account {
         return shortComment == null ? "" : shortComment;
     }
 
+    public String getAllLocation(){
+        return location;
+    }
+
+    public String getLocation(){
+        return getRandomLocation();
+    }
+
+    // give new location every minute
+    public String getRandomLocation(){
+        String[] locations = location.split(",");
+        long currentTimeMinutes = System.currentTimeMillis() / 60_000;
+
+        int index = (int) (currentTimeMinutes % locations.length);
+        return locations[index].trim();
+    }
+
     public String getFullName() {
         if (Strings.isNotBlank(firstName) && Strings.isNotBlank(lastName)) {
             return firstName + " " + lastName;

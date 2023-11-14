@@ -46,6 +46,7 @@ public class LocationProperty {
     }
 
     public static LocationProperty getByName(String name) {
+        name = name.trim();
         for (LocationProperty location : allLocations.values()) {
             if (location.name.equalsIgnoreCase(name)) {
                 return location;

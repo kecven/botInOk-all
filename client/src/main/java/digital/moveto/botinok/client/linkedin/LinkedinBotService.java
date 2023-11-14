@@ -285,13 +285,33 @@ public class LinkedinBotService implements AutoCloseable {
             }
 
             if (account.getActiveSearch() != null && account.getActiveSearch()) {
-                result += randomString("",
-                        "I'm looking for a job." + randomString(" ", "\n"),
-                        "I'm looking for a job in IT." + randomString(" ", "\n"),
-                        "I'm searching a different opportunities." + randomString(" ", "\n"),
-                        "I'm looking for a new job." + randomString(" ", "\n"),
-                        "I'm looking for a new job in IT." + randomString(" ", "\n"),
-                        "Do you have some available opportunities for me?" + randomString(" ", "\n"));
+                if (account.getRemoteWork() != null && account.getRemoteWork()) {
+                    result += randomString("",
+                            "I'm looking for a remote job." + randomString(" ", "\n"),
+                            "I'm looking for a remote job in IT." + randomString(" ", "\n"),
+                            "I'm looking for a different remote opportunities." + randomString(" ", "\n"),
+                            "I'm looking for a new remote job." + randomString(" ", "\n"),
+                            "I'm looking for a new remote job in IT." + randomString(" ", "\n"),
+                            "I'm searching a different remote opportunities." + randomString(" ", "\n"),
+                            "I'm searching a remote job." + randomString(" ", "\n"),
+                            "I'm searching a remote job in IT." + randomString(" ", "\n"),
+                            "I'm searching a new remote job." + randomString(" ", "\n"),
+                            "I'm searching a new remote job in IT." + randomString(" ", "\n"),
+                            "Do you have some available remote opportunities for me?" + randomString(" ", "\n"));
+                } else {
+                    result += randomString("",
+                            "I'm looking for a job." + randomString(" ", "\n"),
+                            "I'm looking for a job in IT." + randomString(" ", "\n"),
+                            "I'm looking for a different opportunities." + randomString(" ", "\n"),
+                            "I'm looking for a new job." + randomString(" ", "\n"),
+                            "I'm looking for a new job in IT." + randomString(" ", "\n"),
+                            "I'm searching a different opportunities." + randomString(" ", "\n"),
+                            "I'm searching a job." + randomString(" ", "\n"),
+                            "I'm searching a job in IT." + randomString(" ", "\n"),
+                            "I'm searching a new job." + randomString(" ", "\n"),
+                            "I'm searching a new job in IT." + randomString(" ", "\n"),
+                            "Do you have some available opportunities for me?" + randomString(" ", "\n"));
+                }
             }
 
             result += randomString("I'm interested in your company and I would like to connect with you", "I would love to join your network", "I would like to join your network", "I'd like to add you to my professional network on LinkedIn")
