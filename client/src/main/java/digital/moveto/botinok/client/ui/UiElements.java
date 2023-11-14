@@ -322,7 +322,7 @@ public class UiElements {
 
         for (int i = 0; i < accounts.size(); i++) {
             Account account = accounts.get(i);
-            Label accountLabel = new Label(account.getFullName());
+            Label accountLabel = new Label(account.getFullName() + " " + account.getShortComment());
 
 
             accountLabel.setPadding(new Insets(5, 0, 5, 0));

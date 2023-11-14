@@ -75,6 +75,10 @@ public class Account {
     @Column(name = "remote_work", nullable = true, columnDefinition = "boolean default false")
     private Boolean remoteWork;
 
+    public String getShortComment(){
+        return shortComment == null ? "" : shortComment;
+    }
+
     public String getFullName() {
         if (Strings.isNotBlank(firstName) && Strings.isNotBlank(lastName)) {
             return firstName + " " + lastName;
@@ -90,6 +94,7 @@ public class Account {
 
         return "Default";
     }
+
     public String getShortName() {
         if (Strings.isNotBlank(firstName) && Strings.isNotBlank(lastName)) {
             return firstName.charAt(0) + "" + lastName.charAt(0);

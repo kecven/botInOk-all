@@ -9,7 +9,7 @@ case "$OS" in
   "Linux")
     echo "You are running Linux."
     echo "Check location for javaFX."
-    java --module-path /home/andrei/Soft/javafx-sdk-17.0.7/lib --add-modules javafx.controls -jar ./client/build/libs/client-0.2.7.jar
+    xterm -e java --module-path /home/andrei/Soft/javafx-sdk-17.0.8/lib --add-modules javafx.controls -jar /client/build/libs/client-0.2.7.jar --spring.profiles.active=stage
     ;;
   "Darwin")
     echo "You are running macOS."
