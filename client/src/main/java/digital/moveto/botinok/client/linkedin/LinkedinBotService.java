@@ -333,8 +333,7 @@ public class LinkedinBotService implements AutoCloseable {
 
     private String randomString(String... strings) {
         List<String> collectionSuggest = takeListString(strings);
-        String result = collectionSuggest.get((int) (Math.random() * collectionSuggest.size()));
-        return result;
+        return collectionSuggest.get((int) (Math.random() * collectionSuggest.size()));
     }
 
     private List<String> takeListString(String... strings) {
@@ -349,8 +348,7 @@ public class LinkedinBotService implements AutoCloseable {
     private String takeString(int number, String... strings) {
         List<String> collectionSuggest = takeListString(strings);
         number = number % collectionSuggest.size();
-        String result = collectionSuggest.get(number);
-        return result;
+        return collectionSuggest.get(number);
     }
 
     void login(String login, String password) {
@@ -676,29 +674,36 @@ public class LinkedinBotService implements AutoCloseable {
         log.info("Start apply to positions for user: " + account.getFullName());
 
         int initPosition = (int) (Math.random() * 100000);
+
+        List<String> locationsForUser = takeListString(account.getAllLocations());
+        Collections.shuffle(locationsForUser);
+
         int countPositionsForCurrentAccount = takeListString(account.getPosition()).size();
         for (int i = 0; i < countPositionsForCurrentAccount && countApply.get() < account.getCountDailyApply(); i++) {
             String position = takeString(initPosition + i, account.getPosition()).trim();
+            for (String location : locationsForUser) {
+                location = location.trim();
+                log.info("Start apply to positions for user: " + account.getFullName() + ", position: " + position + ", location: " + location);
+                for (int j = 0; j < COUNT_PAGE_FOR_SEARCH_POSITIONS; j++) {
+                    if (countApply.get() > account.getCountDailyApply()) {
+                        return;
+                    }
+                    int start = j * COUNT_POSITION_ON_ONE_PAGE;
 
-            for (int j = 0; j < COUNT_PAGE_FOR_SEARCH_POSITIONS; j++) {
-                if (countApply.get() > account.getCountDailyApply()) {
-                    return;
+                    if (account.getRemoteWork()) {
+                        playwrightService.open("https://www.linkedin.com/jobs/search/?f_AL=true&f_TPR=r86400&geoId=" + LocationProperty.getLocation(location).getLinkedinId() + "&keywords=" + position + "&location=" + LocationProperty.getLocation(location).getName() + "&refresh=true&start=" + start + "&f_WT=2");
+                    } else {
+                        playwrightService.open("https://www.linkedin.com/jobs/search/?f_AL=true&f_TPR=r86400&geoId=" + LocationProperty.getLocation(location).getLinkedinId() + "&keywords=" + position + "&location=" + LocationProperty.getLocation(location).getName() + "&refresh=true&start=" + start);
+                    }
+
+                    playwrightService.sleepRandom(3000);
+                    if (playwrightService.getByText("No matching jobs found.").isPresent()) {
+                        log.info("No matching jobs found.");
+                        break;
+                    }
+
+                    applyToPositionsOnCurrentPage(countApply);
                 }
-                int start = j * COUNT_POSITION_ON_ONE_PAGE;
-
-                if (account.getRemoteWork()){
-                    playwrightService.open("https://www.linkedin.com/jobs/search/?f_AL=true&f_TPR=r86400&geoId=" + LocationProperty.getLocation(account.getLocation()).getLinkedinId() + "&keywords=" + position + "&location=" + LocationProperty.getLocation(account.getLocation()).getName() + "&refresh=true&start=" + start + "&f_WT=2");
-                } else {
-                    playwrightService.open("https://www.linkedin.com/jobs/search/?f_AL=true&f_TPR=r86400&geoId=" + LocationProperty.getLocation(account.getLocation()).getLinkedinId() + "&keywords=" + position + "&location=" + LocationProperty.getLocation(account.getLocation()).getName() + "&refresh=true&start=" + start);
-                }
-
-                playwrightService.sleepRandom(3000);
-                if (playwrightService.getByText("No matching jobs found.").isPresent()) {
-                    log.info("No matching jobs found.");
-                    break;
-                }
-
-                applyToPositionsOnCurrentPage(countApply);
             }
         }
         log.info("Finish apply to positions for user: " + account.getFullName());
