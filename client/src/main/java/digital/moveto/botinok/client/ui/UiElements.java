@@ -6,18 +6,15 @@ import digital.moveto.botinok.client.playwright.PlaywrightService;
 import digital.moveto.botinok.client.service.ClientAccountService;
 import digital.moveto.botinok.client.service.ClientMadeApplyService;
 import digital.moveto.botinok.client.service.ClientMadeContactService;
-import digital.moveto.botinok.client.ui.elements.AutoCompleteTextField;
 import digital.moveto.botinok.model.entities.Account;
 import digital.moveto.botinok.model.entities.MadeApply;
 import digital.moveto.botinok.model.entities.MadeContact;
-import digital.moveto.botinok.model.entities.enums.LocationProperty;
 import digital.moveto.botinok.model.entities.enums.SettingKey;
 import digital.moveto.botinok.model.service.SettingService;
 import digital.moveto.botinok.model.utils.BotinokUtils;
 import jakarta.annotation.PostConstruct;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
-import javafx.event.Event;
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
@@ -40,7 +37,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 @Getter
@@ -362,7 +358,7 @@ public class UiElements {
                     countDailyApplySlider.setValue(account.getCountDailyApply());
                     countDailyConnectSlider.setValue(account.getCountDailyConnect());
                     try {
-                        locations.setText(account.getAllLocation());
+                        locations.setText(account.getAllLocationKeys());
                     } catch (IllegalArgumentException ignored) {
                     }
                     updateStatistic();

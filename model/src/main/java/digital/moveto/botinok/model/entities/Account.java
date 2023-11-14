@@ -79,7 +79,7 @@ public class Account {
         return shortComment == null ? "" : shortComment;
     }
 
-    public String getAllLocation(){
+    public String getAllLocationKeys(){
         return location;
     }
 
@@ -87,9 +87,13 @@ public class Account {
         return getRandomLocation();
     }
 
+    public String[] getAllLocations(){
+        return location.split(",");
+    }
+
     // give new location every 2 minutes
     public String getRandomLocation(){
-        String[] locations = location.split(",");
+        String[] locations = getAllLocations();
         long currentTimeMinutes = System.currentTimeMillis() / 120_000;
 
         int index = (int) (currentTimeMinutes % locations.length);
