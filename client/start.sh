@@ -4,16 +4,30 @@ cd $(dirname $0)
 set -Eeuo pipefail
 
 
-#git pull
-
-#./gradlew bootJar
-
-#echo "FINISHED BUILDING"
-#echo "STARTING BOTY"
-
-# M6
-#java --module-path C:\Users\andte\Soft\javafx-sdk-19.0.2.1\lib --add-modules javafx.controls -jar build/libs/client-0.2.7.jar --spring.profiles.active=stage
+OS=$(uname -s)
 
 
-# white-pc
-java --module-path /home/andrei/Soft/javafx-sdk-17.0.7/lib --add-modules javafx.controls -jar build/libs/client-0.2.7.jar --spring.profiles.active=stage
+#!/bin/bash
+
+
+case "$OS" in
+  "Linux")
+    echo "You are running Linux."
+    java --module-path /home/andrei/Soft/javafx-sdk-17.0.7/lib --add-modules javafx.controls -jar build/libs/client-0.2.7.jar --spring.profiles.active=stage
+    ;;
+  "Darwin")
+    echo "You are running macOS."
+    java --module-path ./libs/short-javafx-sdk-17.0.7-macOs-arm/lib --add-modules javafx.controls -jar ./client/build/libs/client-0.2.7.jar --spring.profiles.active=stage
+    ;;
+  "FreeBSD")
+    echo "You are running FreeBSD."
+    # Вставьте здесь команды для FreeBSD
+    ;;
+  "Windows")
+    echo "You are running Windows."
+    # Вставьте здесь команды для Windows
+    ;;
+  *)
+    echo "Unknown operating system."
+    ;;
+esac

@@ -34,4 +34,7 @@ public class GlobalConfig {
     @Value("${botinok.sendDataToServer:false}")
     public boolean sendDataToServer;
 
+    @Value("${botinok.automaticStart:false}")
+    public boolean automaticStart;
+
 }

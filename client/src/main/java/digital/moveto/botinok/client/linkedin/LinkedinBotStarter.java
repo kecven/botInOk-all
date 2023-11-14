@@ -75,6 +75,7 @@ public class LinkedinBotStarter {
             mainScene.finishInitialization();
         }
 
+        // Need for automatical start upload playwright after start application
         Playwright.create().close();
 
         uiElements.getStartButton().setOnMouseClicked(event -> {
@@ -109,6 +110,16 @@ public class LinkedinBotStarter {
         uiElements.addLogToLogArea("Loading complete");
         uiElements.changeButtonState(true);
         uiElements.getStartButton().setCursor(Cursor.HAND);
+        if (globalConfig.automaticStart){
+            uiElements.changeButtonState(false);
+
+            log.info("Automatical start");
+            if (!uiElements.saveSettingForUser()) {
+                return; // have error in save settings
+            }
+            start();
+
+        }
 
     }
 
