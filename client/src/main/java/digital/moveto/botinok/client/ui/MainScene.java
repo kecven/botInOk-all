@@ -96,7 +96,7 @@ public class MainScene {
                 uiElements.getActiveSearch(),
                 uiElements.getRemoteWork(),
                 locationLabel,
-                uiElements.getLocationAutoCompleteTextField(),
+                uiElements.getLocations(),
                 positionLabel,
                 uiElements.getPositionsField(),
                 countDailyApply,

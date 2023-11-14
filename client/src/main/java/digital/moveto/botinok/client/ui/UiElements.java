@@ -40,6 +40,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Getter
@@ -74,7 +75,8 @@ public class UiElements {
     private final CheckBox activeSearch = new CheckBox("Active search");
     private final CheckBox remoteWork = new CheckBox("Remote work");
     private final CheckBox startEvery24Hours = new CheckBox("Start every 24 hours");
-    private final AutoCompleteTextField<LocationProperty> locationAutoCompleteTextField = new AutoCompleteTextField(LocationProperty.getAllSortedLocations());
+//    private final AutoCompleteTextField<LocationProperty> locationAutoCompleteTextField = new AutoCompleteTextField(LocationProperty.getAllSortedLocations());
+    private final TextField locations = new TextField();
     private final TextField positionsField = new TextField();
     private final Button startButton = new Button("Loading...");    //after finish loading text will change to start
     private final ScrollPane scrollLogPane = new ScrollPane();
@@ -135,20 +137,11 @@ public class UiElements {
                     }
                 }
         );
-        getLocationAutoCompleteTextField().setPrefSize(UIConst.WIDTH_OF_SETTING, UIConst.HEIGHT_OF_LABEL);
-        getLocationAutoCompleteTextField().setPadding(new Insets(5, 10, 5, 10));
-        getLocationAutoCompleteTextField().setPromptText("Location");
-        getLocationAutoCompleteTextField().setTooltip(new Tooltip("Choose you location where you want to work"));
-        getLocationAutoCompleteTextField().setOnInputMethodTextChanged(e -> saveSettingForUser());
-        getLocationAutoCompleteTextField().setMaxEntries(15);
-
-        getLocationAutoCompleteTextField().getEntryMenu().setOnAction(e -> {
-            ((MenuItem) e.getTarget()).addEventHandler(Event.ANY, event -> {
-                if (getLocationAutoCompleteTextField().getLastSelectedObject() != null) {
-                    getLocationAutoCompleteTextField().setText(getLocationAutoCompleteTextField().getLastSelectedObject().toString());
-                }
-            });
-        });
+        getLocations().setPrefSize(UIConst.WIDTH_OF_SETTING, UIConst.HEIGHT_OF_LABEL);
+        getLocations().setPadding(new Insets(5, 10, 5, 10));
+        getLocations().setPromptText("Location");
+        getLocations().setTooltip(new Tooltip("Choose you location where you want to work"));
+        getLocations().setOnInputMethodTextChanged(e -> saveSettingForUser());
 
         getStartButton().setCursor(Cursor.WAIT);
         getStartButton().setBackground(new Background(new BackgroundFill(Color.ORANGE, CornerRadii.EMPTY, Insets.EMPTY)));
@@ -369,9 +362,7 @@ public class UiElements {
                     countDailyApplySlider.setValue(account.getCountDailyApply());
                     countDailyConnectSlider.setValue(account.getCountDailyConnect());
                     try {
-                        locationAutoCompleteTextField.setLastSelectedObject(null);
-                        locationAutoCompleteTextField.setText(LocationProperty.getByKey(account.getLocation()).getName());
-                        locationAutoCompleteTextField.hidePopup();
+                        locations.setText(account.getAllLocation());
                     } catch (IllegalArgumentException ignored) {
                     }
                     updateStatistic();
@@ -381,18 +372,7 @@ public class UiElements {
 
     public boolean saveSettingForUser() {
         if (getSelectAccount() != null) {
-            LocationProperty selectLocation;
-            if (getLocationAutoCompleteTextField().getLastSelectedObject() == null) {
-                LocationProperty searchLocation = LocationProperty.getByName(getLocationAutoCompleteTextField().getText());
-                if (searchLocation != null) {
-                    selectLocation = searchLocation;
-                } else {
-                    showAlert(Alert.AlertType.WARNING, "Location not found", "Please select location which we provided", "If you can't find location, please contact with us");
-                    return false;
-                }
-            } else {
-                selectLocation = getLocationAutoCompleteTextField().getLastSelectedObject();
-            }
+
             if (positionsField.getText().isEmpty()
                     || positionsField.getText().length() < 2) {
                 showAlert(Alert.AlertType.WARNING, "Position not found", "Please enter position", "You can enter more than one position, separate by comma");
@@ -407,7 +387,7 @@ public class UiElements {
             selectAccount.setActiveSearch(activeSearch.isSelected());
             selectAccount.setRemoteWork(remoteWork.isSelected());
             selectAccount.setPosition(positionsField.getText());
-            selectAccount.setLocation(selectLocation.getKey());
+            selectAccount.setLocation(getLocations().getText());
             selectAccount.setCountDailyApply((int) countDailyApplySlider.getValue());
             selectAccount.setCountDailyConnect((int) countDailyConnectSlider.getValue());
 

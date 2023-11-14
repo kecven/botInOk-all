@@ -87,10 +87,10 @@ public class Account {
         return getRandomLocation();
     }
 
-    // give new location every minute
+    // give new location every 2 minutes
     public String getRandomLocation(){
         String[] locations = location.split(",");
-        long currentTimeMinutes = System.currentTimeMillis() / 60_000;
+        long currentTimeMinutes = System.currentTimeMillis() / 120_000;
 
         int index = (int) (currentTimeMinutes % locations.length);
         return locations[index].trim();
