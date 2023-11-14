@@ -35,6 +35,9 @@ public class Account {
     @Column(name = "last_name")
     private String lastName;
 
+    @Column(name = "short_comment")
+    private String shortComment;
+
     @Column(name = "login")
     private String login;
 

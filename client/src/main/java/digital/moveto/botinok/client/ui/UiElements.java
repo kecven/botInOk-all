@@ -365,7 +365,7 @@ public class UiElements {
                     activeSearch.setSelected(account.getActiveSearch());
                     remoteWork.setSelected(account.getRemoteWork());
                     positionsField.setText(account.getPosition());
-                    userNameLabel.setText(account.getFullName());
+                    userNameLabel.setText(account.getFullName() + " " + account.getShortComment());
                     countDailyApplySlider.setValue(account.getCountDailyApply());
                     countDailyConnectSlider.setValue(account.getCountDailyConnect());
                     try {
