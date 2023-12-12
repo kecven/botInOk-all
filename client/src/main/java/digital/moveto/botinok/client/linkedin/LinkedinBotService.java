@@ -734,7 +734,7 @@ public class LinkedinBotService implements AutoCloseable {
         Optional<ElementHandle> positionNameElement = playwrightService.getElementByLocator("div.jobs-details > div div.jobs-unified-top-card > div div > a > h2");
         if (positionNameElement.isPresent()){
             madeApply.setPosition(positionNameElement.get().textContent().trim());
-            String linkToPosition = playwrightService.getElementByLocator("div.jobs-details > div div.jobs-unified-top-card > div div > a").get().getAttribute("href");
+            String linkToPosition = playwrightService.getElementByLocator("h2.job-details-jobs-unified-top-card__job-title > a").get().getAttribute("href");
             linkToPosition = linkToPosition.substring(0, linkToPosition.indexOf("?"));
             if (linkToPosition.startsWith("/")) {
                 linkToPosition = ClientConst.LINKEDIN_URL + linkToPosition;
@@ -742,7 +742,7 @@ public class LinkedinBotService implements AutoCloseable {
             madeApply.setLink(linkToPosition);
         }
 
-        Optional<ElementHandle> companyNameElement = playwrightService.getElementByLocator("div.jobs-details > div div.jobs-unified-top-card > div div > div > span > span > a");
+        Optional<ElementHandle> companyNameElement = playwrightService.getElementByLocator("div.job-details-jobs-unified-top-card__primary-description-container > div > a");
         if (companyNameElement.isPresent()){
             String name = companyNameElement.get().textContent().trim();
             String linkToCompany = companyNameElement.get().getAttribute("href");
