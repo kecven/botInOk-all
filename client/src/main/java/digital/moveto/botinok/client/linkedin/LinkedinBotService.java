@@ -720,10 +720,16 @@ public class LinkedinBotService implements AutoCloseable {
         log.debug("Find a " + easyApply.size() + " positions for user " + account.getFullName());
 
         for (int i = 0; i < easyApply.size() && countApply.get() < account.getCountDailyApply(); i++) {
-            easyApply.get(i).click();
-            playwrightService.sleepRandom(3000);
+            try {
+                easyApply.get(i).click();
+                playwrightService.sleepRandom(3000);
 
-            applyToCurrentPosition(countApply);
+                applyToCurrentPosition(countApply);
+            } catch (Exception e){
+                log.error("Error while apply to position", e);
+            } finally {
+                playwrightService.sleepRandom(200);
+            }
         }
     }
 
