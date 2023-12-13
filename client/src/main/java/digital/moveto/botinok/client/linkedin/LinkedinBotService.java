@@ -596,7 +596,19 @@ public class LinkedinBotService implements AutoCloseable {
             return false;
         }
 
-        Collections.shuffle(contacts);
+        contacts.sort((Contact contact1, Contact contact2) -> {
+                if (contact1.getUpdatedDate() == contact2.getUpdatedDate()) {
+                    return 0; // оба значения null
+                }
+                if (contact1.getUpdatedDate() == null) {
+                    return -1; // nulls первые
+                }
+                if (contact2.getUpdatedDate() == null) {
+                    return 1; // nulls первые
+                }
+                return contact1.getUpdatedDate().compareTo(contact2.getUpdatedDate());
+            }
+        );
 
         int count = clientContactService.getCountOfParseTodayForAccount(account);
         for (int i = 0; i < contacts.size() && count < globalConfig.countParseForOneTime; i++) {
@@ -657,11 +669,7 @@ public class LinkedinBotService implements AutoCloseable {
             log.debug(contact.toString());
 
         }
-        if (count < globalConfig.countParseForOneTime) {
-            return false;
-        } else {
-            return true;
-        }
+        return count >= globalConfig.countParseForOneTime;
     }
 
     public void applyToPositions(){
