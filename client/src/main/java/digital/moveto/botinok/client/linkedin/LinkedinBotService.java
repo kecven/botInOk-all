@@ -599,7 +599,9 @@ public class LinkedinBotService implements AutoCloseable {
         Collections.shuffle(contacts);
 
         int count = clientContactService.getCountOfParseTodayForAccount(account);
-        for (int i = 0; i < contacts.size() && count < globalConfig.countParseForOneTime; i++) {
+        for (int i = 0; i < contacts.size()
+                && count < globalConfig.countParseForOneTime
+                && count < account.getCountDailyConnect(); i++) {
             Contact contact = contacts.get(i);
 
             // update only if we have old update. Older then 6 months
