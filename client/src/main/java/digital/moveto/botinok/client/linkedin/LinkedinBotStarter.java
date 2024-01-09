@@ -138,7 +138,7 @@ public class LinkedinBotStarter {
 
         runInThread(() -> {
             try {
-                for (int i = 0; i < 3; i++) {
+                for (int i = 0; i < 2; i++) {
                     startSearchConnectsAndConnect();
                 }
             } catch (Exception e) {
