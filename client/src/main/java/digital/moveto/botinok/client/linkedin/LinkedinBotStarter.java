@@ -240,9 +240,11 @@ public class LinkedinBotStarter {
 
         linkedinBotService.searchConnectsAndConnect();
 
-        if ( ! linkedinBotService.parseLinkedinUser()){
-            linkedinBotService.parseLinkedinUrlOfConnections();
-            linkedinBotService.parseLinkedinUser();
+        if (Math.random() > 0.95) {
+            if (!linkedinBotService.parseLinkedinUser()) {
+                linkedinBotService.parseLinkedinUrlOfConnections();
+                linkedinBotService.parseLinkedinUser();
+            }
         }
 
         linkedinBotService.close();
