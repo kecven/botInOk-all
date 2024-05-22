@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -56,6 +57,15 @@ public class MadeApplyService {
         List<MadeApply> allApplyForAccount = findAllByAccount(account);
         final long finalTodayApply = allApplyForAccount.parallelStream()
                 .filter(madeApply -> BotinokUtils.equalsDateAndDateTime(todayLocalDate, madeApply.getDate())).count();
+        return (int) finalTodayApply;
+    }
+
+    public int getCountApplyFor24HoursForAccount(Account account){
+        LocalDateTime oneDayBeforeLocalDateTime = LocalDateTime.now().minusDays(1);
+        List<MadeApply> allApplyForAccount = findAllByAccount(account);
+        final long finalTodayApply = allApplyForAccount.parallelStream()
+                .filter(madeApply -> madeApply.getDate().isAfter(oneDayBeforeLocalDateTime))
+                .count();
         return (int) finalTodayApply;
     }
 }
