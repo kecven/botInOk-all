@@ -98,7 +98,7 @@ public class LinkedinBotService implements AutoCloseable {
     }
 
     public void searchConnectsAndConnect() {
-        AtomicInteger count = new AtomicInteger(clientMadeContactService.getCountOfTodayForAccount(account));
+        AtomicInteger count = new AtomicInteger(clientMadeContactService.getCountFor24HoursForAccount(account));
 
         if (count.get() >= account.getCountDailyConnect()){
             return;

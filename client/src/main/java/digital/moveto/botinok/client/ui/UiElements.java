@@ -394,17 +394,20 @@ public class UiElements {
 
     public void updateStatistic(){
         if (getSelectAccount() != null) {
-            LocalDate todayLocalDate = LocalDate.now();
+            LocalDateTime localDateTimeNowMinusDays1 = LocalDateTime.now().minusDays(1);
 
             List<MadeApply> allApplyForAccount = clientMadeApplyService.findAllByAccount(getSelectAccount());
             final long finalTotalApply = allApplyForAccount.size();
+
             final long finalTodayApply = allApplyForAccount.parallelStream()
-                    .filter(madeApply -> BotinokUtils.equalsDateAndDateTime(todayLocalDate, madeApply.getDate())).count();
+                    .filter(madeApply -> madeApply.getDate().isAfter(localDateTimeNowMinusDays1))
+                    .count();
 
             List<MadeContact> allConnectForAccount = clientMadeContactService.findAllByAccount(getSelectAccount());
             final long finalTotalConnect = allConnectForAccount.size();
-            final long finalTodayConnect  = allConnectForAccount.parallelStream()
-                    .filter(madeContact -> BotinokUtils.equalsDateAndDateTime(todayLocalDate, madeContact.getDate())).count();
+            final long finalTodayConnect = allConnectForAccount.parallelStream()
+                    .filter(madeApply -> madeApply.getDate().isAfter(localDateTimeNowMinusDays1))
+                    .count();
 
             Platform.runLater(
                     () -> {

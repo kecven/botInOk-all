@@ -1,6 +1,7 @@
 package digital.moveto.botinok.model.service;
 
 import digital.moveto.botinok.model.entities.Account;
+import digital.moveto.botinok.model.entities.MadeApply;
 import digital.moveto.botinok.model.entities.MadeContact;
 import digital.moveto.botinok.model.repositories.MadeContactRepository;
 import digital.moveto.botinok.model.utils.BotinokUtils;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -49,5 +51,14 @@ public class MadeContactService {
         final long finalTodayContact = allContactForAccount.parallelStream()
                 .filter(madeContact -> BotinokUtils.equalsDateAndDateTime(todayLocalDate, madeContact.getDate())).count();
         return (int) finalTodayContact;
+    }
+
+    public int getCountFor24HoursForAccount(Account account){
+        LocalDateTime oneDayBeforeLocalDateTime = LocalDateTime.now().minusDays(1);
+        List<MadeContact> allContactForAccount = findAllByAccount(account);
+        final long finalTodayApply = allContactForAccount.parallelStream()
+                .filter(madeApply -> madeApply.getDate().isAfter(oneDayBeforeLocalDateTime))
+                .count();
+        return (int) finalTodayApply;
     }
 }
