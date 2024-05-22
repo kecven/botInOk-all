@@ -8,6 +8,7 @@ OS=$(uname -s)
 
 
 cd ..
+git pull
 ./gradlew :client:bootJar
 cd client
 
