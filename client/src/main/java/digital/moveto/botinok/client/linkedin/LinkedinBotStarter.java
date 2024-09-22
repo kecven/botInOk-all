@@ -138,7 +138,7 @@ public class LinkedinBotStarter {
 
         runInThread(() -> {
             try {
-                for (int i = 0; i < 2; i++) {
+                for (int i = 0; i < 1; i++) {
                     startSearchConnectsAndConnect();
                 }
             } catch (Exception e) {
@@ -240,7 +240,7 @@ public class LinkedinBotStarter {
 
         linkedinBotService.searchConnectsAndConnect();
 
-        if (Math.random() > 0.999) {
+        if (Math.random() > 0.9) {
             if (!linkedinBotService.parseLinkedinUser()) {
                 linkedinBotService.parseLinkedinUrlOfConnections();
                 linkedinBotService.parseLinkedinUser();
