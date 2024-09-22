@@ -674,6 +674,18 @@ public class LinkedinBotService implements AutoCloseable {
         return count >= globalConfig.countParseForOneTime;
     }
 
+    public boolean botComplete() {
+        return botComplete(getAccount());
+    }
+
+    public boolean botComplete(Account account) {
+        int countApply = clientMadeApplyService.getCountApplyFor24HoursForAccount(account);
+        int getCountFor24HoursForAccount = clientMadeContactService.getCountFor24HoursForAccount(account);
+
+        return countApply >= account.getCountDailyApply()
+                && getCountFor24HoursForAccount >= account.getCountDailyConnect();
+    }
+
     public void applyToPositions(){
         AtomicInteger countApply = new AtomicInteger(clientMadeApplyService.getCountApplyFor24HoursForAccount(getAccount()));
         if (countApply.get() >= account.getCountDailyApply()){

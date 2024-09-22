@@ -138,7 +138,7 @@ public class LinkedinBotStarter {
 
         runInThread(() -> {
             try {
-                for (int i = 0; i < 1; i++) {
+                for (int i = 0; i < 2; i++) {
                     startSearchConnectsAndConnect();
                 }
             } catch (Exception e) {
@@ -223,6 +223,10 @@ public class LinkedinBotStarter {
         if (account.getWorkInShabat() != null && !account.getWorkInShabat() && BotinokUtils.checkShabatDay()) {
             log.info("Shabat day, skip user " + account.getFullName());
             uiElements.addLogToLogArea("Shabat day. Skip");
+            return;
+        }
+
+        if (linkedinBotService.botComplete(account)){
             return;
         }
 
