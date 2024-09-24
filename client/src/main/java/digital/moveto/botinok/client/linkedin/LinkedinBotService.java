@@ -63,6 +63,8 @@ public class LinkedinBotService implements AutoCloseable {
 
     private Account account;
 
+    private boolean accountNoFreePersonalizedInvitationsLeft = false;
+
     public Account getAccount() {
         return account;
     }
@@ -79,6 +81,7 @@ public class LinkedinBotService implements AutoCloseable {
     public void start(Account account) {
         log.info("Start LinkedinBotService for user " + account.getFullName());
         this.account = account;
+        this.accountNoFreePersonalizedInvitationsLeft = false;
 
         //check license
         if (account.getEndDateLicense() != null && account.getEndDateLicense().isBefore(LocalDate.now())) {
@@ -98,9 +101,9 @@ public class LinkedinBotService implements AutoCloseable {
     }
 
     public void searchConnectsAndConnect() {
-        AtomicInteger count = new AtomicInteger(clientMadeContactService.getCountFor24HoursForAccount(account));
+        AtomicInteger countFor24HoursForAccount = new AtomicInteger(clientMadeContactService.getCountFor24HoursForAccount(account));
 
-        if (count.get() >= account.getCountDailyConnect()){
+        if (countFor24HoursForAccount.get() >= account.getCountDailyConnect()){
             return;
         }
 
@@ -116,7 +119,7 @@ public class LinkedinBotService implements AutoCloseable {
             Collection<ElementHandle> connectButtons = playwrightService.getElementsWithCurrentText("Connect");
             for (ElementHandle elementHandle : connectButtons) {
                 try {
-                    madeContact(elementHandle, count);
+                    madeContact(elementHandle, countFor24HoursForAccount);
                 } catch (StopMadeContactException e) {
                     break CREATE_CONNECTS;
                 } catch (Exception e) {
@@ -127,7 +130,7 @@ public class LinkedinBotService implements AutoCloseable {
             goSearchRandomKeywordsAndPageAndSid();
         }
 
-        log.info("We made " + count.get() + " connections for user " + account.getFullName());
+        log.info("We made " + countFor24HoursForAccount.get() + " connections for user " + account.getFullName());
 
     }
 
@@ -207,9 +210,9 @@ public class LinkedinBotService implements AutoCloseable {
         return ClientConst.SEARCH_KEYWORDS.get(id);
     }
 
-    private void madeContact(ElementHandle elementHandle, AtomicInteger count) {
+    private void madeContact(ElementHandle elementHandle, AtomicInteger countFor24HoursForAccount) {
 
-        if (count.get() >= account.getCountDailyConnect()) {
+        if (countFor24HoursForAccount.get() >= account.getCountDailyConnect()) {
             log.info("Stop create connects for user " + account.getFullName());
             throw new StopMadeContactException("Stop create connects for user " + account.getFullName());
         }
@@ -222,6 +225,7 @@ public class LinkedinBotService implements AutoCloseable {
             throw new StopMadeContactException("We have a limit of connections for user " + account.getFullName());
         }
 
+
         Optional<ElementHandle> howTheyKnowYou = playwrightService.getElementWithCurrentText("This helps them remember how they know you.");
         Optional<ElementHandle> other = playwrightService.getElementWithCurrentText("Other");
         if (other.isPresent() && howTheyKnowYou.isPresent()) {
@@ -232,14 +236,29 @@ public class LinkedinBotService implements AutoCloseable {
         }
 
         String contactName = "";
-        Optional<ElementHandle> elementWithContactName = playwrightService.getByText("You can add a note to personalize your invitation to ");
+        Optional<ElementHandle> elementWithContactName = playwrightService.getByText("Add a note to your invitation?");
         if (elementWithContactName.isPresent()) {
-            String nameWithDot = elementWithContactName.get().innerText().trim().replace("You can add a note to personalize your invitation to ", "");
-            contactName = nameWithDot.substring(0, nameWithDot.length() - 1);
+            contactName = playwrightService.getNextElement(playwrightService.getParent(elementWithContactName.get())).querySelector("strong").innerText().trim();
+        }
+
+        if (accountNoFreePersonalizedInvitationsLeft) {
+            playwrightService.getElementWithCurrentText("Send without a note").ifPresent(ElementHandle::click);
+            playwrightService.sleepRandom(500);
+            return;
         }
 
         playwrightService.getElementWithCurrentText("Add a note").ifPresent(ElementHandle::click);
         playwrightService.sleepRandom(500);
+
+
+        if (playwrightService.isTextFind("No free personalized invitations left")) {
+            log.info("You've sent too many invitations for user " + account.getFullName());
+            accountNoFreePersonalizedInvitationsLeft = true;
+            playwrightService.getElementByLocator("svg[data-test-icon=\"close-medium\"]").ifPresent(ElementHandle::click);
+            playwrightService.sleepRandom(500);
+            return;
+        }
+
 
         final String inviteMessage = generateInviteMessage();
         playwrightService.getElementByLocator("textarea[name=message]").ifPresent(eh -> eh.type(inviteMessage, new ElementHandle.TypeOptions().setDelay(10)));
@@ -260,7 +279,7 @@ public class LinkedinBotService implements AutoCloseable {
         clientMadeContactService.save(madeContact);
         uiElements.updateStatistic();
 
-        log.info("Connect #" + count.incrementAndGet() + ", with '" + contactName + "' for user " + account.getFullName());
+        log.info("Connect #" + countFor24HoursForAccount.incrementAndGet() + ", with '" + contactName + "' for user " + account.getFullName());
 
         uiElements.addLogToLogArea("Connect with: " + contactName);
 

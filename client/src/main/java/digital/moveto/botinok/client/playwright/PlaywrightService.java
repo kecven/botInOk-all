@@ -4,8 +4,12 @@ import com.microsoft.playwright.*;
 import digital.moveto.botinok.client.config.ClientConst;
 import digital.moveto.botinok.client.config.GlobalConfig;
 import digital.moveto.botinok.client.exeptions.StopBotWorkException;
+import digital.moveto.botinok.client.utils.FileUtils;
+import jakarta.annotation.PostConstruct;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,26 +25,42 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Getter
 @Service
 @NoArgsConstructor
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 public class PlaywrightService implements AutoCloseable {
 
-    Logger log = LoggerFactory.getLogger(PlaywrightService.class);
-
+    final int DEFAULT_TIMEOUT_FOR_BROWSER = 60_000;
     private Playwright playwright;
+    @Getter
+    @Setter
     private Page page;
     private Path userDataDir;
     private BrowserContext context;
+    private int width = 1366;
+    private int height = 768;
 
-    public Page getPage() {
-        return page;
-    }
-
+    private int countOpenPage = 0;
 
     @Autowired
-    private GlobalConfig globalConfig;
+    private GlobalConfig config;
+
+    @Autowired
+    private FileUtils fileUtils;
+
+    private String playwrightLocalDir;
+    private double speed;
+    private boolean defaultHeadless;
+    private boolean metamask = true;
+
+    @PostConstruct
+    public void init(){
+        this.playwrightLocalDir = config.pathToStateFolder;
+        this.speed = config.speedOfBot;
+        this.defaultHeadless = config.headlessBrowser;
+    }
 
     public void start(Path userDateDir, boolean headless) {
         playwright = Playwright.create();
@@ -53,9 +73,32 @@ public class PlaywrightService implements AutoCloseable {
         this.page.setDefaultTimeout(ClientConst.DEFAULT_TIMEOUT_FOR_BROWSER);
         this.page.setDefaultNavigationTimeout(ClientConst.DEFAULT_TIMEOUT_FOR_BROWSER);
     }
+    public Page newPage() {
+        return context.newPage();
+    }
+
+    public void start(boolean headless) {
+        double uniqueId = Math.random();
+        this.userDataDir = Paths.get(playwrightLocalDir + "tmp-" + uniqueId);
+        start(this.userDataDir, headless);
+    }
+
+    public void start(String userDataDir, boolean headless) {
+        this.userDataDir = Paths.get(userDataDir);
+        start(this.userDataDir, headless);
+    }
+
+    public void start() {
+        start(defaultHeadless);
+    }
+    public void startWithoutMetaMash(){
+        metamask = false;
+        start();
+    }
 
     public void open(String url) {
         page.navigate(url);
+        countOpenPage++;
     }
 
     public void openInNewPage(String url) {
@@ -67,6 +110,10 @@ public class PlaywrightService implements AutoCloseable {
         }
     }
 
+    public void openAndLoad(String url) {
+        open(url);
+        waitForLoadState();
+    }
 
     public String getCurrentUrl() {
         return page.url();
@@ -82,6 +129,7 @@ public class PlaywrightService implements AutoCloseable {
         }
         this.playwright = null;
         this.page = null;
+        this.countOpenPage = 0;
     }
 
     public void click(String selector) {
@@ -94,6 +142,10 @@ public class PlaywrightService implements AutoCloseable {
 
     public void type(String selector, String text) {
         page.fill(selector, text);
+    }
+
+    public void type(String text) {
+        page.keyboard().type(text);
     }
 
     public void screenshot(String fileName) {
@@ -152,17 +204,20 @@ public class PlaywrightService implements AutoCloseable {
         return first;
     }
 
-    public Collection<ElementHandle> getElementsWithCurrentText(String text) {
+    public ElementHandle getByText(ElementHandle elementHandle, String text) {
+        return elementHandle.querySelector("text=" + text);
+    }
+
+    public List<ElementHandle> getElementsWithCurrentText(String text) {
         return getLocator("text=" + text).elementHandles().stream()
                 .filter(elementHandle -> elementHandle.innerText().trim().equalsIgnoreCase(text))
                 .collect(Collectors.toList());
     }
 
     public Collection<ElementHandle> getElementsWithText(String text) {
-        Collection<ElementHandle> first = getLocator("text=" + text).elementHandles().stream()
+        return getLocator("text=" + text).elementHandles().stream()
                 .filter(elementHandle -> elementHandle.innerText().trim().contains(text))
                 .collect(Collectors.toList());
-        return first;
     }
 
 
@@ -181,9 +236,10 @@ public class PlaywrightService implements AutoCloseable {
     public void sleep(int timeout) {
         sleep(timeout, true);
     }
+
     public void sleep(int timeout, boolean changeSpeedOfBot) {
         if (changeSpeedOfBot) {
-            timeout = (int) (timeout / globalConfig.speedOfBot);
+            timeout = (int) (timeout / speed);
         }
         if (timeout > 60_000) {
             log.debug("Sleep for {}:{} min.", timeout / 60_000, (timeout / 1000) % 60);
@@ -234,4 +290,28 @@ public class PlaywrightService implements AutoCloseable {
         page.mouse().wheel(deltaX, deltaY);
     }
 
+    public ElementHandle getParent(ElementHandle elementHandle) {
+        JSHandle parentElementHandle = elementHandle.evaluateHandle("element => element.parentElement");
+        return (ElementHandle) parentElementHandle;
+    }
+
+    public ElementHandle getNextElement(ElementHandle elementHandle) {
+        JSHandle nextElementHandle = elementHandle.evaluateHandle("element => element.nextElementSibling");
+        return (ElementHandle) nextElementHandle;
+    }
+
+    public ElementHandle getPreviousElement(ElementHandle elementHandle) {
+        JSHandle previousElementHandle = elementHandle.evaluateHandle("element => element.previousElementSibling");
+        return (ElementHandle) previousElementHandle;
+    }
+
+
+    public void setText(ElementHandle elementHandle, String text) {
+        elementHandle.evaluate("el => el.innerHTML = '" + text + "'");
+    }
+
+    public void closeAndClear() {
+        close();
+        FileUtils.deleteFolder(userDataDir.toFile());
+    }
 }
