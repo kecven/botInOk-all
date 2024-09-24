@@ -241,35 +241,36 @@ public class LinkedinBotService implements AutoCloseable {
             contactName = playwrightService.getNextElement(playwrightService.getParent(elementWithContactName.get())).querySelector("strong").innerText().trim();
         }
 
+        // invitation without text
         if (accountNoFreePersonalizedInvitationsLeft) {
             playwrightService.getElementWithCurrentText("Send without a note").ifPresent(ElementHandle::click);
             playwrightService.sleepRandom(500);
-            return;
-        }
+        } else { // invitation with text
 
-        playwrightService.getElementWithCurrentText("Add a note").ifPresent(ElementHandle::click);
-        playwrightService.sleepRandom(500);
-
-
-        if (playwrightService.isTextFind("No free personalized invitations left")) {
-            log.info("You've sent too many invitations for user " + account.getFullName());
-            accountNoFreePersonalizedInvitationsLeft = true;
-            playwrightService.getElementByLocator("svg[data-test-icon=\"close-medium\"]").ifPresent(ElementHandle::click);
+            playwrightService.getElementWithCurrentText("Add a note").ifPresent(ElementHandle::click);
             playwrightService.sleepRandom(500);
-            return;
-        }
 
 
-        final String inviteMessage = generateInviteMessage();
-        playwrightService.getElementByLocator("textarea[name=message]").ifPresent(eh -> eh.type(inviteMessage, new ElementHandle.TypeOptions().setDelay(10)));
-        playwrightService.sleepRandom(2000);
-        playwrightService.getElementWithCurrentText("Send").ifPresent(ElementHandle::click);
-        playwrightService.sleepRandom(500);
+            if (playwrightService.isTextFind("No free personalized invitations left")) {
+                log.info("You've sent too many invitations for user " + account.getFullName());
+                accountNoFreePersonalizedInvitationsLeft = true;
+                playwrightService.getElementByLocator("svg[data-test-icon=\"close-medium\"]").ifPresent(ElementHandle::click);
+                playwrightService.sleepRandom(500);
+                return;
+            }
 
-        // if we have a limit of connections
-        if (playwrightService.isTextFind("invitation limit")) {
-            log.info("We have a limit of connections for user " + account.getFullName());
-            throw new StopMadeContactException("We have a limit of connections for user " + account.getFullName());
+
+            final String inviteMessage = generateInviteMessage();
+            playwrightService.getElementByLocator("textarea[name=message]").ifPresent(eh -> eh.type(inviteMessage, new ElementHandle.TypeOptions().setDelay(10)));
+            playwrightService.sleepRandom(2000);
+            playwrightService.getElementWithCurrentText("Send").ifPresent(ElementHandle::click);
+            playwrightService.sleepRandom(500);
+
+            // if we have a limit of connections
+            if (playwrightService.isTextFind("invitation limit")) {
+                log.info("We have a limit of connections for user " + account.getFullName());
+                throw new StopMadeContactException("We have a limit of connections for user " + account.getFullName());
+            }
         }
 
         MadeContact madeContact = MadeContact.builder()
@@ -282,7 +283,6 @@ public class LinkedinBotService implements AutoCloseable {
         log.info("Connect #" + countFor24HoursForAccount.incrementAndGet() + ", with '" + contactName + "' for user " + account.getFullName());
 
         uiElements.addLogToLogArea("Connect with: " + contactName);
-
     }
 
     private String generateInviteMessage() {
