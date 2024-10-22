@@ -249,7 +249,7 @@ public class PlaywrightService implements AutoCloseable {
         try {
 
             // pause bot if needed
-            while (! uiElements.getWorkOrPause().isSelected()){
+            while (! config.workOrPauseBoolean){
                 Thread.sleep(50);
             }
 

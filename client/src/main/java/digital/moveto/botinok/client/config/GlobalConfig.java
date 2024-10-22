@@ -37,4 +37,7 @@ public class GlobalConfig {
     @Value("${botinok.automaticStart:false}")
     public boolean automaticStart;
 
+    @Value("true")
+    public boolean workOrPauseBoolean;
+
 }

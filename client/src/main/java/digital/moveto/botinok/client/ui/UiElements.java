@@ -69,7 +69,7 @@ public class UiElements {
     private final CheckBox activeSearch = new CheckBox("Active search");
     private final CheckBox remoteWork = new CheckBox("Remote work");
     private final CheckBox startEvery24Hours = new CheckBox("Start every 24 hours");
-    private final CheckBox WorkOrPause = new CheckBox("Work or Pause");
+    private final CheckBox workOrPause = new CheckBox("Work or Pause");
 //    private final AutoCompleteTextField<LocationProperty> locationAutoCompleteTextField = new AutoCompleteTextField(LocationProperty.getAllSortedLocations());
     private final TextField locations = new TextField();
     private final TextField positionsField = new TextField();
@@ -184,7 +184,11 @@ public class UiElements {
 
         startEvery24Hours.setSelected(settingService.getSettingAsBoolean(SettingKey.START_AUTOMATICALLY_EVERY_24_HOURS));
 
-        WorkOrPause.setSelected(true);
+        workOrPause.setOnAction(e -> {
+            globalConfig.workOrPauseBoolean = workOrPause.isSelected();
+        });
+        workOrPause.setSelected(true);
+        globalConfig.workOrPauseBoolean = true;
 
         addLogToLogArea("Loading... This may take a few minutes. Please wait.");
     }
