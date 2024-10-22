@@ -6,12 +6,12 @@ import javafx.scene.paint.Color;
 public class UIConst {
 
     public final static int WIDTH_OF_SCENE = 800;
-    public final static int HEIGHT_OF_SCENE = 650;
+    public final static int HEIGHT_OF_SCENE = 620;
 
     public final static int WIDTH_OF_SETTING = 250;
     public final static int HEIGHT_OF_STATISTIC = 150;
     public final static int HEIGHT_OF_LABEL = 40;
-    public final static int HEIGHT_OF_VERSION = 80;
+    public final static int HEIGHT_OF_VERSION = 50;
     public final static int HEIGHT_OF_ACCOUNTS = 170;
     public final static int WIDTH_OF_MAIN_PANE = WIDTH_OF_SCENE - WIDTH_OF_SETTING;
     public final static int HEIGHT_OF_LOGGING_PANE = HEIGHT_OF_SCENE - HEIGHT_OF_STATISTIC;
