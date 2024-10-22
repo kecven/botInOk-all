@@ -184,6 +184,12 @@ public class LinkedinBotService implements AutoCloseable {
             stringListMap.put("page", String.valueOf(nextPage));
             stringListMap.put("keywords", getRandomSearchKeyword());
             stringListMap.put("sid", generateRandomSid());
+
+            // try search by 2nd level of my network
+            if (Math.random() < 0.8) {
+                stringListMap.put("network", "%5B%22S%22%5D");
+            }
+
             if (account.getLocation() != null){
                 stringListMap.put("geoUrn", "%5B%22" + LocationProperty.getByKey(account.getLocation()).getLinkedinId() + "%22%5D");
             }
