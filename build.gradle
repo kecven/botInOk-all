@@ -3,7 +3,7 @@ plugins {
 }
 
 group 'digital.moveto.botinok'
-version '0.2.5'
+version '0.2.7'
 
 repositories {
     mavenCentral()

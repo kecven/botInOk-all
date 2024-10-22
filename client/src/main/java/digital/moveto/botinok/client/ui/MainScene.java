@@ -114,7 +114,7 @@ public class MainScene {
         versionLabel.setPadding(new Insets(10, 10, 10, 10));
         versionLabel.setFont(Font.font("Dialog", FontWeight.BOLD, 10));
 
-        versionLabelPane.getChildren().addAll(versionLabel, uiElements.getStartEvery24Hours());
+        versionLabelPane.getChildren().addAll(versionLabel, uiElements.getStartEvery24Hours(), uiElements.getWorkOrPause());
         result.getChildren().addAll(setting, versionLabelPane);
 
         return result;

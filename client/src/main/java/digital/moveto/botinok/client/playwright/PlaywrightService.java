@@ -4,14 +4,13 @@ import com.microsoft.playwright.*;
 import digital.moveto.botinok.client.config.ClientConst;
 import digital.moveto.botinok.client.config.GlobalConfig;
 import digital.moveto.botinok.client.exeptions.StopBotWorkException;
+import digital.moveto.botinok.client.ui.UiElements;
 import digital.moveto.botinok.client.utils.FileUtils;
 import jakarta.annotation.PostConstruct;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
@@ -46,6 +45,8 @@ public class PlaywrightService implements AutoCloseable {
 
     @Autowired
     private GlobalConfig config;
+    @Autowired
+    private UiElements uiElements;
 
     private String playwrightLocalDir;
     private double speed;
@@ -246,6 +247,12 @@ public class PlaywrightService implements AutoCloseable {
             }
         }
         try {
+
+            // pause bot if needed
+            while (! uiElements.getWorkOrPause().isSelected()){
+                Thread.sleep(50);
+            }
+
             Thread.sleep(timeout);
         } catch (InterruptedException e) {
             throw new StopBotWorkException(e);

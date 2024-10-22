@@ -11,7 +11,6 @@ import digital.moveto.botinok.model.entities.MadeApply;
 import digital.moveto.botinok.model.entities.MadeContact;
 import digital.moveto.botinok.model.entities.enums.SettingKey;
 import digital.moveto.botinok.model.service.SettingService;
-import digital.moveto.botinok.model.utils.BotinokUtils;
 import jakarta.annotation.PostConstruct;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -32,7 +31,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import java.nio.file.Paths;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -71,6 +69,7 @@ public class UiElements {
     private final CheckBox activeSearch = new CheckBox("Active search");
     private final CheckBox remoteWork = new CheckBox("Remote work");
     private final CheckBox startEvery24Hours = new CheckBox("Start every 24 hours");
+    private final CheckBox WorkOrPause = new CheckBox("Work or Pause");
 //    private final AutoCompleteTextField<LocationProperty> locationAutoCompleteTextField = new AutoCompleteTextField(LocationProperty.getAllSortedLocations());
     private final TextField locations = new TextField();
     private final TextField positionsField = new TextField();
@@ -184,6 +183,8 @@ public class UiElements {
         getScrollLogPane().setContent(getLogArea());
 
         startEvery24Hours.setSelected(settingService.getSettingAsBoolean(SettingKey.START_AUTOMATICALLY_EVERY_24_HOURS));
+
+        WorkOrPause.setSelected(true);
 
         addLogToLogArea("Loading... This may take a few minutes. Please wait.");
     }
