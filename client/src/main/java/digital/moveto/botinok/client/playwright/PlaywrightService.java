@@ -45,8 +45,6 @@ public class PlaywrightService implements AutoCloseable {
 
     @Autowired
     private GlobalConfig config;
-    @Autowired
-    private UiElements uiElements;
 
     private String playwrightLocalDir;
     private double speed;
