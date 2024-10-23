@@ -186,8 +186,9 @@ public class LinkedinBotService implements AutoCloseable {
             stringListMap.put("sid", generateRandomSid());
 
             // try search by 2nd level of my network
-            if (Math.random() < 0.8) {
+            if (Math.random() < 0.5) {
                 stringListMap.put("network", "%5B%22S%22%5D");
+                stringListMap.put("page", String.valueOf((int) (nextPage / 10)));
             }
 
             if (account.getLocation() != null){
@@ -257,7 +258,9 @@ public class LinkedinBotService implements AutoCloseable {
             playwrightService.sleepRandom(500);
 
 
-            if (playwrightService.isTextFind("No free personalized invitations left")) {
+
+            if (playwrightService.isTextFind("No free personalized invitations left")
+                    || playwrightService.isTextFind("Personalize all your invites and access AI writing")) {
                 log.info("You've sent too many invitations for user " + account.getFullName());
                 accountNoFreePersonalizedInvitationsLeft = true;
                 playwrightService.getElementByLocator("svg[data-test-icon=\"close-medium\"]").ifPresent(ElementHandle::click);
