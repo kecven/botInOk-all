@@ -246,16 +246,21 @@ public class PlaywrightService implements AutoCloseable {
         }
         try {
 
-            // pause bot if needed
-            while (! config.workOrPauseBoolean){
-                Thread.sleep(50);
-            }
-
+            sleepWhenPause();
             Thread.sleep(timeout);
+            sleepWhenPause();
         } catch (InterruptedException e) {
             throw new StopBotWorkException(e);
         }
     }
+
+    private void sleepWhenPause() throws InterruptedException {
+        // pause bot if needed
+        while (! config.workOrPauseBoolean){
+            Thread.sleep(50);
+        }
+    }
+
 
     public void sleepRandom(int min, int max) {
         sleep((int) (Math.random() * (max - min) + min));
