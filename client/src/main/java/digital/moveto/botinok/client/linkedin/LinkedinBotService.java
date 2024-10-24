@@ -245,7 +245,10 @@ public class LinkedinBotService implements AutoCloseable {
         String contactName = "";
         Optional<ElementHandle> elementWithContactName = playwrightService.getByText("Add a note to your invitation?");
         if (elementWithContactName.isPresent()) {
-            contactName = playwrightService.getNextElement(playwrightService.getParent(elementWithContactName.get())).querySelector("strong").innerText().trim();
+            ElementHandle strongElementWithName = playwrightService.getNextElement(playwrightService.getParent(elementWithContactName.get())).querySelector("strong");
+            if (strongElementWithName != null) {
+                contactName = strongElementWithName.innerText().trim();
+            }
         }
 
         // invitation without text
