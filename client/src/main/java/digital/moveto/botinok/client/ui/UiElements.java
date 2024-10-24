@@ -399,20 +399,14 @@ public class UiElements {
 
     public void updateStatistic(){
         if (getSelectAccount() != null) {
-            LocalDateTime localDateTimeNowMinusDays1 = LocalDateTime.now().minusDays(1).plusMinutes(10);
-
             List<MadeApply> allApplyForAccount = clientMadeApplyService.findAllByAccount(getSelectAccount());
             final long finalTotalApply = allApplyForAccount.size();
 
-            final long finalTodayApply = allApplyForAccount.parallelStream()
-                    .filter(madeApply -> madeApply.getDate().isAfter(localDateTimeNowMinusDays1))
-                    .count();
+            final long finalTodayApply = clientMadeApplyService.getCountApplyFor24HoursForAccount(allApplyForAccount);
 
             List<MadeContact> allConnectForAccount = clientMadeContactService.findAllByAccount(getSelectAccount());
             final long finalTotalConnect = allConnectForAccount.size();
-            final long finalTodayConnect = allConnectForAccount.parallelStream()
-                    .filter(madeApply -> madeApply.getDate().isAfter(localDateTimeNowMinusDays1))
-                    .count();
+            final long finalTodayConnect = clientMadeContactService.getCountFor24HoursForAccount(allConnectForAccount);
 
             Platform.runLater(
                     () -> {

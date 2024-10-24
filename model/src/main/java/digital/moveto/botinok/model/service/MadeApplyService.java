@@ -61,8 +61,12 @@ public class MadeApplyService {
     }
 
     public int getCountApplyFor24HoursForAccount(Account account){
-        LocalDateTime oneDayBeforeLocalDateTime = LocalDateTime.now().minusDays(1);
         List<MadeApply> allApplyForAccount = findAllByAccount(account);
+        return getCountApplyFor24HoursForAccount(allApplyForAccount);
+    }
+
+    public int getCountApplyFor24HoursForAccount(List<MadeApply> allApplyForAccount){
+        LocalDateTime oneDayBeforeLocalDateTime = LocalDateTime.now().minusDays(1).plusMinutes(10);
         final long finalTodayApply = allApplyForAccount.parallelStream()
                 .filter(madeApply -> madeApply.getDate().isAfter(oneDayBeforeLocalDateTime))
                 .count();

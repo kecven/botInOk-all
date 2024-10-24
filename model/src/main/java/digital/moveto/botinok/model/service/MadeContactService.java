@@ -54,8 +54,12 @@ public class MadeContactService {
     }
 
     public int getCountFor24HoursForAccount(Account account){
-        LocalDateTime oneDayBeforeLocalDateTime = LocalDateTime.now().minusDays(1);
         List<MadeContact> allContactForAccount = findAllByAccount(account);
+        return getCountFor24HoursForAccount(allContactForAccount);
+    }
+
+    public int getCountFor24HoursForAccount(List<MadeContact> allContactForAccount){
+        LocalDateTime oneDayBeforeLocalDateTime = LocalDateTime.now().minusDays(1).plusMinutes(10);
         final long finalTodayApply = allContactForAccount.parallelStream()
                 .filter(madeApply -> madeApply.getDate().isAfter(oneDayBeforeLocalDateTime))
                 .count();
