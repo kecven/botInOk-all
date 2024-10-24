@@ -57,7 +57,7 @@ public class Account {
     private Integer countDailyApply;
 
 
-    @Column(name = "count_daily_connect", columnDefinition = "int default 15", nullable = false)
+    @Column(name = "count_daily_connect", columnDefinition = "int default 5", nullable = false)
     private Integer countDailyConnect;
 
     @Column(name = "location", length = 255)

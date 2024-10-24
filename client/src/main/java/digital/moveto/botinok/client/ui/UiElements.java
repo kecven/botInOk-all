@@ -399,7 +399,7 @@ public class UiElements {
 
     public void updateStatistic(){
         if (getSelectAccount() != null) {
-            LocalDateTime localDateTimeNowMinusDays1 = LocalDateTime.now().minusDays(1);
+            LocalDateTime localDateTimeNowMinusDays1 = LocalDateTime.now().minusDays(1).plusMinutes(10);
 
             List<MadeApply> allApplyForAccount = clientMadeApplyService.findAllByAccount(getSelectAccount());
             final long finalTotalApply = allApplyForAccount.size();

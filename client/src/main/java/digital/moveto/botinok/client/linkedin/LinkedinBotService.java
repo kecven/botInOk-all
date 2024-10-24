@@ -586,7 +586,7 @@ public class LinkedinBotService implements AutoCloseable {
 
             Optional<Contact> userInDbByLinkedinUrl = clientContactService.findByLinkedinUrl(linkedinUrl);
             if (userInDbByLinkedinUrl.isPresent()) {
-                log.debug("User " + linkedinUrl + " already in db");
+                log.trace("User " + linkedinUrl + " already in db");
                 continue;
             }
 
