@@ -702,10 +702,6 @@ public class LinkedinBotService implements AutoCloseable {
         return count >= globalConfig.countParseForOneTime;
     }
 
-    public boolean botComplete() {
-        return botComplete(getAccount());
-    }
-
     public boolean botComplete(Account account) {
         int countApply = clientMadeApplyService.getCountApplyFor24HoursForAccount(account);
         int getCountFor24HoursForAccount = clientMadeContactService.getCountFor24HoursForAccount(account);

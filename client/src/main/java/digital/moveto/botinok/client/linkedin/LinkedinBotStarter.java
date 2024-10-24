@@ -126,7 +126,7 @@ public class LinkedinBotStarter {
     private void start() {
         threadIn24Hours = new Thread(() -> {
             try {
-                Thread.sleep(1000 * 60 * 60 * 24);
+                Thread.sleep(1000 * 60 * 60 * 6);
                 if (uiElements.getStartEvery24Hours().isSelected()) {
                     start();
                 }
@@ -138,12 +138,12 @@ public class LinkedinBotStarter {
 
         runInThread(() -> {
             try {
-                for (int i = 0; i < 2; i++) {
+                for (int i = 0; i < 1; i++) {
                     startSearchConnectsAndConnect();
                 }
             } catch (Exception e) {
                 Throwable exceptionCause = e;
-                for (int i = 0; i < 20; i++) {
+                for (int i = 0; i < 100; i++) {
                     exceptionCause = exceptionCause.getCause();
                     if (exceptionCause == null) {
                         break;
