@@ -23,7 +23,7 @@ public class ContactService {
 
     @Transactional
     public Contact save(Contact contact) {
-        if (contact.getLinkedinUrl() != null && contact.getLinkedinUrl().length() > 0) {
+        if (contact.getLinkedinUrl() != null && !contact.getLinkedinUrl().isEmpty()) {
             Optional<Contact> contactOptional = contactRepository.findByLinkedinUrl(contact.getLinkedinUrl());
             if (contactOptional.isPresent()) {
                 contact = contactOptional.get().updateFrom(contact);

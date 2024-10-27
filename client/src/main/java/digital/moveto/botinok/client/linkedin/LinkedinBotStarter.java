@@ -126,7 +126,7 @@ public class LinkedinBotStarter {
     private void start() {
         threadIn24Hours = new Thread(() -> {
             try {
-                Thread.sleep(1000 * 60 * 60 * 6);
+                Thread.sleep(1000 * 60 * 60 * 12);
                 if (uiElements.getStartEvery24Hours().isSelected()) {
                     start();
                 }
