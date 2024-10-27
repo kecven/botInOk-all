@@ -117,9 +117,9 @@ public class LinkedinBotService implements AutoCloseable {
             closeMsgDialogs();
             log.info("Start search connects for page " + page + "/" + MAX_COUNT_PAGE_FOR_ONE_TIME + ", user " + account.getFullName());
             Collection<ElementHandle> connectButtons = playwrightService.getElementsWithCurrentText("Connect");
-            for (ElementHandle elementHandle : connectButtons) {
+            for (ElementHandle connectBtnElementHandle : connectButtons) {
                 try {
-                    madeContact(elementHandle, countFor24HoursForAccount);
+                    madeContact(connectBtnElementHandle, countFor24HoursForAccount);
                 } catch (StopMadeContactException e) {
                     break CREATE_CONNECTS;
                 } catch (Exception e) {
