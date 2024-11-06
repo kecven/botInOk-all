@@ -19,7 +19,6 @@ cd client
 case "$OS" in
   "Linux")
     echo "You are running Linux."
-    echo "Check location for javaFX."
     xterm -e java --module-path /home/andrei/Soft/javafx-sdk-17.0.8/lib --add-modules javafx.controls -jar build/libs/client-0.2.7.jar --spring.profiles.active=stage
     ;;
   "Darwin")
@@ -28,11 +27,9 @@ case "$OS" in
     ;;
   "FreeBSD")
     echo "You are running FreeBSD."
-    # Вставьте здесь команды для FreeBSD
     ;;
   "Windows")
     echo "You are running Windows."
-    # Вставьте здесь команды для Windows
     ;;
   *)
     echo "Unknown operating system."
