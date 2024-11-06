@@ -242,7 +242,11 @@ public class LinkedinBotService implements AutoCloseable {
                 parent = playwrightService.getParent(parent);
             }
 
-            ElementHandle userPreview = parent.querySelector("div a div img");
+            ElementHandle userPreview = parent.querySelector("a div img");
+            if (userPreview == null) {
+                log.error("Can't find user preview");
+                return false;
+            }
             String previewSrc = userPreview.getAttribute("src");
             boolean framedphoto = previewSrc.contains("profile-framedphoto");
             if (! framedphoto) {
