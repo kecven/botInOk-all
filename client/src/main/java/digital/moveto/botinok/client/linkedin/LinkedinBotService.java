@@ -8,6 +8,7 @@ import digital.moveto.botinok.client.exeptions.StopMadeContactException;
 import digital.moveto.botinok.client.playwright.PlaywrightService;
 import digital.moveto.botinok.client.service.*;
 import digital.moveto.botinok.client.ui.UiElements;
+import digital.moveto.botinok.client.utils.ImageUtils;
 import digital.moveto.botinok.client.utils.UrlUtils;
 import digital.moveto.botinok.model.entities.*;
 import digital.moveto.botinok.model.entities.enums.LocationProperty;
@@ -21,10 +22,12 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.awt.*;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -217,6 +220,49 @@ public class LinkedinBotService implements AutoCloseable {
         return ClientConst.SEARCH_KEYWORDS.get(id);
     }
 
+    private boolean checkHiringStatus(ElementHandle connectBtnWithText){
+        try {
+            ElementHandle parent = playwrightService.getParent(connectBtnWithText);
+            for (int i = 0; i < 6; i++) {
+                String tagName = parent.evaluate("element => element.tagName").toString();
+                if ("LI".equalsIgnoreCase(tagName)) {
+                    break;
+                }
+                parent = playwrightService.getParent(parent);
+            }
+
+            ElementHandle userPreview = parent.querySelector("div a div img");
+            String previewSrc = userPreview.getAttribute("src");
+            boolean framedphoto = previewSrc.contains("profile-framedphoto");
+            if (! framedphoto) {
+                return false;
+            }
+
+            Color bottomLeftColor = ImageUtils.getBottomLeftColor(previewSrc);
+            // 130, 68, 203 real color for hiring
+            if (bottomLeftColor.getRed() == 130
+                    && bottomLeftColor.getGreen() == 68
+                    && bottomLeftColor.getBlue() == 203) {
+                log.debug("User is hiring.");
+                return true;
+            }
+
+            // 130, 68, 203 nearly color for hiring
+            if (Math.abs(bottomLeftColor.getRed() - 130) < 5
+                    && Math.abs(bottomLeftColor.getGreen() - 68) < 5
+                    && Math.abs(bottomLeftColor.getBlue() - 203) < 5) {
+                log.debug("User is probably hiring.");
+                return true;
+            }
+            return false;
+        } catch (Exception e) {
+            log.error("Error while checkContactIsHiring", e);
+            return false;
+        }
+
+
+    }
+
     private boolean checkContactNotHaveActiveStatus(ElementHandle connectBtnWithText){
         return ! checkContactHaveActiveStatus(connectBtnWithText);
     }
@@ -249,9 +295,13 @@ public class LinkedinBotService implements AutoCloseable {
 
     private void madeContact(ElementHandle elementHandle, AtomicInteger countFor24HoursForAccount) {
         //we try to connect only with hiring people
-        if (checkContactNotHaveActiveStatus(elementHandle) && Math.random() < 0.99) {
-            log.info("User is not hiring. Skip connect.");
-            return;
+        if ( ! checkHiringStatus(elementHandle) ) {
+            if (Math.random() < 0.99) {
+                log.info("User is not hiring. Skip connect.");
+                return;
+            } else {
+                log.info("Connect anyway.");
+            }
         }
 
         if (countFor24HoursForAccount.get() >= account.getCountDailyConnect()) {
