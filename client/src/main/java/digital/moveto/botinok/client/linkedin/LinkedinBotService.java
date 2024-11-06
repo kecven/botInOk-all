@@ -4,6 +4,7 @@ import com.microsoft.playwright.ElementHandle;
 import com.microsoft.playwright.PlaywrightException;
 import digital.moveto.botinok.client.config.ClientConst;
 import digital.moveto.botinok.client.config.GlobalConfig;
+import digital.moveto.botinok.client.exeptions.RetryMadeContactException;
 import digital.moveto.botinok.client.exeptions.StopMadeContactException;
 import digital.moveto.botinok.client.playwright.PlaywrightService;
 import digital.moveto.botinok.client.service.*;
@@ -123,6 +124,16 @@ public class LinkedinBotService implements AutoCloseable {
             for (ElementHandle connectBtnElementHandle : connectButtons) {
                 try {
                     madeContact(connectBtnElementHandle, countFor24HoursForAccount);
+                } catch (RetryMadeContactException e) {
+                    try {
+                        log.info("Retry made contact because No free personalized invitations left");
+                        madeContact(connectBtnElementHandle, countFor24HoursForAccount);
+                    } catch (StopMadeContactException ex) {
+                        break CREATE_CONNECTS;
+                    } catch (Exception ex) {
+                        log.error("Error made contact", ex);
+                        break CREATE_CONNECTS;
+                    }
                 } catch (StopMadeContactException e) {
                     break CREATE_CONNECTS;
                 } catch (Exception e) {
@@ -259,38 +270,6 @@ public class LinkedinBotService implements AutoCloseable {
             log.error("Error while checkContactIsHiring", e);
             return false;
         }
-
-
-    }
-
-    private boolean checkContactNotHaveActiveStatus(ElementHandle connectBtnWithText){
-        return ! checkContactHaveActiveStatus(connectBtnWithText);
-    }
-
-    /**
-     * check if contact is hiring
-     */
-    private boolean checkContactHaveActiveStatus(ElementHandle connectBtnWithText){
-        try {
-            ElementHandle parent = playwrightService.getParent(connectBtnWithText);
-            for (int i = 0; i < 6; i++) {
-                String tagName = parent.evaluate("element => element.tagName").toString();
-                if ("LI".equalsIgnoreCase(tagName)) {
-                    break;
-                }
-                parent = playwrightService.getParent(parent);
-            }
-
-            ElementHandle userPreview = parent.querySelector("div a div img");
-            boolean framedphoto = userPreview.getAttribute("src").contains("profile-framedphoto");
-            if (framedphoto) {
-                log.debug("User is hiring.");
-            }
-            return framedphoto;
-        } catch (Exception e) {
-            log.error("Error while checkContactIsHiring", e);
-            return false;
-        }
     }
 
     private void madeContact(ElementHandle elementHandle, AtomicInteger countFor24HoursForAccount) {
@@ -353,7 +332,7 @@ public class LinkedinBotService implements AutoCloseable {
                 accountNoFreePersonalizedInvitationsLeft = true;
                 playwrightService.getElementByLocator("svg[data-test-icon=\"close-medium\"]").ifPresent(ElementHandle::click);
                 playwrightService.sleepRandom(500);
-                return;
+                throw new RetryMadeContactException("No free personalized invitations left");
             }
 
 
