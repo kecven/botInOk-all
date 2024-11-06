@@ -248,7 +248,8 @@ public class LinkedinBotService implements AutoCloseable {
     }
 
     private void madeContact(ElementHandle elementHandle, AtomicInteger countFor24HoursForAccount) {
-        if (checkContactNotHaveActiveStatus(elementHandle) && Math.random() < 0.95) {
+        //we try to connect only with hiring people
+        if (checkContactNotHaveActiveStatus(elementHandle) && Math.random() < 0.99) {
             log.info("User is not hiring. Skip connect.");
             return;
         }
