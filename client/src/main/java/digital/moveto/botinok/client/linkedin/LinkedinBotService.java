@@ -217,7 +217,41 @@ public class LinkedinBotService implements AutoCloseable {
         return ClientConst.SEARCH_KEYWORDS.get(id);
     }
 
+    private boolean checkContactNotHaveActiveStatus(ElementHandle connectBtnWithText){
+        return ! checkContactHaveActiveStatus(connectBtnWithText);
+    }
+
+    /**
+     * check if contact is hiring
+     */
+    private boolean checkContactHaveActiveStatus(ElementHandle connectBtnWithText){
+        try {
+            ElementHandle parent = playwrightService.getParent(connectBtnWithText);
+            for (int i = 0; i < 6; i++) {
+                String tagName = parent.evaluate("element => element.tagName").toString();
+                if ("LI".equalsIgnoreCase(tagName)) {
+                    break;
+                }
+                parent = playwrightService.getParent(parent);
+            }
+
+            ElementHandle userPreview = parent.querySelector("div a div img");
+            boolean framedphoto = userPreview.getAttribute("src").contains("profile-framedphoto");
+            if (framedphoto) {
+                log.debug("User is hiring.");
+            }
+            return framedphoto;
+        } catch (Exception e) {
+            log.error("Error while checkContactIsHiring", e);
+            return false;
+        }
+    }
+
     private void madeContact(ElementHandle elementHandle, AtomicInteger countFor24HoursForAccount) {
+        if (checkContactNotHaveActiveStatus(elementHandle) && Math.random() < 0.95) {
+            log.info("User is not hiring. Skip connect.");
+            return;
+        }
 
         if (countFor24HoursForAccount.get() >= account.getCountDailyConnect()) {
             log.info("Stop create connects for user " + account.getFullName());
